@@ -9,6 +9,7 @@
 - **Protección de imágenes y medios**: bloqueado el menú contextual (`contextmenu`) y el arrastre (`dragstart`) sobre `img`, `video` y `a` en `src/App.jsx`, además de reglas CSS (`-webkit-user-drag: none`, `user-select: none`, `-webkit-touch-callout: none`) en `src/index.css`.
 - **Footer y CTA (`Footer`, `ContactCTA`)**: pie de página compactado y adaptado a todas las resoluciones; ilustración chibi (`chibiMia`) mostrada también en mobile dentro de `ContactCTA`.
 - **Red local (`vite.config.js`)**: habilitado `host: true` para `server` y `preview`.
+- **Favicon personalizado (`public/favicon.svg`)**: reemplazado el ícono por defecto de Vite por un isotipo SVG de marca con monograma serif `M`, destellos celeste/dorado y fondo bordo.
 
 ### Inicio (`src/Home.jsx`)
 - **Fecha de actualización**: actualizada de `09-08-2025` a `25-11-2026` (`Page updated 25-11-2026`).
