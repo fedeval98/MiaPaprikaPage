@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import portfolio1 from "./assets/figma/portfolio-1.webp";
 import portfolio2 from "./assets/figma/portfolio-2.webp";
 import portfolio3 from "./assets/figma/portfolio-3.webp";
@@ -9,14 +9,18 @@ import showcaseVideo1 from "./assets/videos/showcase-1.mp4";
 import showcaseVideo1Poster from "./assets/videos/showcase-1-poster.webp";
 import showcaseVideo2 from "./assets/videos/showcase-2.mp4";
 import showcaseVideo2Poster from "./assets/videos/showcase-2-poster.webp";
-import { Navigation, ContactCTA, Footer, TitleBand, CommunityReviews } from "./shared.jsx";
+import { Navigation, ContactCTA, Footer, TitleBand, CommunityReviews, ImageLightbox } from "./shared.jsx";
 
-const GALLERY_VIDEOS = [
-  { src: showcaseVideo1, poster: showcaseVideo1Poster },
-  { src: showcaseVideo2, poster: showcaseVideo2Poster },
+const GALLERY_ITEMS = [
+  { type: "video", src: showcaseVideo1, poster: showcaseVideo1Poster, label: "Showcase video 1" },
+  { type: "video", src: showcaseVideo2, poster: showcaseVideo2Poster, label: "Showcase video 2" },
+  { type: "image", src: portfolio1, label: "Portfolio artwork 1" },
+  { type: "image", src: portfolio2, label: "Portfolio artwork 2" },
+  { type: "image", src: portfolio3, label: "Portfolio artwork 3" },
+  { type: "image", src: portfolio4, label: "Portfolio artwork 4" },
 ];
-
-const GALLERY = [portfolio1, portfolio2, portfolio3, portfolio4];
+const GALLERY_IMAGES = GALLERY_ITEMS.filter((item) => item.type === "image");
+const GALLERY_LIGHTBOX_ITEMS = GALLERY_IMAGES.map((item) => ({ src: item.src, alt: item.label }));
 
 const clientArts = import.meta.glob("./assets/clients/*.webp", { eager: true, import: "default" });
 // Full-res variants, only fetched when the lightbox shows them.
@@ -77,31 +81,113 @@ const CLIENTS = [
   { file: "y2021-5", name: "Prelettis" },
 ];
 
+const CLIENT_LIGHTBOX_ITEMS = CLIENTS.map((c) => ({
+  src: clientArtsHd[`./assets/clients-hd/${c.file}.webp`] ?? clientArts[`./assets/clients/${c.file}.webp`],
+  alt: c.name ? `${c.name} full model` : "Client full model",
+  caption: c.name,
+}));
+
 function Gallery() {
+  const [slide, setSlide] = useState(0);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
+  const trackRef = useRef(null);
+  const videoRefs = useRef([]);
+
+  const pauseAllVideos = (exceptIdx = -1) => {
+    videoRefs.current.forEach((video, idx) => {
+      if (video && idx !== exceptIdx && !video.paused) {
+        video.pause();
+      }
+    });
+  };
+
+  const scrollToSlide = (index) => {
+    const wrapped = ((index % GALLERY_ITEMS.length) + GALLERY_ITEMS.length) % GALLERY_ITEMS.length;
+    setSlide(wrapped);
+    pauseAllVideos(wrapped);
+    const el = trackRef.current;
+    if (el) {
+      el.scrollTo({ left: wrapped * el.clientWidth, behavior: "smooth" });
+    }
+  };
+
+  const navBtn =
+    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[40px] sm:size-[48px] rounded-full border border-solid border-[#5c1a23]/20 bg-[rgba(32,9,12,0.75)] md:bg-white md:border-[#5c1a23] text-[#efe8e9] md:text-[#5c1a23] cursor-pointer hover:bg-[#5c1a23] hover:text-white transition-colors shadow-sm";
+
   return (
-    <section className="bg-[#f2f2f2] w-full">
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-[24px] px-[24px] md:px-[127px] pb-[49px]">
-        {GALLERY_VIDEOS.map((v, i) => (
-          <video
-            key={i}
-            className="w-full rounded-[8px]"
-            src={v.src}
-            poster={v.poster}
-            controls
-            playsInline
-            preload="none"
-          />
-        ))}
-        {GALLERY.map((src, i) => (
-          <img
-            key={i}
-            alt={`Portfolio artwork ${i + 1}`}
-            className="w-full rounded-[8px] object-cover"
-            src={src}
-          />
-        ))}
+    <div className="bg-[#f2f2f2] w-full flex-1 flex flex-col justify-center pt-[24px] md:pt-[44px] pb-[20px] md:pb-[28px]">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-[8px] sm:px-[16px] md:px-[56px] lg:px-[64px]">
+        <div className="relative">
+          <div
+            ref={trackRef}
+            onScroll={(e) => {
+              const el = e.currentTarget;
+              if (el.clientWidth > 0) {
+                const next = Math.round(el.scrollLeft / el.clientWidth);
+                if (next !== slide) {
+                  setSlide(next);
+                  pauseAllVideos(next);
+                }
+              }
+            }}
+            className="flex w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-[10px]"
+          >
+            {GALLERY_ITEMS.map((item, i) => (
+              <div key={i} className="w-full shrink-0 snap-center flex items-center justify-center">
+                {item.type === "video" ? (
+                  <video
+                    ref={(el) => (videoRefs.current[i] = el)}
+                    aria-label={item.label}
+                    className="w-full aspect-video max-h-[calc(100dvh-140px)] md:max-h-[calc(100dvh-168px)] rounded-[10px] bg-[#0d0d0d] object-contain"
+                    src={item.src}
+                    poster={item.poster}
+                    controls
+                    playsInline
+                    preload="none"
+                  />
+                ) : (
+                  <img
+                    alt={item.label}
+                    onClick={() => setLightboxIdx(GALLERY_IMAGES.indexOf(item))}
+                    className="w-full aspect-video max-h-[calc(100dvh-140px)] md:max-h-[calc(100dvh-168px)] rounded-[10px] object-contain cursor-zoom-in"
+                    src={item.src}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+          <button type="button" aria-label="Previous portfolio item" onClick={() => scrollToSlide(slide - 1)} className={`${navBtn} left-[8px] md:-left-[48px] lg:-left-[56px]`}>
+            <CaretLeft size={24} />
+          </button>
+          <button type="button" aria-label="Next portfolio item" onClick={() => scrollToSlide(slide + 1)} className={`${navBtn} right-[8px] md:-right-[48px] lg:-right-[56px]`}>
+            <CaretRight size={24} />
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center gap-[8px] mt-[14px] md:mt-[18px]">
+          {GALLERY_ITEMS.map((item, idx) => (
+            <button
+              key={idx}
+              type="button"
+              aria-label={`View ${item.label}`}
+              aria-current={slide === idx ? "true" : undefined}
+              onClick={() => scrollToSlide(idx)}
+              className={`h-[8px] rounded-full border-0 p-0 cursor-pointer transition-all ${
+                slide === idx ? "w-[24px] bg-[#5c1a23]" : "w-[8px] bg-[#5c1a23]/30 hover:bg-[#5c1a23]/60"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-    </section>
+      {lightboxIdx !== null && (
+        <ImageLightbox
+          items={GALLERY_LIGHTBOX_ITEMS}
+          index={lightboxIdx}
+          onClose={() => setLightboxIdx(null)}
+          onNav={setLightboxIdx}
+        />
+      )}
+    </div>
   );
 }
 
@@ -121,115 +207,30 @@ function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
         src={clientArts[`./assets/clients/${file}.webp`]}
       />
       {name && (
-        <div className="absolute bottom-0 left-[44px] right-0 h-[47px] flex items-center justify-center bg-gradient-to-t from-[#20090c] to-[rgba(32,9,12,0.5)] p-[8px]">
-          <p className="font-cormorant italic font-bold leading-[1.2] text-[#efe8e9] text-[22px] text-center m-0">{name}</p>
+        <div className="absolute bottom-0 left-[44px] right-0 min-h-[47px] flex items-center justify-center bg-gradient-to-t from-[#20090c] to-[rgba(32,9,12,0.5)] py-[6px] pl-[16px] pr-[10px]">
+          <p className="font-cormorant italic font-bold leading-[1.15] text-[#efe8e9] text-[18px] sm:text-[20px] text-center m-0 truncate max-w-full">{name}</p>
         </div>
       )}
     </button>
   );
 }
 
-function Lightbox({ index, onClose, onNav }) {
-  const { file, name } = CLIENTS[index];
-  // null = fit to screen; {x, y} = zoomed, centered on that point (percentages)
-  const [zoom, setZoom] = useState(null);
-
-  useEffect(() => setZoom(null), [index]);
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") onNav(1);
-      if (e.key === "ArrowLeft") onNav(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose, onNav]);
-
-  const navBtn =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[56px] rounded-full border-0 bg-[rgba(32,9,12,0.6)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] transition-colors";
-
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={name || "Client model preview"}
-      className="fixed inset-0 z-50 bg-[rgba(13,13,13,0.9)] flex items-center justify-center"
-      onClick={onClose}
-    >
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[16px] right-[16px] z-10 flex items-center justify-center size-[48px] rounded-full border-0 bg-[rgba(32,9,12,0.6)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] transition-colors">
-        <X size={28} />
-      </button>
-      <button type="button" aria-label="Previous model" onClick={(e) => { e.stopPropagation(); onNav(-1); }} className={`${navBtn} left-[16px]`}>
-        <CaretLeft size={32} />
-      </button>
-      <figure className="m-0 flex flex-col items-center gap-[8px] max-w-[85vw]" onClick={(e) => e.stopPropagation()}>
-        <div
-          className="overflow-hidden"
-          style={{ cursor: zoom ? "zoom-out" : "zoom-in" }}
-          onClick={(e) => {
-            const r = e.currentTarget.getBoundingClientRect();
-            const point = { x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 };
-            setZoom(zoom ? null : point);
-          }}
-          onMouseMove={(e) => {
-            if (!zoom) return;
-            const r = e.currentTarget.getBoundingClientRect();
-            setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
-          }}
-        >
-          <img
-            alt={name ? `${name} full model` : "Client full model"}
-            className="max-h-[82vh] max-w-full w-auto object-contain transition-transform duration-200 block"
-            style={zoom ? { transform: "scale(2.5)", transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
-            src={clientArtsHd[`./assets/clients-hd/${file}.webp`] ?? clientArts[`./assets/clients/${file}.webp`]}
-          />
-        </div>
-        {name && (
-          <figcaption className="font-cormorant italic font-bold leading-[1.2] text-[#efe8e9] text-[28px] text-center">
-            {name}
-          </figcaption>
-        )}
-      </figure>
-      <button type="button" aria-label="Next model" onClick={(e) => { e.stopPropagation(); onNav(1); }} className={`${navBtn} right-[16px]`}>
-        <CaretRight size={32} />
-      </button>
-    </div>
-  );
-}
-
 function Clients() {
   const [openIdx, setOpenIdx] = useState(null);
 
-  const rows = [];
-  for (let i = 0; i < CLIENTS.length; i += 6) rows.push(CLIENTS.slice(i, i + 6));
-  // Never leave a single card alone in the last row: split the final 7 as 4 + 3.
-  if (rows.length > 1 && rows.at(-1).length === 1) {
-    const seven = rows.at(-2).concat(rows.at(-1));
-    rows.splice(-2, 2, seven.slice(0, 4), seven.slice(4));
-  }
-  let idx = 0;
   return (
-    <section className="bg-[#45141a] w-full py-[24px]">
-      <div className="max-w-[1440px] mx-auto flex flex-col gap-[32px]">
-        {rows.map((row, i) => (
-          <div key={i} className="flex flex-wrap items-start justify-center gap-y-[32px]">
-            {row.map((c) => {
-              const cardIdx = idx++;
-              return <ClientCard key={c.file} {...c} onClick={() => setOpenIdx(cardIdx)} />;
-            })}
-          </div>
+    <section className="bg-[#45141a] w-full py-[24px] md:py-[32px]">
+      <div className="max-w-[1440px] mx-auto px-[16px] md:px-[24px] flex flex-wrap items-start justify-center gap-y-[24px] md:gap-y-[32px]">
+        {CLIENTS.map((c, idx) => (
+          <ClientCard key={c.file} {...c} onClick={() => setOpenIdx(idx)} />
         ))}
       </div>
       {openIdx !== null && (
-        <Lightbox
+        <ImageLightbox
+          items={CLIENT_LIGHTBOX_ITEMS}
           index={openIdx}
           onClose={() => setOpenIdx(null)}
-          onNav={(d) => setOpenIdx((i) => (i + d + CLIENTS.length) % CLIENTS.length)}
+          onNav={setOpenIdx}
         />
       )}
     </section>
@@ -240,10 +241,14 @@ export default function Portfolio() {
   return (
     <div className="relative">
       <Navigation />
-      <TitleBand as="h1">Portfolio</TitleBand>
-      <Gallery />
-      <TitleBand>Clients</TitleBand>
-      <Clients />
+      <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)] bg-[#f2f2f2] flex flex-col">
+        <h1 className="sr-only">Portfolio</h1>
+        <Gallery />
+      </section>
+      <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)]">
+        <TitleBand>Clients</TitleBand>
+        <Clients />
+      </section>
       <CommunityReviews />
       <ContactCTA />
       <Footer />

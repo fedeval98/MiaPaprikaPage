@@ -197,7 +197,7 @@ function renderInline(text, keyPrefix = "") {
 
 function TableOfContents({ activeId }) {
   return (
-    <nav aria-label="Table of contents" className="flex flex-col gap-[12px] w-[280px]">
+    <nav aria-label="Table of contents" className="flex flex-col gap-[12px] w-full">
       <p className="font-raleway leading-[1.2] text-[#434344] text-[16px] uppercase m-0">Table of Contents</p>
       <div className="flex flex-col gap-[8px] border-l border-[#434344]">
         {SECTIONS.map((section) => {
@@ -211,7 +211,7 @@ function TableOfContents({ activeId }) {
               }`}
             >
               <span
-                className={`font-raleway leading-[1.2] text-[16px] ${
+                className={`font-raleway leading-[1.2] text-[15px] lg:text-[16px] ${
                   isActive ? "font-bold text-[#45141a]" : "font-normal text-[#434344]"
                 }`}
               >
@@ -246,13 +246,13 @@ export default function Terms() {
       <Navigation />
 
       {/* Hero */}
-      <section className="relative w-full overflow-hidden md:h-[430px]">
+      <section className="relative w-full overflow-hidden min-h-[calc(100dvh-60px)] md:min-h-[430px] flex items-center">
         <img alt="" className="absolute inset-0 w-full h-full object-cover" src={termsHeroBg} />
         <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={noiseTexture} />
-        <div className="relative w-full max-w-[1440px] mx-auto h-full">
-          <div className="content-stretch flex flex-col gap-[12px] items-start px-[24px] py-[48px] w-full md:absolute md:p-0 md:left-[44px] md:top-[90px] md:w-[544px] text-[#efe8e9]">
-            <h1 className="font-cormorant font-normal leading-[1.2] text-[40px] md:text-[60px] m-0">Terms and Conditions</h1>
-            <div className="font-raleway leading-[1.2] text-[18px]">
+        <div className="relative w-full max-w-[1440px] mx-auto px-[24px] md:px-[44px] py-[48px] md:py-[72px]">
+          <div className="flex flex-col gap-[12px] items-start w-full max-w-[544px] text-[#efe8e9]">
+            <h1 className="font-cormorant font-normal leading-[1.2] text-[40px] lg:text-[60px] m-0">Terms and Conditions</h1>
+            <div className="font-raleway leading-[1.3] text-[16px] md:text-[18px]">
               <p className="mb-0 mt-0">Disclaimer</p>
               <p className="m-0">
                 By commissioning me, you automatically agree to the terms outlined below. Please read everything carefully. If you do not agree with these conditions, I reserve the right to decline your commission. Any form of harassment or pressure—such as persistent DMs, inappropriate comments, or attempts to bargain for a spot—will result in immediate refusal and may lead to blacklisting.
@@ -264,30 +264,48 @@ export default function Terms() {
 
       {/* Terms body: sticky ToC + sections */}
       <section
-        className="relative w-full"
-        style={{ backgroundImage: `url("${termsBodyBg}")`, backgroundSize: "1440px auto", backgroundRepeat: "repeat" }}
+        className="relative w-full min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)]"
+        style={{ backgroundImage: `url("${termsBodyBg}")`, backgroundSize: "max(100%, 1024px) auto", backgroundRepeat: "repeat-y", backgroundPosition: "top center" }}
       >
-        <div className="relative w-full max-w-[1440px] mx-auto flex gap-[100px] px-[24px] py-[40px] md:px-[155px] md:py-[70px]">
-          <div className="shrink-0 hidden md:block">
-            <div className="sticky top-[40px]">
-              <TableOfContents activeId={activeId} />
+        <div className="relative w-full max-w-[1440px] mx-auto flex flex-col md:flex-row items-start gap-[32px] md:gap-[40px] lg:gap-[64px] xl:gap-[100px] px-[24px] md:px-[48px] lg:px-[80px] xl:px-[155px] py-[40px] md:py-[70px]">
+          <details className="md:hidden w-full bg-[#efe8e9]/90 border border-[#ccb8bb] rounded-[8px] px-[16px] py-[12px]">
+            <summary className="font-raleway font-bold text-[#45141a] text-[15px] uppercase cursor-pointer">
+              Table of Contents
+            </summary>
+            <div className="mt-[12px] flex flex-col gap-[8px]">
+              {SECTIONS.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  onClick={(e) => {
+                    const details = e.currentTarget.closest("details");
+                    if (details) details.open = false;
+                  }}
+                  className="font-raleway text-[#20090c] text-[15px] no-underline hover:underline"
+                >
+                  {section.title}
+                </a>
+              ))}
             </div>
+          </details>
+          <div className="shrink-0 hidden md:block w-[220px] lg:w-[250px] xl:w-[280px] sticky top-[88px]">
+            <TableOfContents activeId={activeId} />
           </div>
-          <div className="flex flex-col gap-[64px] max-w-[707px]">
+          <div className="flex flex-col gap-[40px] md:gap-[64px] min-w-0 flex-1 w-full max-w-[707px]">
             {SECTIONS.map((section) => (
               <section
                 key={section.id}
                 id={section.id}
                 ref={(el) => (sectionRefs.current[section.id] = el)}
-                className="scroll-mt-[40px]"
+                className="scroll-mt-[84px]"
               >
-                <h2 className="font-cormorant font-normal leading-[1.2] text-[#20090c] text-[32px] md:text-[48px] m-0 mb-[12px]">
+                <h2 className="font-cormorant font-normal leading-[1.2] text-[#20090c] text-[32px] lg:text-[48px] m-0 mb-[12px]">
                   {section.title}
                 </h2>
-                <div className="px-[8px] md:px-[24px] font-raleway leading-[1.2] text-[#20090c] text-[16px] md:text-[18px] flex flex-col gap-[8px]">
+                <div className="px-[8px] md:px-[24px] font-raleway leading-[1.3] text-[#20090c] text-[16px] md:text-[18px] flex flex-col gap-[8px]">
                   {section.intro && <p className="m-0">{section.intro}</p>}
                   {section.items.map((item, i) => (
-                    <p key={i} className={`m-0 ${item.startsWith("- ") ? "pl-[28px]" : ""}`}>
+                    <p key={i} className={`m-0 break-words ${item.startsWith("- ") ? "pl-[28px]" : ""}`}>
                       {renderInline(item, `${section.id}-${i}-`)}
                     </p>
                   ))}
