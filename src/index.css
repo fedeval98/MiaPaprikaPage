@@ -45,3 +45,18 @@ video {
   user-select: none;
   -webkit-touch-callout: none;
 }
+
+.hero-video-layer {
+  inset: 0;
+  opacity: 0.4;
+}
+
+@media (min-width: 768px) {
+  .hero-video-layer {
+    inset: 0 0 0 auto;
+    width: 72%;
+    opacity: 0.65;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 54%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 26%, #000 54%);
+  }
+}

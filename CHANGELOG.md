@@ -15,7 +15,7 @@
 
 ### Inicio (`src/Home.jsx`)
 - **Fecha de actualización**: actualizada de `09-08-2025` a `25-11-2026` (`Page updated 25-11-2026`).
-- **Hero con video placeholder**: reemplazada la ilustración principal (`mia-design-nb1`) y los pentágonos decorativos por un reproductor `aspect-video` con `showcase-1.mp4` para evitar exponer arte de modelo Live2D en portada.
+- **Hero con video de fondo en loop**: reemplazada la ilustración principal (`mia-design-nb1`) y los pentágonos decorativos por `showcase-1.mp4` en reproducción continua de fondo sin controles, fundido hacia la derecha sobre el fondo bordo y con filtro punteado halftone encima.
 - **Status responsive**: lápida de estado (`statusTombstone`) visible también en mobile y puntos de sección (`SectionDots`).
 
 ### Galería, Portfolio y Visor (`src/shared.jsx`, `src/Portfolio.jsx`)

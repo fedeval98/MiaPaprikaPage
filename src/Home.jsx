@@ -10,12 +10,33 @@ import { consts } from "./Consts.js";
 
 function Hero() {
   return (
-    <section id="hero" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex">
+    <section id="hero" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-center">
       <img alt="" className="absolute inset-x-0 top-0 w-full h-[112%] object-cover object-top" src={heroBackground} />
+      {/* Ambient looping showcase video faded into the background with halftone screen overlay */}
+      <div aria-hidden="true" className="hero-video-layer absolute pointer-events-none overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={showcaseVideo1Poster}
+          src={showcaseVideo1}
+          className="size-full object-cover saturate-[0.85]"
+        />
+        <div className="absolute inset-0 bg-[#3a0f15]/25" />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(16, 4, 6, 0.46) 1.25px, transparent 1.25px)",
+            backgroundSize: "6px 6px",
+          }}
+        />
+      </div>
       <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={noiseTexture} />
-      <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto flex-1 flex flex-col md:flex-row items-center justify-center gap-[28px] md:gap-[28px] lg:gap-[48px] 2xl:gap-[80px] px-[24px] md:px-[32px] lg:px-[44px] 2xl:px-[64px] py-[32px] md:py-[48px]">
-        <div className="order-1 md:order-none flex flex-col gap-[14px] sm:gap-[16px] items-start w-full md:w-[44%] lg:w-[44%] lg:max-w-[544px] 2xl:max-w-[640px] z-10 shrink-0">
-          <h1 className="font-cormorant font-normal leading-[1.15] text-[#efe8e9] text-[48px] sm:text-[54px] md:text-[46px] lg:text-[60px] 2xl:text-[76px] w-full max-w-[620px] m-0">
+      <div className="relative z-10 w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[24px] md:px-[32px] lg:px-[44px] 2xl:px-[64px] py-[40px] md:py-[56px]">
+        <div className="flex flex-col gap-[14px] sm:gap-[16px] items-start w-full md:w-[50%] lg:max-w-[544px] 2xl:max-w-[640px]">
+          <h1 className="font-cormorant font-normal leading-[1.15] text-[#efe8e9] text-[48px] sm:text-[54px] md:text-[52px] lg:text-[64px] 2xl:text-[78px] w-full max-w-[620px] m-0">
             Mia Paprika
           </h1>
           <p className="font-raleway leading-[1.35] w-full text-[#efe8e9] text-[17px] sm:text-[19px] md:text-[18px] 2xl:text-[22px] m-0">
@@ -27,23 +48,6 @@ function Hero() {
           <p className="font-raleway leading-[1.2] w-full text-[#efe8e9]/85 text-[13px] 2xl:text-[14px] m-0">
             Page updated 25-11-2026
           </p>
-        </div>
-        {/* Portfolio showcase video placeholder */}
-        <div className="order-2 md:order-none relative flex justify-center items-center w-full md:flex-1 lg:max-w-[640px] 2xl:max-w-[760px] z-10">
-          <div className="w-full aspect-video rounded-[12px] overflow-hidden bg-[#0d0d0d] border border-[#efe8e9]/20 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
-            <video
-              aria-label="Portfolio showcase video"
-              controls
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster={showcaseVideo1Poster}
-              src={showcaseVideo1}
-              className="size-full object-cover"
-            />
-          </div>
         </div>
       </div>
     </section>
