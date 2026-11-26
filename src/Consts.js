@@ -165,6 +165,18 @@ const MY_WORK = {
     ["koto-pond", "nailpolish"],
     ["seikawallpaper"],
   ],
+  dimensions: {
+    ayano: [1200, 1674],
+    gomurya: [1200, 1860],
+    easter: [1200, 1400],
+    asher: [1200, 727],
+    coloso: [1200, 673],
+    galaxy: [1200, 669],
+    "grand-mother-silk": [1200, 675],
+    "koto-pond": [1200, 675],
+    nailpolish: [1200, 783],
+    seikawallpaper: [1200, 675],
+  },
   anim: {
     duration: 260,
     stagger: 65,

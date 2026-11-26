@@ -63,7 +63,7 @@ const SOCIAL_ICONS = {
 
 export function SocialLinks({ size = 24, className = "" }) {
   return (
-    <div className={`flex flex-wrap items-center gap-[14px] sm:gap-[18px] text-[#efe8e9] ${className}`}>
+    <div className={`flex flex-wrap items-center gap-[8px] sm:gap-[12px] text-[#efe8e9] ${className}`}>
       {consts.socials().map(({ name, href, iconKey }) => {
         const Icon = SOCIAL_ICONS[iconKey];
         if (!Icon) return null;
@@ -75,7 +75,7 @@ export function SocialLinks({ size = 24, className = "" }) {
             target={isMail ? undefined : "_blank"}
             rel={isMail ? undefined : "noopener noreferrer"}
             aria-label={name}
-            className="opacity-90 hover:opacity-100 transition-opacity"
+            className="inline-flex items-center justify-center min-w-[28px] min-h-[28px] opacity-90 hover:opacity-100 transition-opacity"
           >
             <Icon size={size} weight="fill" />
           </a>
@@ -159,6 +159,8 @@ export function Navigation() {
         <Link to="/" aria-label="Mia Paprika home" className="md:hidden absolute left-[16px] top-[6px] z-20 flex items-center">
           <img
             alt="Mia Paprika"
+            width={700}
+            height={411}
             className="h-[64px] sm:h-[70px] w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
             src={consts.media("figma/main-logo.webp")}
           />
@@ -188,6 +190,8 @@ export function Navigation() {
         >
           <img
             alt="Mia Paprika"
+            width={700}
+            height={411}
             className="h-[80px] lg:h-[96px] xl:h-[110px] w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
             src={consts.media("figma/main-logo.webp")}
           />
@@ -257,15 +261,19 @@ function ReviewCard({ file, name, source, stars, text, className = "" }) {
     <article className={`flex flex-col items-start gap-[10px] bg-white rounded-[8px] p-[24px] sm:p-[32px] xl:p-[40px] w-full lg:min-h-[520px] xl:min-h-[580px] ${className}`}>
       <img
         alt={`${name} character art`}
+        width={260}
+        height={280}
+        loading="lazy"
         className="h-[220px] sm:h-[260px] xl:h-[280px] w-auto max-w-full object-contain self-center mb-[16px] sm:mb-[24px]"
         src={consts.media(`clients/${file}.webp`)}
       />
       <h3 className="font-cormorant font-bold leading-[1.2] text-[#20090c] text-[26px] sm:text-[30px] m-0">{name}</h3>
-      <div className="flex gap-[3px]" aria-label={`${stars} out of 5 stars`}>
+      <div className="flex gap-[3px]" aria-hidden="true">
         {Array.from({ length: stars }, (_, i) => (
-          <Star key={i} size={20} weight="fill" color="#5c1a23" />
+          <Star key={`star-${i + 1}`} size={20} weight="fill" color="#5c1a23" />
         ))}
       </div>
+      <span className="sr-only">{`${stars} out of 5 stars`}</span>
       <p className="font-raleway font-bold leading-[1.2] text-[#5c1a23] text-[16px] m-0">{source}</p>
       <p className="font-raleway leading-[1.5] text-[#262626] text-[16px] m-0 whitespace-pre-line">{text}</p>
     </article>
@@ -503,7 +511,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
   );
 }
 
-const { portraits: WORK_PORTRAITS, landscapes: WORK_LANDSCAPES, mobileSlides: MOBILE_WORK_SLIDES, anim: WORK_ANIM } = consts.myWork();
+const { portraits: WORK_PORTRAITS, landscapes: WORK_LANDSCAPES, mobileSlides: MOBILE_WORK_SLIDES, dimensions: WORK_DIMENSIONS, anim: WORK_ANIM } = consts.myWork();
 const WORK_ALL = [...WORK_PORTRAITS, ...WORK_LANDSCAPES];
 const workAlt = (f) => f.replaceAll("-", " ").replace(/\b\w/gu, (c) => c.toUpperCase());
 const WORK_LIGHTBOX_ITEMS = WORK_ALL.map((file) => ({ src: workArt(file), alt: workAlt(file) }));
@@ -636,7 +644,7 @@ export function MyWork({ id = "work" }) {
     <section id={id} className="relative w-full overflow-hidden md:snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute bg-[#262626] inset-0" />
-        <img alt="" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
+        <img alt="" loading="lazy" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
       </div>
       <div className="relative w-full max-w-[1220px] xl:max-w-[1380px] 2xl:max-w-[1560px] mx-auto px-[4px] sm:px-[12px] md:px-[56px] lg:px-[72px] xl:px-[88px] py-[16px] md:py-[28px] lg:py-[32px] max-md:flex-1 max-md:flex max-md:flex-col max-md:min-h-0">
         <h2 className="font-cormorant font-normal leading-[1.2] text-[#efe8e9] text-[32px] md:text-[36px] lg:text-[44px] m-0 mb-[12px] md:mb-[20px] lg:mb-[24px] text-center shrink-0">
@@ -673,6 +681,9 @@ export function MyWork({ id = "work" }) {
                     >
                       <img
                         alt={workAlt(file)}
+                        width={WORK_DIMENSIONS[file]?.[0]}
+                        height={WORK_DIMENSIONS[file]?.[1]}
+                        loading="lazy"
                         className="max-w-full max-h-full w-auto h-auto object-contain rounded-[6px]"
                         src={workArt(file)}
                       />
@@ -688,7 +699,7 @@ export function MyWork({ id = "work" }) {
               <CaretRight size={24} />
             </button>
           </div>
-          <div className="flex items-center justify-center gap-[8px] shrink-0 pb-[4px]">
+          <div className="flex items-center justify-center gap-[2px] shrink-0">
             {MOBILE_WORK_SLIDES.map((group, idx) => (
               <button
                 key={group.join("-")}
@@ -696,10 +707,15 @@ export function MyWork({ id = "work" }) {
                 aria-label={`View artworks slide ${idx + 1}`}
                 aria-current={mobileSlide === idx ? "true" : undefined}
                 onClick={() => scrollMobileTo(idx)}
-                className={`h-[8px] rounded-full border-0 p-0 cursor-pointer transition-all ${
-                  mobileSlide === idx ? "w-[20px] bg-[#efe8e9]" : "w-[8px] bg-[#efe8e9]/40"
-                }`}
-              />
+                className="flex items-center justify-center min-w-[24px] h-[28px] px-[2px] border-0 bg-transparent p-0 cursor-pointer"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`block h-[8px] rounded-full transition-all ${
+                    mobileSlide === idx ? "w-[20px] bg-[#efe8e9]" : "w-[8px] bg-[#efe8e9]/40"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>
@@ -720,6 +736,9 @@ export function MyWork({ id = "work" }) {
                 >
                   <img
                     alt={workAlt(file)}
+                    width={WORK_DIMENSIONS[file]?.[0]}
+                    height={WORK_DIMENSIONS[file]?.[1]}
+                    loading="lazy"
                     className={`size-full object-cover ${imgPos}`}
                     src={workArt(file)}
                   />
@@ -768,7 +787,7 @@ function FormField({ label, required, placeholder, name, type = "text" }) {
         name={name}
         required={required}
         placeholder={placeholder}
-        className={`${FIELD_BOX} h-[40px] p-[8px] placeholder:text-[#727272]`}
+        className={`${FIELD_BOX} h-[40px] p-[8px] placeholder:text-[#595959]`}
       />
     </label>
   );
@@ -783,7 +802,7 @@ function CommissionTypeField() {
           name="commissionType"
           required
           defaultValue=""
-          className={`${FIELD_BOX} h-[40px] px-[8px] pr-[32px] appearance-none cursor-pointer invalid:text-[#727272]`}
+          className={`${FIELD_BOX} h-[40px] px-[8px] pr-[32px] appearance-none cursor-pointer invalid:text-[#595959]`}
         >
           <option value="" disabled>
             Select a type
@@ -814,6 +833,7 @@ function FileUpload({ files, setFiles }) {
         type="file"
         multiple
         accept={ACCEPTED_FILES}
+        aria-label="Upload reference files"
         className="sr-only"
         onChange={(e) => {
           if (e.target.files?.length) addFiles(e.target.files);
@@ -840,7 +860,7 @@ function FileUpload({ files, setFiles }) {
           <span className="text-[#0d0d0d]">Drag &amp; drop files or </span>
           <span className="text-[#5c1a23] underline">Browse</span>
         </p>
-        <p className="font-raleway leading-[1.2] text-[#727272] text-[12px] text-center m-0">
+        <p className="font-raleway leading-[1.2] text-[#595959] text-[12px] text-center m-0">
           Supported formats: JPEG, PNG, PDF, PSD, AI, Word, PPT
         </p>
       </button>
@@ -853,7 +873,7 @@ function FileUpload({ files, setFiles }) {
             >
               <span className="font-raleway text-[#0d0d0d] text-[13px] truncate">
                 {file.name}{" "}
-                <span className="text-[#727272]">({(file.size / 1024).toFixed(0)} KB)</span>
+                <span className="text-[#595959]">({(file.size / 1024).toFixed(0)} KB)</span>
               </span>
               <button
                 type="button"
@@ -921,17 +941,18 @@ export function ContactCTA() {
                   <FormField label="Budget (Optional)" name="budget" placeholder="$250" />
                 </div>
                 <div className="flex flex-col gap-[8px] items-start w-full">
-                  <p className="font-cormorant leading-[1.2] text-[#262626] text-[24px] m-0">
+                  <label htmlFor="contact-description" className="font-cormorant leading-[1.2] text-[#262626] text-[24px] m-0">
                     Description<span className="font-raleway text-[#5c1a23]">*</span>
-                  </p>
+                  </label>
                   <p className="font-raleway leading-[1.2] text-[#262626] text-[12px] m-0">
                     Share a short summary of your project: what do you need, what are you envisioning, what is your deadline and your future plans - are you planning to add anything to your model like extra outfits or expressions?
                   </p>
                   <textarea
+                    id="contact-description"
                     name="description"
                     required
                     placeholder="Tell me about your project..."
-                    className={`${FIELD_BOX} h-[148px] p-[8px] resize-none placeholder:text-[#727272]`}
+                    className={`${FIELD_BOX} h-[148px] p-[8px] resize-none placeholder:text-[#595959]`}
                   />
                 </div>
                 <div className="flex flex-col gap-[8px] items-center w-full">
@@ -948,7 +969,7 @@ export function ContactCTA() {
             )}
           </div>
           <div className="absolute h-[104px] w-[184px] -top-[52px] md:h-[144px] md:w-[254px] md:-top-[72px] left-1/2 -translate-x-1/2 pointer-events-none">
-            <img alt="" className="absolute inset-0 max-w-none object-cover size-full" src={consts.media("figma/chibi-mia.webp")} />
+            <img alt="" width={600} height={339} loading="lazy" className="absolute inset-0 max-w-none object-cover size-full" src={consts.media("figma/chibi-mia.webp")} />
           </div>
         </div>
       </div>
@@ -963,9 +984,9 @@ export function Footer() {
         <div className="flex items-center justify-center">
           <SocialLinks size={22} className="justify-center" />
         </div>
-        <div className="flex flex-wrap justify-center font-raleway gap-x-[16px] gap-y-[4px] items-center leading-[1.4] text-[#efe8e9]/80 text-[12px] text-center">
+        <div className="flex flex-wrap justify-center font-raleway gap-x-[16px] gap-y-[4px] items-center leading-[1.4] text-[#efe8e9]/90 text-[12px] text-center">
           <p className="shrink-0 m-0">© 2025 Mia Paprika</p>
-          <Link to="/terms" className="shrink-0 no-underline text-[#efe8e9]/80 hover:text-[#efe8e9] transition-colors">Terms and conditions</Link>
+          <Link to="/terms" className="shrink-0 inline-flex items-center min-h-[24px] py-[4px] no-underline text-[#efe8e9]/90 hover:text-[#efe8e9] transition-colors">Terms and conditions</Link>
         </div>
       </div>
     </footer>

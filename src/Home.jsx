@@ -1,20 +1,61 @@
+import { useEffect, useRef, useState } from "react";
 import { Navigation, ButtonPrimary, MyWork, ContactCTA, Footer, SocialLinks, CommunityReviews, SectionDots } from "./shared.jsx";
 import { consts } from "./Consts.js";
 
 function Hero() {
+  const [videoSrc, setVideoSrc] = useState(null);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (navigator.connection?.saveData) return;
+    const queueVideo = () => {
+      const start = () => setVideoSrc(consts.media("videos/showcase-1.mp4"));
+      if ("requestIdleCallback" in window) {
+        const idleId = window.requestIdleCallback(start);
+        return () => window.cancelIdleCallback(idleId);
+      }
+      const timerId = window.setTimeout(start, 150);
+      return () => window.clearTimeout(timerId);
+    };
+    if (document.readyState === "complete") return queueVideo();
+    let cancelIdle = () => {};
+    const onLoad = () => {
+      cancelIdle = queueVideo();
+    };
+    window.addEventListener("load", onLoad, { once: true });
+    return () => {
+      window.removeEventListener("load", onLoad);
+      cancelIdle();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (videoSrc) {
+      videoRef.current?.play().catch(() => {});
+    }
+  }, [videoSrc]);
+
   return (
     <section id="hero" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-center">
-      <img alt="" className="absolute inset-x-0 top-0 w-full h-[112%] object-cover object-top" src={consts.media("figma/hero-background.webp")} />
+      <img
+        alt=""
+        width={1920}
+        height={887}
+        fetchPriority="high"
+        className="absolute inset-x-0 top-0 w-full h-[112%] object-cover object-top"
+        src={consts.media("figma/hero-background.webp")}
+      />
       {/* Ambient looping showcase video faded into the background with halftone screen overlay */}
       <div aria-hidden="true" className="hero-video-layer absolute pointer-events-none overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           poster={consts.media("videos/showcase-1-poster.webp")}
-          src={consts.media("videos/showcase-1.mp4")}
+          src={videoSrc ?? undefined}
           className="size-full object-cover saturate-[0.85]"
         />
         <div className="absolute inset-0 bg-[#3a0f15]/25" />
@@ -26,7 +67,13 @@ function Hero() {
           }}
         />
       </div>
-      <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
+      <img
+        alt=""
+        fetchPriority="low"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none"
+        src={consts.media("figma/noise-texture.webp")}
+      />
       <div className="relative z-10 w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[24px] md:px-[32px] lg:px-[44px] 2xl:px-[64px] py-[40px] md:py-[56px]">
         <div className="flex flex-col gap-[14px] sm:gap-[16px] items-start w-full md:w-[50%] lg:max-w-[544px] 2xl:max-w-[640px]">
           <h1 className="font-cormorant font-normal leading-[1.15] text-[#efe8e9] text-[48px] sm:text-[54px] md:text-[52px] lg:text-[64px] 2xl:text-[78px] w-full max-w-[620px] m-0">
@@ -34,11 +81,11 @@ function Hero() {
           </h1>
           <p className="font-raleway leading-[1.35] w-full text-[#efe8e9] text-[17px] sm:text-[19px] md:text-[18px] 2xl:text-[22px] m-0">
             I&apos;m an artist who specialize in character design, live2D models and illustrations.
-            <br aria-hidden />
+            <br />
             English/Spanish = OK!
           </p>
           <SocialLinks size={32} />
-          <p className="font-raleway leading-[1.2] w-full text-[#efe8e9]/85 text-[13px] 2xl:text-[14px] m-0">
+          <p className="font-raleway leading-[1.2] w-full text-[#efe8e9] text-[13px] 2xl:text-[14px] m-0">
             Page updated 25-11-2026
           </p>
         </div>
@@ -50,7 +97,7 @@ function Hero() {
 function FeatureQuote() {
   return (
     <section id="status" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex items-center">
-      <img alt="" className="absolute inset-x-0 bottom-0 w-full h-[118%] object-cover object-bottom" src={consts.media("figma/feature-quote-left.webp")} />
+      <img alt="" loading="lazy" className="absolute inset-x-0 bottom-0 w-full h-[118%] object-cover object-bottom" src={consts.media("figma/feature-quote-left.webp")} />
       <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[16px] sm:px-[24px] md:px-[32px] lg:px-[80px] xl:px-[120px] py-[40px] md:py-[64px] flex flex-col md:flex-row items-center justify-center gap-[28px] md:gap-[32px] lg:gap-[64px] 2xl:gap-[112px]">
         <div className="flex flex-col gap-[16px] 2xl:gap-[20px] items-start w-full md:flex-1 md:max-w-[520px] 2xl:max-w-[620px] px-[8px] sm:px-0">
           <h2 className="font-cormorant font-normal leading-[1.2] text-[#262626] text-[32px] lg:text-[48px] 2xl:text-[56px] w-full m-0">
@@ -65,7 +112,14 @@ function FeatureQuote() {
           <ButtonPrimary label="Contact" dark />
         </div>
         <div className="relative w-full max-w-[360px] sm:max-w-[400px] md:w-[340px] lg:w-[440px] xl:w-[497px] 2xl:w-[560px] shrink-0">
-          <img alt="" className="block w-full h-auto object-contain pointer-events-none" src={consts.media("figma/status-tombstone.webp?v=2")} />
+          <img
+            alt=""
+            width={1220}
+            height={960}
+            loading="lazy"
+            className="block w-full h-auto object-contain pointer-events-none"
+            src={consts.media("figma/status-tombstone.webp?v=2")}
+          />
           <div className="flex flex-col gap-[5px] sm:gap-[7px] lg:gap-[12px] items-center justify-center absolute top-[11%] bottom-[38%] left-[29%] right-[31%]">
             <p className="font-cormorant leading-[1.15] text-[#20090c] text-[22px] sm:text-[26px] lg:text-[30px] xl:text-[34px] text-center m-0">Status</p>
             <div className="h-px w-full max-w-[110px] sm:max-w-[140px] lg:max-w-[175px] relative">

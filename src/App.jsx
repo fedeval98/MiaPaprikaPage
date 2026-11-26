@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home.jsx";
-import Commissions from "./Commissions.jsx";
-import Portfolio from "./Portfolio.jsx";
-import Terms from "./Terms.jsx";
 import ScrollToTop from "./ScrollToTop.jsx";
+
+const Commissions = lazy(() => import("./Commissions.jsx"));
+const Portfolio = lazy(() => import("./Portfolio.jsx"));
+const Terms = lazy(() => import("./Terms.jsx"));
 
 export default function App() {
   useEffect(() => {
@@ -26,12 +27,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/commissions" element={<Commissions />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/terms" element={<Terms />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-[#0d0d0d]" />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/commissions" element={<Commissions />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/terms" element={<Terms />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
