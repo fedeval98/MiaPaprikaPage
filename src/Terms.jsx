@@ -1,7 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import termsHeroBg from "./assets/figma/terms-hero-bg.webp";
-import noiseTexture from "./assets/figma/noise-texture.webp";
-import termsBodyBg from "./assets/figma/terms-body-bg.webp";
 import { Navigation, ContactCTA, Footer } from "./shared.jsx";
 import { consts } from "./Consts.js";
 
@@ -91,8 +88,8 @@ export default function Terms() {
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden min-h-[calc(100dvh-60px)] md:min-h-[430px] flex items-center">
-        <img alt="" className="absolute inset-0 w-full h-full object-cover" src={termsHeroBg} />
-        <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={noiseTexture} />
+        <img alt="" className="absolute inset-0 w-full h-full object-cover" src={consts.media("figma/terms-hero-bg.webp")} />
+        <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
         <div className="relative w-full max-w-[1440px] mx-auto px-[24px] md:px-[44px] py-[48px] md:py-[72px]">
           <div className="flex flex-col gap-[12px] items-start w-full max-w-[544px] text-[#efe8e9]">
             <h1 className="font-cormorant font-normal leading-[1.2] text-[40px] lg:text-[60px] m-0">Terms and Conditions</h1>
@@ -109,7 +106,7 @@ export default function Terms() {
       {/* Terms body: sticky ToC + sections */}
       <section
         className="relative w-full min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)]"
-        style={{ backgroundImage: `url("${termsBodyBg}")`, backgroundSize: "max(100%, 1024px) auto", backgroundRepeat: "repeat-y", backgroundPosition: "top center" }}
+        style={{ backgroundImage: `url("${consts.media("figma/terms-body-bg.webp")}")`, backgroundSize: "max(100%, 1024px) auto", backgroundRepeat: "repeat-y", backgroundPosition: "top center" }}
       >
         <div className="relative w-full max-w-[1440px] mx-auto flex flex-col md:flex-row items-start gap-[32px] md:gap-[40px] lg:gap-[64px] xl:gap-[100px] px-[24px] md:px-[48px] lg:px-[80px] xl:px-[155px] py-[40px] md:py-[70px]">
           <details className="md:hidden w-full bg-[#efe8e9]/90 border border-[#ccb8bb] rounded-[8px] px-[16px] py-[12px]">

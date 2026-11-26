@@ -1,34 +1,14 @@
 import { useRef, useState } from "react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
-import portfolio1 from "./assets/figma/portfolio-1.webp";
-import portfolio2 from "./assets/figma/portfolio-2.webp";
-import portfolio3 from "./assets/figma/portfolio-3.webp";
-import portfolio4 from "./assets/figma/portfolio-4.webp";
-import clientCardMask from "./assets/figma/client-card-mask.svg";
-import showcaseVideo1 from "./assets/videos/showcase-1.mp4";
-import showcaseVideo1Poster from "./assets/videos/showcase-1-poster.webp";
-import showcaseVideo2 from "./assets/videos/showcase-2.mp4";
-import showcaseVideo2Poster from "./assets/videos/showcase-2-poster.webp";
 import { Navigation, ContactCTA, Footer, TitleBand, MyWork, ImageLightbox } from "./shared.jsx";
 import { consts } from "./Consts.js";
 
-const GALLERY_ITEMS = [
-  { type: "video", src: showcaseVideo1, poster: showcaseVideo1Poster, label: "Showcase video 1" },
-  { type: "video", src: showcaseVideo2, poster: showcaseVideo2Poster, label: "Showcase video 2" },
-  { type: "image", src: portfolio1, label: "Portfolio artwork 1" },
-  { type: "image", src: portfolio2, label: "Portfolio artwork 2" },
-  { type: "image", src: portfolio3, label: "Portfolio artwork 3" },
-  { type: "image", src: portfolio4, label: "Portfolio artwork 4" },
-];
+const GALLERY_ITEMS = consts.gallery();
 const GALLERY_IMAGES = GALLERY_ITEMS.filter((item) => item.type === "image");
 const GALLERY_LIGHTBOX_ITEMS = GALLERY_IMAGES.map((item) => ({ src: item.src, alt: item.label }));
 
-const clientArts = import.meta.glob("./assets/clients/*.webp", { eager: true, import: "default" });
-// Full-res variants, only fetched when the lightbox shows them.
-const clientArtsHd = import.meta.glob("./assets/clients-hd/*.webp", { eager: true, import: "default" });
-
 const CLIENT_LIGHTBOX_ITEMS = consts.clients().map((c) => ({
-  src: clientArtsHd[`./assets/clients-hd/${c.file}.webp`] ?? clientArts[`./assets/clients/${c.file}.webp`],
+  src: consts.media(`clients-hd/${c.file}.webp`),
   alt: c.name ? `${c.name} full model` : "Client full model",
   caption: c.name,
 }));
@@ -152,13 +132,13 @@ function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
       onClick={onClick}
       aria-label={name ? `View ${name}'s full model` : "View full model"}
       className="group relative h-[207px] w-[240px] shrink-0 overflow-hidden mask-alpha mask-no-repeat mask-size-[100%_100%] border-0 bg-transparent p-0 cursor-pointer"
-      style={{ maskImage: `url("${clientCardMask}")` }}
+      style={{ maskImage: `url("${consts.media("figma/client-card-mask.svg")}")` }}
     >
       <div className="absolute inset-0 bg-[#20090c]" />
       <img
         alt={name ? `${name} character art` : "Client character art"}
         className={`absolute top-0 left-1/2 -translate-x-1/2 w-auto max-w-none transition-[scale,filter] duration-300 group-hover:scale-105 group-hover:brightness-110 ${zoom}`}
-        src={clientArts[`./assets/clients/${file}.webp`]}
+        src={consts.media(`clients/${file}.webp`)}
       />
       {name && (
         <div className="absolute bottom-0 left-[44px] right-0 min-h-[47px] flex items-center justify-center bg-gradient-to-t from-[#20090c] to-[rgba(32,9,12,0.5)] py-[6px] pl-[16px] pr-[10px]">

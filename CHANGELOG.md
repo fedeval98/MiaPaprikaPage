@@ -9,14 +9,14 @@
 - **Protección de imágenes y medios**: bloqueado el menú contextual (`contextmenu`) y el arrastre (`dragstart`) sobre `img`, `video` y `a` en `src/App.jsx`, además de reglas CSS (`-webkit-user-drag: none`, `user-select: none`, `-webkit-touch-callout: none`) en `src/index.css`.
 - **Footer y CTA (`Footer`, `ContactCTA`)**: pie de página simplificado dejando únicamente redes sociales, registro (`© 2025 Mia Paprika`) y enlace a términos y condiciones (eliminando enlaces de navegación redundantes con el header fijo); ilustración chibi (`chibiMia`) mostrada también en mobile dentro de `ContactCTA`.
 - **Redes sociales (`SocialLinks`)**: reemplazado PayPal por **VGen** (`https://vgen.co/MiaPaprika`) usando el isotipo SVG oficial extraído de `vgen.co/img/logo-dark.svg`, y agregado enlace de correo (`mailto:miapaprikacontact@gmail.com`).
-- **Contenedor de constantes (`src/Consts.js`)**: centralizadas todas las constantes estáticas (precios, secciones, redes, tipos de comisión, reseñas, obras, clientes y términos) expuestas mediante funciones en `consts` (`consts.prices()`, `consts.sections()`, `consts.socials()`, `consts.commissionTypes()`, `consts.reviews()`, `consts.myWork()`, `consts.clients()`, `consts.terms()`).
+- **Contenedor de constantes y Cloudflare R2 (`src/Consts.js`, `.env.example`)**: centralizadas todas las constantes estáticas (precios, secciones, redes, tipos de comisión, reseñas, galería, obras, clientes y términos) expuestas mediante funciones en `consts`; todas las imágenes y videos (`159` archivos) fueron subidos al bucket R2 `miapaprika` y conectados exclusivamente vía `consts.media()` / `VITE_MEDIA_URL` (con CORS `GET`/`HEAD` configurado), eliminando `src/assets/` del repositorio.
 - **Red local (`vite.config.js`)**: habilitado `host: true` para `server` y `preview`.
 - **Favicon personalizado (`public/favicon.svg`)**: reemplazado el ícono por defecto de Vite por un isotipo SVG de marca con monograma serif `M`, destellos celeste/dorado y fondo bordo.
 
 ### Inicio (`src/Home.jsx`)
 - **Fecha de actualización**: actualizada de `09-08-2025` a `25-11-2026` (`Page updated 25-11-2026`).
 - **Hero con video de fondo en loop**: reemplazada la ilustración principal (`mia-design-nb1`) y los pentágonos decorativos por `showcase-1.mp4` en reproducción continua de fondo sin controles, fundido hacia la derecha sobre el fondo bordo y con filtro punteado halftone encima.
-- **Status responsive**: lápida de estado (`statusTombstone`) visible también en mobile y puntos de sección (`SectionDots`).
+- **Status responsive**: convertida la nueva ilustración `status-tombstone.png` a `figma/status-tombstone.webp` (`1220×960`, ~116 KiB) en R2 eliminando el `.png` original, reajustado el texto de estado dentro de la lápida en `Home.jsx`, visible también en mobile y puntos de sección (`SectionDots`).
 
 ### Galería, Portfolio y Visor (`src/shared.jsx`, `src/Portfolio.jsx`)
 - **Sección `MyWork`**:

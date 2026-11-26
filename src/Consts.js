@@ -1,3 +1,9 @@
+const MEDIA_BASE_URL = (import.meta.env.VITE_MEDIA_URL ?? "").replace(/\/+$/u, "");
+const mediaUrl = (key) => {
+  const cleanKey = key.replace(/^\/+/u, "");
+  return MEDIA_BASE_URL ? `${MEDIA_BASE_URL}/${cleanKey}` : `/${cleanKey}`;
+};
+
 const PAGE_SECTIONS = {
   home: [
     { id: "hero", label: "Mia Paprika" },
@@ -379,10 +385,29 @@ const TERMS_SECTIONS = [
   },
 ];
 
+const PORTFOLIO_GALLERY = [
+  { type: "video", src: mediaUrl("videos/showcase-1.mp4"), poster: mediaUrl("videos/showcase-1-poster.webp"), label: "Showcase video 1" },
+  { type: "video", src: mediaUrl("videos/showcase-2.mp4"), poster: mediaUrl("videos/showcase-2-poster.webp"), label: "Showcase video 2" },
+  { type: "image", src: mediaUrl("figma/portfolio-1.webp"), label: "Portfolio artwork 1" },
+  { type: "image", src: mediaUrl("figma/portfolio-2.webp"), label: "Portfolio artwork 2" },
+  { type: "image", src: mediaUrl("figma/portfolio-3.webp"), label: "Portfolio artwork 3" },
+  { type: "image", src: mediaUrl("figma/portfolio-4.webp"), label: "Portfolio artwork 4" },
+];
+
 /**
  * Container of static site configuration exposed through getter functions.
  */
 export const consts = {
+  /** Resolves a media object key against the configured R2/CDN base URL. */
+  media(key) {
+    return mediaUrl(key);
+  },
+
+  /** Returns portfolio gallery video and image slide entries. */
+  gallery() {
+    return PORTFOLIO_GALLERY;
+  },
+
   /** Returns section navigation dots for `"home"` or `"commissions"`, or all pages. */
   sections(page) {
     return page ? (PAGE_SECTIONS[page] ?? []) : PAGE_SECTIONS;

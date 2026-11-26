@@ -16,12 +16,6 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { consts } from "./Consts.js";
-import mainLogo from "./assets/figma/main-logo.webp";
-import postsBlogLeft from "./assets/figma/posts-blog-left.webp";
-import ctaCenter from "./assets/figma/cta-center.webp";
-import ctaBackground from "./assets/figma/cta-background.webp";
-import chibiMia from "./assets/figma/chibi-mia.webp";
-import formLine from "./assets/figma/form-line.svg";
 
 // Pixiv has no Phosphor icon; a bold "P" monogram matches the brand mark closely enough.
 function PixivMark({ size = 24, className = "" }) {
@@ -166,7 +160,7 @@ export function Navigation() {
           <img
             alt="Mia Paprika"
             className="h-[64px] sm:h-[70px] w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
-            src={mainLogo}
+            src={consts.media("figma/main-logo.webp")}
           />
         </Link>
 
@@ -195,7 +189,7 @@ export function Navigation() {
           <img
             alt="Mia Paprika"
             className="h-[80px] lg:h-[96px] xl:h-[110px] w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
-            src={mainLogo}
+            src={consts.media("figma/main-logo.webp")}
           />
         </Link>
 
@@ -248,8 +242,6 @@ export function Navigation() {
   );
 }
 
-const reviewArts = import.meta.glob("./assets/clients/*.webp", { eager: true, import: "default" });
-
 export function TitleBand({ as: Tag = "h2", children }) {
   return (
     <div className="bg-[#f2f2f2] py-[32px] w-full">
@@ -266,7 +258,7 @@ function ReviewCard({ file, name, source, stars, text, className = "" }) {
       <img
         alt={`${name} character art`}
         className="h-[220px] sm:h-[260px] xl:h-[280px] w-auto max-w-full object-contain self-center mb-[16px] sm:mb-[24px]"
-        src={reviewArts[`./assets/clients/${file}.webp`]}
+        src={consts.media(`clients/${file}.webp`)}
       />
       <h3 className="font-cormorant font-bold leading-[1.2] text-[#20090c] text-[26px] sm:text-[30px] m-0">{name}</h3>
       <div className="flex gap-[3px]" aria-label={`${stars} out of 5 stars`}>
@@ -390,8 +382,7 @@ export function CommunityReviews({ id = "reviews" }) {
   );
 }
 
-const workArts = import.meta.glob("./assets/mywork/*.webp", { eager: true, import: "default" });
-const workArt = (f) => workArts[`./assets/mywork/${f}.webp`];
+const workArt = (f) => consts.media(`mywork/${f}.webp`);
 // Tall layout slots rotate through portrait art, wide slots through landscape art,
 // so every illustration lands in a frame that fits its shape.
 export function ImageLightbox({ items, index, onClose, onNav }) {
@@ -645,7 +636,7 @@ export function MyWork({ id = "work" }) {
     <section id={id} className="relative w-full overflow-hidden md:snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute bg-[#262626] inset-0" />
-        <img alt="" className="absolute max-w-none object-cover opacity-10 size-full" src={postsBlogLeft} />
+        <img alt="" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
       </div>
       <div className="relative w-full max-w-[1220px] xl:max-w-[1380px] 2xl:max-w-[1560px] mx-auto px-[4px] sm:px-[12px] md:px-[56px] lg:px-[72px] xl:px-[88px] py-[16px] md:py-[28px] lg:py-[32px] max-md:flex-1 max-md:flex max-md:flex-col max-md:min-h-0">
         <h2 className="font-cormorant font-normal leading-[1.2] text-[#efe8e9] text-[32px] md:text-[36px] lg:text-[44px] m-0 mb-[12px] md:mb-[20px] lg:mb-[24px] text-center shrink-0">
@@ -895,11 +886,11 @@ export function ContactCTA() {
     <section
       id="contact"
       className="relative w-full bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-[80px] pb-[48px] md:pt-[104px] md:pb-[72px] md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
-      style={{ backgroundImage: `url("${ctaCenter}")` }}
+      style={{ backgroundImage: `url("${consts.media("figma/cta-center.webp")}")` }}
     >
       <div
         className="absolute bg-size-[1024px_1024px,auto_auto] bg-top-left inset-0"
-        style={{ backgroundImage: `url("${ctaBackground}"), linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)` }}
+        style={{ backgroundImage: `url("${consts.media("figma/cta-background.webp")}"), linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)` }}
       />
       <div className="relative w-full max-w-[1440px] mx-auto px-[16px] md:px-[24px]">
         <div className="relative flex flex-col gap-[16px] items-center justify-center mx-auto w-full max-w-[604px]">
@@ -909,7 +900,7 @@ export function ContactCTA() {
             </h2>
             <div className="h-0 relative shrink-0 w-full">
               <div className="absolute inset-[-1px_0_0_0]">
-                <img alt="" className="block max-w-none size-full" src={formLine} />
+                <img alt="" className="block max-w-none size-full" src={consts.media("figma/form-line.svg")} />
               </div>
             </div>
             {submitted ? (
@@ -957,7 +948,7 @@ export function ContactCTA() {
             )}
           </div>
           <div className="absolute h-[104px] w-[184px] -top-[52px] md:h-[144px] md:w-[254px] md:-top-[72px] left-1/2 -translate-x-1/2 pointer-events-none">
-            <img alt="" className="absolute inset-0 max-w-none object-cover size-full" src={chibiMia} />
+            <img alt="" className="absolute inset-0 max-w-none object-cover size-full" src={consts.media("figma/chibi-mia.webp")} />
           </div>
         </div>
       </div>

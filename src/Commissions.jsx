@@ -1,9 +1,4 @@
 import { useState } from "react";
-import commHeroBg from "./assets/figma/comm-hero-bg.webp";
-import commIllusBg from "./assets/figma/comm-illus-bg.webp";
-import commMiaFull from "./assets/figma/comm-mia-full.webp";
-import commRewardArt from "./assets/figma/comm-reward4.webp";
-import noiseTexture from "./assets/figma/noise-texture.webp";
 import { Navigation, GroupedTabs, ButtonPrimary, MyWork, ContactCTA, Footer, SectionDots } from "./shared.jsx";
 import { consts } from "./Consts.js";
 
@@ -13,8 +8,8 @@ function VtuberModels() {
 
   return (
     <section id="vtuber-models" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-center">
-      <img alt="" className="absolute inset-0 w-full h-full object-cover" src={commHeroBg} />
-      <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" src={noiseTexture} />
+      <img alt="" className="absolute inset-0 w-full h-full object-cover" src={consts.media("figma/comm-hero-bg.webp")} />
+      <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
       <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[20px] sm:px-[24px] md:px-[32px] lg:px-[44px] 2xl:px-[64px] py-[28px] md:py-[36px] flex flex-col md:flex-row items-center justify-center gap-[28px] lg:gap-[48px] 2xl:gap-[80px]">
         <div className="flex flex-col gap-[10px] 2xl:gap-[14px] items-start w-full md:w-[54%] lg:max-w-[620px] 2xl:max-w-[700px]">
           <h1 className="font-cormorant font-normal leading-[1.15] text-[#20090c] text-[40px] lg:text-[54px] 2xl:text-[68px] w-full m-0">
@@ -83,7 +78,7 @@ function VtuberModels() {
             <img
               alt="Mia Paprika Live2D model artwork"
               className="absolute inset-0 size-full object-contain object-center p-[8px] sm:p-[12px]"
-              src={commMiaFull}
+              src={consts.media("figma/comm-mia-full.webp")}
             />
           </div>
           <p className="font-raleway leading-[1.5] w-full text-[#20090c] text-[14px] text-center m-0">
@@ -102,7 +97,7 @@ function Illustrations() {
 
   return (
     <section id="illustrations" className="relative w-full overflow-hidden md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex items-center">
-      <img alt="" className="absolute inset-0 w-full h-full object-cover" src={commIllusBg} />
+      <img alt="" className="absolute inset-0 w-full h-full object-cover" src={consts.media("figma/comm-illus-bg.webp")} />
       <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[24px] md:px-[48px] xl:px-[120px] py-[48px] md:py-[64px]">
         <h2 className="font-cormorant font-normal leading-[1.2] text-[#efe8e9] text-[32px] md:text-[42px] lg:text-[48px] 2xl:text-[56px] text-center m-0 mb-[32px] md:mb-[40px]">
           Illustrations
@@ -114,7 +109,7 @@ function Illustrations() {
               alt={`${active.title} illustration sample`}
               className="absolute w-[230%] h-[230%] left-[-71.89%] top-[-15.6%] max-w-none object-cover transition-transform duration-500"
               style={active.artStyle}
-              src={commRewardArt}
+              src={consts.media("figma/comm-reward4.webp")}
             />
           </div>
           <div className="flex flex-col gap-[12px] 2xl:gap-[16px] items-start w-full md:flex-1 md:max-w-[544px] 2xl:max-w-[620px]">
