@@ -5,23 +5,23 @@ import {
   CaretLeft,
   CaretRight,
   CloudArrowUp,
+  EnvelopeSimple,
   List,
   Star,
   TwitchLogo,
   DiscordLogo,
   TwitterLogo,
   YoutubeLogo,
-  PaypalLogo,
   Coffee,
   X,
 } from "@phosphor-icons/react";
+import { consts } from "./Consts.js";
 import mainLogo from "./assets/figma/main-logo.webp";
 import postsBlogLeft from "./assets/figma/posts-blog-left.webp";
 import ctaCenter from "./assets/figma/cta-center.webp";
 import ctaBackground from "./assets/figma/cta-background.webp";
 import chibiMia from "./assets/figma/chibi-mia.webp";
 import formLine from "./assets/figma/form-line.svg";
-import footerDivider from "./assets/figma/footer-divider.svg";
 
 // Pixiv has no Phosphor icon; a bold "P" monogram matches the brand mark closely enough.
 function PixivMark({ size = 24, className = "" }) {
@@ -36,31 +36,57 @@ function PixivMark({ size = 24, className = "" }) {
   );
 }
 
-const SOCIAL_LINKS = [
-  { name: "Twitch", href: "https://www.twitch.tv/miapaprika", Icon: TwitchLogo },
-  { name: "Discord", href: "https://discord.gg/WMNPPwN5u2", Icon: DiscordLogo },
-  { name: "Twitter", href: "https://twitter.com/MiaPaprika", Icon: TwitterLogo },
-  { name: "YouTube", href: "https://www.youtube.com/channel/UCOL0LMgV0xYA6-QCTErpuGQ", Icon: YoutubeLogo },
-  { name: "Ko-fi", href: "https://ko-fi.com/miapaprika", Icon: Coffee },
-  { name: "PayPal", href: "https://www.paypal.com/paypalme/MiaPaprikka?country.x=AR&locale.x=es_XC", Icon: PaypalLogo },
-  { name: "Pixiv", href: "https://www.pixiv.net/en/users/67165832", Icon: PixivMark },
-];
+// Official VGen brand mark extracted from https://vgen.co/img/logo-dark.svg (monochrome currentColor to match SocialLinks).
+function VgenMark({ size = 24, className = "" }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="3.55 1.23 36 36"
+      width={size}
+      height={size}
+      fill="currentColor"
+      className={className}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M22.725 10.108a8.205 8.205 0 0 1 11.589.607l.388.431.005.005c1.761 1.903 2.844 4.188 2.793 5.87v.005c-.01.41-.126.826-.358 1.203l-.028.045-.067.107-.249.386a50 50 0 0 1-4.099 5.427c-1.295 1.482-2.846 3.042-4.521 4.25-1.632 1.175-3.657 2.217-5.848 2.217-2.166 0-4.25-1.022-5.962-2.172-1.77-1.186-3.46-2.725-4.897-4.197a58 58 0 0 1-3.58-4.054 57 57 0 0 1-1.33-1.719l-.078-.105-.03-.042c-.213-.336-.35-.575-.423-1.036a2.39 2.39 0 0 1 .82-2.21c.646-.55 1.49-.65 2.05-.51.72.16 1.14.53 1.45.948l.001.001.001.002.015.02.061.083.25.334a53 53 0 0 0 4.23 4.931c1.32 1.351 2.749 2.635 4.136 3.565 1.442.968 2.55 1.357 3.286 1.357.544 0 1.262-.216 2.135-.721l.609-.352-.532-.46a5 5 0 0 1-.482-.472l-1.942-2.156a8.205 8.205 0 0 1 .607-11.588m9.107 7.416a45 45 0 0 1-2.75 3.51l-.025.028-.35.4-3.01-2.97-.01-.01a3.402 3.402 0 1 1 5.057-4.553l.388.431c.377.418.699.882.858 1.4a2.33 2.33 0 0 1-.11 1.678l-.02.046z"
+      />
+    </svg>
+  );
+}
+
+const SOCIAL_ICONS = {
+  twitch: TwitchLogo,
+  discord: DiscordLogo,
+  twitter: TwitterLogo,
+  youtube: YoutubeLogo,
+  kofi: Coffee,
+  vgen: VgenMark,
+  pixiv: PixivMark,
+  email: EnvelopeSimple,
+};
 
 export function SocialLinks({ size = 24, className = "" }) {
   return (
     <div className={`flex flex-wrap items-center gap-[14px] sm:gap-[18px] text-[#efe8e9] ${className}`}>
-      {SOCIAL_LINKS.map(({ name, href, Icon }) => (
-        <a
-          key={name}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={name}
-          className="opacity-90 hover:opacity-100 transition-opacity"
-        >
-          <Icon size={size} weight="fill" />
-        </a>
-      ))}
+      {consts.socials().map(({ name, href, iconKey }) => {
+        const Icon = SOCIAL_ICONS[iconKey];
+        if (!Icon) return null;
+        const isMail = href.startsWith("mailto:");
+        return (
+          <a
+            key={name}
+            href={href}
+            target={isMail ? undefined : "_blank"}
+            rel={isMail ? undefined : "noopener noreferrer"}
+            aria-label={name}
+            className="opacity-90 hover:opacity-100 transition-opacity"
+          >
+            <Icon size={size} weight="fill" />
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -224,32 +250,6 @@ export function Navigation() {
 
 const reviewArts = import.meta.glob("./assets/clients/*.webp", { eager: true, import: "default" });
 
-// Placeholder entries — swap name/source/text for the real reviews.
-// `file` picks the avatar art from the clients set.
-const REVIEWS = [
-  {
-    file: "besarexia-s",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-  {
-    file: "vexoria",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-  {
-    file: "luca-lullaby",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-];
-
 export function TitleBand({ as: Tag = "h2", children }) {
   return (
     <div className="bg-[#f2f2f2] py-[32px] w-full">
@@ -355,9 +355,10 @@ export function SectionDots({ sections }) {
 
 export function CommunityReviews({ id = "reviews" }) {
   const PER_PAGE = 3;
+  const reviews = consts.reviews();
   const [page, setPage] = useState(0);
-  const pages = Math.ceil(REVIEWS.length / PER_PAGE);
-  const visible = REVIEWS.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  const pages = Math.ceil(reviews.length / PER_PAGE);
+  const visible = reviews.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
   const navBtn =
     "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[40px] sm:size-[48px] rounded-full border border-solid border-[#5c1a23] bg-white text-[#5c1a23] cursor-pointer hover:bg-[#5c1a23] hover:text-white transition-colors";
 
@@ -376,11 +377,11 @@ export function CommunityReviews({ id = "reviews" }) {
           </>
         )}
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-[16px] px-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 items-stretch md:gap-[24px]">
-          {visible.map((r, i) => (
+          {visible.map((r) => (
             <ReviewCard
-              key={`${page}-${i}`}
+              key={r.file}
               {...r}
-              className={`max-md:w-[82vw] max-md:shrink-0 max-md:snap-center ${visible.length === 3 && i === 2 ? "md:col-span-2 md:max-w-[calc(50%-12px)] md:mx-auto lg:col-span-1 lg:max-w-none" : ""}`}
+              className={`max-md:w-[82vw] max-md:shrink-0 max-md:snap-center ${visible.length === 3 && visible.indexOf(r) === 2 ? "md:col-span-2 md:max-w-[calc(50%-12px)] md:mx-auto lg:col-span-1 lg:max-w-none" : ""}`}
             />
           ))}
         </div>
@@ -434,21 +435,22 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      open
       aria-label={item.alt || "Image preview"}
-      onClick={onClose}
-      className="fixed inset-0 z-50 bg-[rgba(13,13,13,0.92)] flex items-center justify-center p-4 sm:p-8"
+      className="fixed inset-0 z-50 m-0 size-full max-w-none max-h-none border-0 bg-[rgba(13,13,13,0.92)] flex items-center justify-center p-4 sm:p-8"
     >
       <button
         type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
+        onClick={onClose}
+        aria-label="Close lightbox backdrop"
+        className="fixed inset-0 border-0 bg-transparent p-0 cursor-default"
+      />
+      <button
+        type="button"
+        onClick={onClose}
         aria-label="Close lightbox"
-        className="fixed top-4 right-4 z-10 w-[44px] h-[44px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+        className="fixed top-4 right-4 z-20 w-[44px] h-[44px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
       >
         <X size={22} weight="bold" />
       </button>
@@ -456,39 +458,39 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
       {canNav && (
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            step(-1);
-          }}
+          onClick={() => step(-1)}
           aria-label="Previous image"
-          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
         >
           <CaretLeft size={22} weight="bold" />
         </button>
       )}
 
-      <figure
-        onClick={(e) => e.stopPropagation()}
-        className="relative flex flex-col items-center justify-center max-w-[92vw] max-h-[90dvh]"
-      >
-        <div className="overflow-hidden rounded-[8px] flex items-center justify-center">
+      <figure className="relative z-10 flex flex-col items-center justify-center max-w-[92vw] max-h-[90dvh] m-0">
+        <button
+          type="button"
+          aria-label={zoomed ? "Zoom out image" : "Zoom in image"}
+          onMouseMove={handleMouseMove}
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            setOrigin(`${x}% ${y}%`);
+            setZoomed((z) => !z);
+          }}
+          className={`block border-0 bg-transparent p-0 overflow-hidden rounded-[8px] flex items-center justify-center ${
+            zoomed ? "cursor-zoom-out" : "cursor-zoom-in"
+          }`}
+        >
           <img
             src={item.src}
             alt={item.alt}
-            onMouseMove={handleMouseMove}
-            onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = ((e.clientX - rect.left) / rect.width) * 100;
-              const y = ((e.clientY - rect.top) / rect.height) * 100;
-              setOrigin(`${x}% ${y}%`);
-              setZoomed((z) => !z);
-            }}
             style={{ transformOrigin: origin }}
             className={`max-w-[92vw] max-h-[84dvh] w-auto h-auto object-contain select-none transition-transform duration-200 ${
-              zoomed ? "scale-[2.2] cursor-zoom-out" : "scale-100 cursor-zoom-in"
+              zoomed ? "scale-[2.2]" : "scale-100"
             }`}
           />
-        </div>
+        </button>
         {item.caption && (
           <figcaption className="mt-3 font-cormorant italic font-bold leading-[1.2] text-[#efe8e9] text-[24px] sm:text-[28px] text-center">
             {item.caption}
@@ -499,39 +501,21 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
       {canNav && (
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            step(1);
-          }}
+          onClick={() => step(1)}
           aria-label="Next image"
-          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
         >
           <CaretRight size={22} weight="bold" />
         </button>
       )}
-    </div>
+    </dialog>
   );
 }
 
-const WORK_PORTRAITS = ["ayano", "gomurya", "easter"];
-const WORK_LANDSCAPES = ["asher", "coloso", "galaxy", "grand-mother-silk", "koto-pond", "nailpolish", "seikawallpaper"];
+const { portraits: WORK_PORTRAITS, landscapes: WORK_LANDSCAPES, mobileSlides: MOBILE_WORK_SLIDES, anim: WORK_ANIM } = consts.myWork();
 const WORK_ALL = [...WORK_PORTRAITS, ...WORK_LANDSCAPES];
-const workAlt = (f) => f.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+const workAlt = (f) => f.replaceAll("-", " ").replace(/\b\w/gu, (c) => c.toUpperCase());
 const WORK_LIGHTBOX_ITEMS = WORK_ALL.map((file) => ({ src: workArt(file), alt: workAlt(file) }));
-
-const MOBILE_WORK_SLIDES = [
-  ["ayano"],
-  ["asher", "coloso"],
-  ["gomurya"],
-  ["galaxy", "grand-mother-silk"],
-  ["easter"],
-  ["koto-pond", "nailpolish"],
-  ["seikawallpaper"],
-];
-
-const WORK_ANIM_DUR = 260;
-const WORK_ANIM_STAGGER = 65;
-const WORK_ANIM_DIST = 72;
 
 function animateWorkColumns(gridEl, keyframes, reverse, activeAnimsRef) {
   if (!gridEl) return Promise.resolve();
@@ -543,8 +527,8 @@ function animateWorkColumns(gridEl, keyframes, reverse, activeAnimsRef) {
   });
   const anims = items.map((el) =>
     el.firstElementChild.animate(keyframes, {
-      duration: WORK_ANIM_DUR,
-      delay: lefts.indexOf(el.offsetLeft) * WORK_ANIM_STAGGER,
+      duration: WORK_ANIM.duration,
+      delay: lefts.indexOf(el.offsetLeft) * WORK_ANIM.stagger,
       easing: "ease-in-out",
       fill: "both",
     })
@@ -558,10 +542,12 @@ export function MyWork({ id = "work" }) {
   const [busy, setBusy] = useState(false);
   const [mobileSlide, setMobileSlide] = useState(0);
   const trackRef = useRef(null);
+  const desktopWrapRef = useRef(null);
   const desktopGridRef = useRef(null);
   const pendingEnterRef = useRef(null);
   const activeAnimsRef = useRef([]);
   const mountedRef = useRef(true);
+  const goDesktopRef = useRef(null);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -569,6 +555,16 @@ export function MyWork({ id = "work" }) {
       mountedRef.current = false;
       activeAnimsRef.current.forEach((a) => a.cancel());
     };
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (!desktopWrapRef.current?.contains(document.activeElement)) return;
+      if (e.key === "ArrowRight") goDesktopRef.current?.(1);
+      if (e.key === "ArrowLeft") goDesktopRef.current?.(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   useLayoutEffect(() => {
@@ -607,7 +603,7 @@ export function MyWork({ id = "work" }) {
       return;
     }
     setBusy(true);
-    const shift = -dir * WORK_ANIM_DIST;
+    const shift = -dir * WORK_ANIM.distance;
     const reverse = dir < 0;
     await animateWorkColumns(
       desktopGridRef.current,
@@ -625,12 +621,13 @@ export function MyWork({ id = "work" }) {
 
   const at = (pool, offset) => pool[(((step * 2 + offset) % pool.length) + pool.length) % pool.length];
   const [lightboxIdx, setLightboxIdx] = useState(null);
+  goDesktopRef.current = goDesktop;
 
   const slots = [
-    { file: at(WORK_PORTRAITS, 0), desktopClass: "md:aspect-[3/4] lg:aspect-auto lg:col-span-1 lg:row-span-2", imgPos: "object-top" },
-    { file: at(WORK_PORTRAITS, 1), desktopClass: "md:aspect-[3/4] lg:aspect-auto lg:col-span-1 lg:row-span-2", imgPos: "object-top" },
-    { file: at(WORK_LANDSCAPES, 0), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-[50%_25%]" },
-    { file: at(WORK_LANDSCAPES, 1), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-center" },
+    { id: "portrait-left", file: at(WORK_PORTRAITS, 0), desktopClass: "md:aspect-[3/4] lg:aspect-auto lg:col-span-1 lg:row-span-2", imgPos: "object-top" },
+    { id: "portrait-right", file: at(WORK_PORTRAITS, 1), desktopClass: "md:aspect-[3/4] lg:aspect-auto lg:col-span-1 lg:row-span-2", imgPos: "object-top" },
+    { id: "landscape-top", file: at(WORK_LANDSCAPES, 0), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-[50%_25%]" },
+    { id: "landscape-bottom", file: at(WORK_LANDSCAPES, 1), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-center" },
   ];
   const navBtn =
     "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[40px] sm:size-[48px] rounded-full border border-[#efe8e9]/25 bg-[rgba(32,9,12,0.8)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] disabled:opacity-40 disabled:cursor-default transition-colors shadow-md";
@@ -668,21 +665,27 @@ export function MyWork({ id = "work" }) {
               }}
               className="flex h-full w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              {MOBILE_WORK_SLIDES.map((group, idx) => (
+              {MOBILE_WORK_SLIDES.map((group) => (
                 <div
-                  key={idx}
+                  key={group.join("-")}
                   className="w-full h-full shrink-0 snap-center flex flex-col items-center justify-center gap-[16px] px-[4px]"
                 >
                   {group.map((file) => (
-                    <img
+                    <button
                       key={file}
-                      alt={workAlt(file)}
+                      type="button"
                       onClick={() => setLightboxIdx(WORK_ALL.indexOf(file))}
-                      className={`max-w-full w-auto h-auto object-contain rounded-[6px] cursor-zoom-in ${
+                      aria-label={`Open ${workAlt(file)} in full view`}
+                      className={`flex items-center justify-center border-0 bg-transparent p-0 cursor-zoom-in ${
                         group.length > 1 ? "max-h-[calc(50%-8px)]" : "max-h-full"
                       }`}
-                      src={workArt(file)}
-                    />
+                    >
+                      <img
+                        alt={workAlt(file)}
+                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-[6px]"
+                        src={workArt(file)}
+                      />
+                    </button>
                   ))}
                 </div>
               ))}
@@ -695,9 +698,9 @@ export function MyWork({ id = "work" }) {
             </button>
           </div>
           <div className="flex items-center justify-center gap-[8px] shrink-0 pb-[4px]">
-            {MOBILE_WORK_SLIDES.map((_, idx) => (
+            {MOBILE_WORK_SLIDES.map((group, idx) => (
               <button
-                key={idx}
+                key={group.join("-")}
                 type="button"
                 aria-label={`View artworks slide ${idx + 1}`}
                 aria-current={mobileSlide === idx ? "true" : undefined}
@@ -711,26 +714,25 @@ export function MyWork({ id = "work" }) {
         </div>
 
         {/* Tablet (2x2 proportional) & desktop (3-col bento) with column-staggered transition */}
-        <div
-          className="relative hidden md:block focus:outline-none"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight") goDesktop(1);
-            if (e.key === "ArrowLeft") goDesktop(-1);
-          }}
-        >
+        <div ref={desktopWrapRef} className="relative hidden md:block">
           <div
             ref={desktopGridRef}
             className="relative grid overflow-hidden md:grid-cols-2 md:gap-[16px] lg:grid-cols-[1fr_1fr_1.2fr] lg:grid-rows-2 lg:gap-[16px] xl:gap-[20px] lg:h-[min(calc(100dvh-210px),480px)] xl:h-[min(calc(100dvh-220px),580px)]"
           >
-            {slots.map(({ file, desktopClass, imgPos }, idx) => (
-              <div key={idx} className={`relative ${desktopClass}`}>
-                <img
-                  alt={workAlt(file)}
+            {slots.map(({ id: slotId, file, desktopClass, imgPos }) => (
+              <div key={slotId} className={`relative ${desktopClass}`}>
+                <button
+                  type="button"
                   onClick={() => setLightboxIdx(WORK_ALL.indexOf(file))}
-                  className={`absolute inset-0 size-full object-cover ${imgPos} rounded-[6px] cursor-zoom-in`}
-                  src={workArt(file)}
-                />
+                  aria-label={`Open ${workAlt(file)} in full view`}
+                  className="absolute inset-0 size-full border-0 bg-transparent p-0 overflow-hidden rounded-[6px] cursor-zoom-in"
+                >
+                  <img
+                    alt={workAlt(file)}
+                    className={`size-full object-cover ${imgPos}`}
+                    src={workArt(file)}
+                  />
+                </button>
               </div>
             ))}
           </div>
@@ -781,14 +783,6 @@ function FormField({ label, required, placeholder, name, type = "text" }) {
   );
 }
 
-const COMMISSION_TYPES = [
-  "Illustration",
-  "Live2D Artwork",
-  "Live2D Rigging",
-  "Live2D Artwork + Rigging",
-  "Other",
-];
-
 function CommissionTypeField() {
   return (
     <label className="flex w-full md:flex-1 md:min-w-0 flex-col gap-[4px] items-start">
@@ -803,7 +797,7 @@ function CommissionTypeField() {
           <option value="" disabled>
             Select a type
           </option>
-          {COMMISSION_TYPES.map((t) => (
+          {consts.commissionTypes().map((t) => (
             <option key={t} value={t}>
               {t}
             </option>
@@ -818,12 +812,26 @@ function CommissionTypeField() {
 const ACCEPTED_FILES = ".jpg,.jpeg,.png,.pdf,.psd,.ai,.doc,.docx,.ppt,.pptx";
 
 function FileUpload({ files, setFiles }) {
+  const inputRef = useRef(null);
   const addFiles = (list) => setFiles((prev) => [...prev, ...Array.from(list)]);
-  const removeFile = (i) => setFiles((prev) => prev.filter((_, idx) => idx !== i));
+  const removeFile = (targetFile) => setFiles((prev) => prev.filter((f) => f !== targetFile));
 
   return (
     <div className="flex flex-col gap-[8px] w-full items-center">
-      <label
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        accept={ACCEPTED_FILES}
+        className="sr-only"
+        onChange={(e) => {
+          if (e.target.files?.length) addFiles(e.target.files);
+          e.target.value = "";
+        }}
+      />
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
         className="relative w-[524px] max-w-full min-h-[202px] px-[16px] py-[20px] bg-[#f4f4f4] border border-[#ccb8bb] border-dashed rounded-[4px] flex flex-col items-center justify-center gap-[10px] cursor-pointer transition-colors hover:bg-[#efe8e9]"
         onDragOver={(e) => {
           e.preventDefault();
@@ -836,16 +844,6 @@ function FileUpload({ files, setFiles }) {
           if (e.dataTransfer.files?.length) addFiles(e.dataTransfer.files);
         }}
       >
-        <input
-          type="file"
-          multiple
-          accept={ACCEPTED_FILES}
-          className="sr-only"
-          onChange={(e) => {
-            if (e.target.files?.length) addFiles(e.target.files);
-            e.target.value = "";
-          }}
-        />
         <CloudArrowUp size={56} color="#5c1a23" weight="light" aria-hidden="true" />
         <p className="font-raleway text-[16px] text-center m-0">
           <span className="text-[#0d0d0d]">Drag &amp; drop files or </span>
@@ -854,12 +852,12 @@ function FileUpload({ files, setFiles }) {
         <p className="font-raleway leading-[1.2] text-[#727272] text-[12px] text-center m-0">
           Supported formats: JPEG, PNG, PDF, PSD, AI, Word, PPT
         </p>
-      </label>
+      </button>
       {files.length > 0 && (
         <ul className="w-[524px] max-w-full list-none m-0 p-0 flex flex-col gap-[4px]">
-          {files.map((file, i) => (
+          {files.map((file) => (
             <li
-              key={`${file.name}-${i}`}
+              key={`${file.name}-${file.size}-${file.lastModified}`}
               className="flex items-center justify-between gap-[8px] bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-[6px] px-[8px] py-[6px]"
             >
               <span className="font-raleway text-[#0d0d0d] text-[13px] truncate">
@@ -868,7 +866,7 @@ function FileUpload({ files, setFiles }) {
               </span>
               <button
                 type="button"
-                onClick={() => removeFile(i)}
+                onClick={() => removeFile(file)}
                 aria-label={`Remove ${file.name}`}
                 className="shrink-0 cursor-pointer border-0 bg-transparent p-0 font-raleway text-[#5c1a23] text-[13px] underline"
               >
@@ -915,12 +913,12 @@ export function ContactCTA() {
               </div>
             </div>
             {submitted ? (
-              <div className="w-full py-[48px] text-center" role="status">
+              <output className="block w-full py-[48px] text-center">
                 <p className="font-cormorant text-[#0d0d0d] text-[30px] leading-[1.2] m-0">Thank you!</p>
                 <p className="font-raleway text-[#262626] text-[14px] leading-[1.5] mt-[12px] mb-0">
-                  Your commission request has been received. I'll get back to you within 1–2 days.
+                  Your commission request has been received. I&apos;ll get back to you within 1–2 days.
                 </p>
-              </div>
+              </output>
             ) : (
               <form className="flex flex-col gap-[16px] items-center w-full" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row gap-[16px] md:gap-[8px] items-start w-full">
@@ -948,7 +946,7 @@ export function ContactCTA() {
                 <div className="flex flex-col gap-[8px] items-center w-full">
                   <p className="font-cormorant leading-[1.2] w-full text-[#262626] text-[24px] m-0">References</p>
                   <p className="font-raleway leading-[1.2] w-full text-[#262626] text-[12px] m-0">
-                    If you're requesting rigging or animation, please include your PSD file. For art, If you don't have any references yet, that's totally fine! Just try to describe your idea in as much detail as you can.
+                    If you&apos;re requesting rigging or animation, please include your PSD file. For art, If you don&apos;t have any references yet, that&apos;s totally fine! Just try to describe your idea in as much detail as you can.
                   </p>
                   <FileUpload files={files} setFiles={setFiles} />
                 </div>
@@ -970,27 +968,7 @@ export function ContactCTA() {
 export function Footer() {
   return (
     <footer className="relative w-full bg-[#45141a] md:snap-end">
-      <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[20px] md:px-[40px] py-[20px] md:py-[24px] flex flex-col items-center gap-[12px] md:gap-[16px]">
-        <div className="w-full max-w-[820px] flex flex-wrap justify-center md:grid md:grid-cols-[1fr_auto_1fr] items-center gap-x-[20px] gap-y-[8px] md:gap-[32px] lg:gap-[48px]">
-          <div className="flex flex-wrap justify-center md:justify-end font-raleway gap-x-[20px] md:gap-x-[32px] lg:gap-[48px] items-center leading-[1.4] text-[#efe8e9] text-[13px] md:text-[14px] whitespace-nowrap">
-            <Link to="/" className="shrink-0 no-underline text-[#efe8e9] hover:text-[#bfeaff] transition-colors">Home</Link>
-            <Link to="/commissions" className="shrink-0 no-underline text-[#efe8e9] hover:text-[#bfeaff] transition-colors">Comissions</Link>
-          </div>
-          <Link
-            to="/"
-            aria-label="Mia Paprika home"
-            className="hidden md:flex items-center justify-center shrink-0 cursor-pointer"
-          >
-            <img alt="Mia Paprika" className="h-[46px] w-auto object-contain pointer-events-none" src={mainLogo} />
-          </Link>
-          <div className="flex flex-wrap justify-center md:justify-start font-raleway gap-x-[20px] md:gap-x-[32px] lg:gap-[48px] items-center leading-[1.4] text-[#efe8e9] text-[13px] md:text-[14px] whitespace-nowrap">
-            <Link to="/portfolio" className="shrink-0 no-underline text-[#efe8e9] hover:text-[#bfeaff] transition-colors">Portfolio</Link>
-            <Link to="/terms" className="shrink-0 no-underline text-[#efe8e9] hover:text-[#bfeaff] transition-colors">Terms &amp; Conditions</Link>
-          </div>
-        </div>
-        <div className="hidden md:block w-full max-w-[880px] h-px relative opacity-70">
-          <img alt="" className="block max-w-none size-full" src={footerDivider} />
-        </div>
+      <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[20px] md:px-[40px] py-[20px] md:py-[24px] flex flex-col items-center gap-[12px] md:gap-[14px]">
         <div className="flex items-center justify-center">
           <SocialLinks size={22} className="justify-center" />
         </div>

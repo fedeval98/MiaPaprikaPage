@@ -9,7 +9,8 @@ import showcaseVideo1 from "./assets/videos/showcase-1.mp4";
 import showcaseVideo1Poster from "./assets/videos/showcase-1-poster.webp";
 import showcaseVideo2 from "./assets/videos/showcase-2.mp4";
 import showcaseVideo2Poster from "./assets/videos/showcase-2-poster.webp";
-import { Navigation, ContactCTA, Footer, TitleBand, CommunityReviews, ImageLightbox } from "./shared.jsx";
+import { Navigation, ContactCTA, Footer, TitleBand, MyWork, ImageLightbox } from "./shared.jsx";
+import { consts } from "./Consts.js";
 
 const GALLERY_ITEMS = [
   { type: "video", src: showcaseVideo1, poster: showcaseVideo1Poster, label: "Showcase video 1" },
@@ -26,62 +27,7 @@ const clientArts = import.meta.glob("./assets/clients/*.webp", { eager: true, im
 // Full-res variants, only fetched when the lightbox shows them.
 const clientArtsHd = import.meta.glob("./assets/clients-hd/*.webp", { eager: true, import: "default" });
 
-// Newest commissions first (Drive folders 2026 -> 2022). `zoom` overrides the
-// default head crop for arts whose framing needs it.
-const CLIENTS = [
-  { file: "besarexia-s", name: "Besaxeria" },
-  { file: "vexoria", name: "Vexoria" },
-  { file: "luca-lullaby", name: "LucaLullaby" },
-  { file: "reo-techiya", name: "Reo Techiya" },
-  { file: "moomi", name: "Moomi" },
-  { file: "coventryy", name: "Coventryy" },
-  { file: "megan", name: "Megan" },
-  { file: "glitchy", name: "Glitchy" },
-  { file: "ludo", name: "Ludo" },
-  { file: "sordidj", name: "Sordidj" },
-  { file: "mochi-braids", name: "Mirune Mochi" },
-  { file: "lunar-elsa-v2", name: "LunarElsa" },
-  { file: "may-kitsune", name: "May Kitsune" },
-  { file: "vivi-fellow", name: "Vivi Fellow" },
-  { file: "kabuki", name: "Kabuki" },
-  { file: "octo", name: "Octo" },
-  { file: "koara", name: "Koara" },
-  { file: "psycho-veee", name: "Psycho Veee" },
-  { file: "taiga-pipe", name: "Taiga" },
-  { file: "demythical", name: "Demythical" },
-  { file: "azu-ryuna", name: "AzuRyuna" },
-  { file: "muimina", name: "Muimina", zoom: "h-[420%] mt-[-190px]" },
-  { file: "zavalr", name: "Zavalr" },
-  { file: "lunar-elsa", name: "LunarElsa", zoom: "h-[300%]" },
-  { file: "demize", name: "Demize" },
-  { file: "eremes-ng", name: "Eremes" },
-  { file: "cuchu-nemurin", name: "CuchuNemurin" },
-  { file: "galaxy", name: "Galaxy" },
-  { file: "alyss-sourscream", name: "Alyss Sourscream" },
-  { file: "cindyrockssch", name: "Cindyrocks" },
-  { file: "coventryywt", name: "Coventryy" },
-  { file: "cryoladyx", name: "CryoLadyx", zoom: "h-[420%] mt-[-180px]" },
-  { file: "demythical-2022", name: "Demythical" },
-  { file: "fabitoh", name: "Fabitoh", zoom: "h-[400%] mt-[-90px]" },
-  { file: "girlofnox", name: "GirlOfNox" },
-  { file: "grin", name: "Grin" },
-  { file: "halo", name: "Halo", zoom: "h-[400%] mt-[-195px]" },
-  { file: "itsfirekeeperqa", name: "Itsfirekeeperqa", zoom: "h-[300%] mt-[-95px]" },
-  { file: "maevey", name: "Maevey" },
-  { file: "remmychu", name: "Remmychu" },
-  { file: "skatinmonkgu", name: "SkatinmonkGU" },
-  { file: "soreyya", name: "Soreyya" },
-  { file: "trace", name: "Träce" },
-  { file: "zayaorejas", name: "Zayaorejas" },
-  // 2021
-  { file: "y2021-1", name: "Yasashi" },
-  { file: "y2021-2", name: "Meizu" },
-  { file: "y2021-3", name: "Moon" },
-  { file: "y2021-4", name: "Maaka" },
-  { file: "y2021-5", name: "Prelettis" },
-];
-
-const CLIENT_LIGHTBOX_ITEMS = CLIENTS.map((c) => ({
+const CLIENT_LIGHTBOX_ITEMS = consts.clients().map((c) => ({
   src: clientArtsHd[`./assets/clients-hd/${c.file}.webp`] ?? clientArts[`./assets/clients/${c.file}.webp`],
   alt: c.name ? `${c.name} full model` : "Client full model",
   caption: c.name,
@@ -133,7 +79,7 @@ function Gallery() {
             className="flex w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-[10px]"
           >
             {GALLERY_ITEMS.map((item, i) => (
-              <div key={i} className="w-full shrink-0 snap-center flex items-center justify-center">
+              <div key={item.label} className="w-full shrink-0 snap-center flex items-center justify-center">
                 {item.type === "video" ? (
                   <video
                     ref={(el) => (videoRefs.current[i] = el)}
@@ -144,14 +90,22 @@ function Gallery() {
                     controls
                     playsInline
                     preload="none"
-                  />
+                  >
+                    <track kind="captions" label="Visual showcase (no dialogue)" />
+                  </video>
                 ) : (
-                  <img
-                    alt={item.label}
+                  <button
+                    type="button"
                     onClick={() => setLightboxIdx(GALLERY_IMAGES.indexOf(item))}
-                    className="w-full aspect-video max-h-[calc(100dvh-140px)] md:max-h-[calc(100dvh-168px)] rounded-[10px] object-contain cursor-zoom-in"
-                    src={item.src}
-                  />
+                    aria-label={`Open ${item.label} in full view`}
+                    className="block w-full border-0 bg-transparent p-0 cursor-zoom-in"
+                  >
+                    <img
+                      alt={item.label}
+                      className="w-full aspect-video max-h-[calc(100dvh-140px)] md:max-h-[calc(100dvh-168px)] rounded-[10px] object-contain"
+                      src={item.src}
+                    />
+                  </button>
                 )}
               </div>
             ))}
@@ -167,7 +121,7 @@ function Gallery() {
         <div className="flex items-center justify-center gap-[8px] mt-[14px] md:mt-[18px]">
           {GALLERY_ITEMS.map((item, idx) => (
             <button
-              key={idx}
+              key={item.label}
               type="button"
               aria-label={`View ${item.label}`}
               aria-current={slide === idx ? "true" : undefined}
@@ -217,11 +171,12 @@ function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
 
 function Clients() {
   const [openIdx, setOpenIdx] = useState(null);
+  const clients = consts.clients();
 
   return (
     <section className="bg-[#45141a] w-full py-[24px] md:py-[32px]">
       <div className="max-w-[1440px] mx-auto px-[16px] md:px-[24px] flex flex-wrap items-start justify-center gap-y-[24px] md:gap-y-[32px]">
-        {CLIENTS.map((c, idx) => (
+        {clients.map((c, idx) => (
           <ClientCard key={c.file} {...c} onClick={() => setOpenIdx(idx)} />
         ))}
       </div>
@@ -249,7 +204,7 @@ export default function Portfolio() {
         <TitleBand>Clients</TitleBand>
         <Clients />
       </section>
-      <CommunityReviews />
+      <MyWork />
       <ContactCTA />
       <Footer />
     </div>
