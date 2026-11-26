@@ -141,10 +141,12 @@ export default function Commissions() {
     <div className="relative">
       <Navigation />
       <SectionDots sections={consts.sections("commissions")} />
-      <VtuberModels />
-      <Illustrations />
-      <MyWork />
-      <ContactCTA />
+      <main>
+        <VtuberModels />
+        <Illustrations />
+        <MyWork />
+        <ContactCTA />
+      </main>
       <Footer />
     </div>
   );

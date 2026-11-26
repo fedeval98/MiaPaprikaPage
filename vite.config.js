@@ -10,8 +10,18 @@ function preconnectMedia(mediaUrl) {
       return [
         {
           tag: 'link',
-          attrs: { rel: 'preconnect', href: mediaUrl, crossorigin: '' },
-          injectTo: 'head',
+          attrs: { rel: 'preconnect', href: mediaUrl },
+          injectTo: 'head-prepend',
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preload',
+            as: 'image',
+            href: `${mediaUrl}/figma/hero-background.webp`,
+            fetchpriority: 'high',
+          },
+          injectTo: 'head-prepend',
         },
       ]
     },

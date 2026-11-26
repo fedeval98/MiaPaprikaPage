@@ -176,16 +176,18 @@ export default function Portfolio() {
   return (
     <div className="relative">
       <Navigation />
-      <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)] bg-[#f2f2f2] flex flex-col">
-        <h1 className="sr-only">Portfolio</h1>
-        <Gallery />
-      </section>
-      <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)]">
-        <TitleBand>Clients</TitleBand>
-        <Clients />
-      </section>
-      <MyWork />
-      <ContactCTA />
+      <main>
+        <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)] bg-[#f2f2f2] flex flex-col">
+          <h1 className="sr-only">Portfolio</h1>
+          <Gallery />
+        </section>
+        <section className="min-h-[calc(100dvh-60px)] md:min-h-[calc(100dvh-76px)]">
+          <TitleBand>Clients</TitleBand>
+          <Clients />
+        </section>
+        <MyWork />
+        <ContactCTA />
+      </main>
       <Footer />
     </div>
   );

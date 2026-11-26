@@ -894,6 +894,28 @@ function FileUpload({ files, setFiles }) {
 export function ContactCTA() {
   const [files, setFiles] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [bgReady, setBgReady] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || bgReady) return;
+    if (!("IntersectionObserver" in window)) {
+      setBgReady(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setBgReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [bgReady]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -904,13 +926,18 @@ export function ContactCTA() {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
-      className="relative w-full bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-[80px] pb-[48px] md:pt-[104px] md:pb-[72px] md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
-      style={{ backgroundImage: `url("${consts.media("figma/cta-center.webp")}")` }}
+      className="relative w-full bg-[#0d0d0d] bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-[80px] pb-[48px] md:pt-[104px] md:pb-[72px] md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
+      style={bgReady ? { backgroundImage: `url("${consts.media("figma/cta-center.webp")}")` } : undefined}
     >
       <div
         className="absolute bg-size-[1024px_1024px,auto_auto] bg-top-left inset-0"
-        style={{ backgroundImage: `url("${consts.media("figma/cta-background.webp")}"), linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)` }}
+        style={{
+          backgroundImage: bgReady
+            ? `url("${consts.media("figma/cta-background.webp")}"), linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)`
+            : "linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)",
+        }}
       />
       <div className="relative w-full max-w-[1440px] mx-auto px-[16px] md:px-[24px]">
         <div className="relative flex flex-col gap-[16px] items-center justify-center mx-auto w-full max-w-[604px]">

@@ -8,8 +8,19 @@ function Hero() {
 
   useEffect(() => {
     if (navigator.connection?.saveData) return;
+    const start = () => setVideoSrc(consts.media("videos/showcase-1.mp4"));
+
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      const events = ["pointerdown", "touchstart", "scroll", "keydown"];
+      const onInteract = () => {
+        events.forEach((ev) => window.removeEventListener(ev, onInteract));
+        start();
+      };
+      events.forEach((ev) => window.addEventListener(ev, onInteract, { once: true, passive: true }));
+      return () => events.forEach((ev) => window.removeEventListener(ev, onInteract));
+    }
+
     const queueVideo = () => {
-      const start = () => setVideoSrc(consts.media("videos/showcase-1.mp4"));
       if ("requestIdleCallback" in window) {
         const idleId = window.requestIdleCallback(start);
         return () => window.cancelIdleCallback(idleId);
@@ -140,11 +151,13 @@ export default function Home() {
     <div className="relative">
       <Navigation />
       <SectionDots sections={consts.sections("home")} />
-      <Hero />
-      <FeatureQuote />
-      <CommunityReviews />
-      <MyWork />
-      <ContactCTA />
+      <main>
+        <Hero />
+        <FeatureQuote />
+        <CommunityReviews />
+        <MyWork />
+        <ContactCTA />
+      </main>
       <Footer />
     </div>
   );

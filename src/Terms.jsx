@@ -85,9 +85,9 @@ export default function Terms() {
   return (
     <div className="relative">
       <Navigation />
-
-      {/* Hero */}
-      <section className="relative w-full overflow-hidden min-h-[calc(100dvh-60px)] md:min-h-[430px] flex items-center">
+      <main>
+        {/* Hero */}
+        <section className="relative w-full overflow-hidden min-h-[calc(100dvh-60px)] md:min-h-[430px] flex items-center">
         <img alt="" className="absolute inset-0 w-full h-full object-cover" src={consts.media("figma/terms-hero-bg.webp")} />
         <img alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
         <div className="relative w-full max-w-[1440px] mx-auto px-[24px] md:px-[44px] py-[48px] md:py-[72px]">
@@ -157,7 +157,8 @@ export default function Terms() {
         </div>
       </section>
 
-      <ContactCTA />
+        <ContactCTA />
+      </main>
       <Footer />
     </div>
   );
