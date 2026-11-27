@@ -148,7 +148,7 @@ export default function Terms() {
   return (
     <div className="relative">
       <Navigation />
-      <main>
+      <main id="main-content">
         {/* Full-viewport editorial hero on desktop & mobile */}
         <section
           id="terms-hero"
@@ -156,12 +156,16 @@ export default function Terms() {
         >
           <img
             alt=""
+            width={1920}
+            height={729}
             fetchPriority="high"
             className="absolute inset-0 size-full object-cover"
             src={consts.media("figma/terms-hero-bg.webp")}
           />
           <img
             alt=""
+            width={1024}
+            height={1024}
             className="absolute inset-0 size-full object-cover opacity-30 pointer-events-none"
             src={consts.media("figma/noise-texture.webp")}
           />
@@ -191,7 +195,7 @@ export default function Terms() {
 
               <a
                 href="#terms-content"
-                className="mt-2 inline-flex items-center gap-2 rounded-full border border-[#efe8e9]/40 bg-[#efe8e9]/10 hover:bg-[#efe8e9] text-[#efe8e9] hover:text-[#45141a] px-6 py-2.5 font-raleway font-medium text-[14px] sm:text-[15px] no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
+                className="mt-2 inline-flex items-center justify-center gap-2 min-h-11 rounded-full border border-[#efe8e9]/40 bg-[#efe8e9]/10 hover:bg-[#efe8e9] text-[#efe8e9] hover:text-[#45141a] px-6 py-2.5 font-raleway font-medium text-[14px] sm:text-[15px] no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
               >
                 <span>Read all {sections.length} sections</span>
                 <CaretDown size={16} weight="bold" aria-hidden="true" />

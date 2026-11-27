@@ -63,7 +63,7 @@ const SOCIAL_ICONS = {
 
 export function SocialLinks({ size = 24, className = "" }) {
   return (
-    <div className={`flex flex-wrap items-center gap-2 sm:gap-3 text-[#efe8e9] ${className}`}>
+    <div className={`flex flex-wrap items-center gap-0.5 sm:gap-1 text-[#efe8e9] ${className}`}>
       {consts.socials().map(({ name, href, iconKey }) => {
         const Icon = SOCIAL_ICONS[iconKey];
         if (!Icon) return null;
@@ -75,7 +75,7 @@ export function SocialLinks({ size = 24, className = "" }) {
             target={isMail ? undefined : "_blank"}
             rel={isMail ? undefined : "noopener noreferrer"}
             aria-label={name}
-            className="inline-flex items-center justify-center min-w-7 min-h-7 opacity-90 hover:opacity-100 transition-opacity"
+            className="inline-flex items-center justify-center min-w-11 min-h-11 rounded-md opacity-90 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
           >
             <Icon size={size} weight="fill" />
           </a>
@@ -89,8 +89,10 @@ export function ButtonPrimary({ label, dark, href = "#contact", sizeClass = "h-1
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center max-w-full shrink-0 rounded-[5px] font-roboto text-center leading-none cursor-pointer no-underline transition-opacity hover:opacity-95 ${sizeClass} ${
-        dark ? "bg-[#5c1a23] text-white" : "bg-[#efe8e9] text-[#5c1a23]"
+      className={`inline-flex items-center justify-center max-w-full shrink-0 rounded-[5px] font-raleway font-semibold text-center leading-none cursor-pointer no-underline transition-opacity hover:opacity-95 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 ${sizeClass} ${
+        dark
+          ? "bg-[#5c1a23] text-white focus-visible:outline-[#5c1a23]"
+          : "bg-[#efe8e9] text-[#5c1a23] focus-visible:outline-[#7dd3fc]"
       } ${className}`}
     >
       {label}
@@ -139,110 +141,118 @@ export function Navigation() {
   }, [pathname]);
 
   const desktopLinkClass = ({ isActive }) =>
-    `relative no-underline py-1 transition-colors ${
+    `relative no-underline py-1 rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7dd3fc] ${
       isActive
         ? "text-[#9be0ff] font-semibold drop-shadow-[0_0_8px_rgba(125,211,252,0.45)] after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-[#7dd3fc] after:shadow-[0_0_8px_rgba(125,211,252,0.85)]"
         : "text-[#efe8e9] hover:text-[#bfeaff]"
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
-    `no-underline transition-colors ${
+    `no-underline min-h-11 flex items-center rounded-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] ${
       isActive
         ? "text-[#9be0ff] font-semibold pl-2.5 border-l-2 border-[#7dd3fc] drop-shadow-[0_0_8px_rgba(125,211,252,0.4)]"
         : "text-[#efe8e9] pl-3 hover:text-[#bfeaff]"
     }`;
 
   return (
-    <nav className="sticky top-0 w-full h-15 md:h-19 bg-[#5c1a23]/95 backdrop-blur-sm border-b border-solid border-[rgba(255,255,255,0.8)] z-30">
-      <div className="relative w-full max-w-360 2xl:max-w-420 mx-auto h-full px-4 md:px-6 xl:px-10 flex items-center justify-end md:justify-between">
-        {/* Mobile: logo left, overhanging bar without shifting row center */}
-        <Link to="/" aria-label="Mia Paprika home" className="md:hidden absolute left-4 top-1.5 z-20 flex items-center">
-          <img
-            alt="Mia Paprika"
-            width={700}
-            height={411}
-            className="h-16 sm:h-17.5 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
-            src={consts.media("figma/main-logo.webp")}
-          />
-        </Link>
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-[#efe8e9] focus:px-4 focus:py-2.5 focus:font-raleway focus:font-semibold focus:text-[#5c1a23] focus:shadow-lg focus:outline-2 focus:outline-[#7dd3fc]"
+      >
+        Skip to content
+      </a>
+      <nav className="sticky top-0 w-full h-15 md:h-19 bg-[#5c1a23]/95 backdrop-blur-sm border-b border-solid border-[rgba(255,255,255,0.8)] z-30">
+        <div className="relative w-full max-w-360 2xl:max-w-420 mx-auto h-full px-4 md:px-6 xl:px-10 flex items-center justify-end md:justify-between">
+          {/* Mobile: logo left, overhanging bar without shifting row center */}
+          <Link to="/" aria-label="Mia Paprika home" className="md:hidden absolute left-4 top-1.5 z-20 flex items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]">
+            <img
+              alt="Mia Paprika"
+              width={700}
+              height={411}
+              className="h-16 sm:h-17.5 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
+              src={consts.media("figma/main-logo.webp")}
+            />
+          </Link>
 
-        {/* Desktop & Tablet left links */}
-        <div className="hidden md:flex font-raleway gap-4 lg:gap-5.5 xl:gap-7.5 items-center text-[#efe8e9] text-[14px] lg:text-[16px] xl:text-[18px] whitespace-nowrap">
-          <NavLink to="/" end className={desktopLinkClass}>
-            Home
-          </NavLink>
-          <NavLink to="/commissions" className={desktopLinkClass}>
-            Commissions
-          </NavLink>
-          <NavLink to="/portfolio" className={desktopLinkClass}>
-            Portfolio
-          </NavLink>
-          <NavLink to="/terms" className={(state) => `${desktopLinkClass(state)} lg:hidden`}>
-            Terms
-          </NavLink>
-        </div>
+          {/* Desktop & Tablet left links */}
+          <div className="hidden md:flex font-raleway gap-4 lg:gap-5.5 xl:gap-7.5 items-center text-[#efe8e9] text-[14px] lg:text-[16px] xl:text-[18px] whitespace-nowrap">
+            <NavLink to="/" end className={desktopLinkClass}>
+              Home
+            </NavLink>
+            <NavLink to="/commissions" className={desktopLinkClass}>
+              Commissions
+            </NavLink>
+            <NavLink to="/portfolio" className={desktopLinkClass}>
+              Portfolio
+            </NavLink>
+            <NavLink to="/terms" className={(state) => `${desktopLinkClass(state)} lg:hidden`}>
+              Terms
+            </NavLink>
+          </div>
 
-        {/* Tablet & Desktop centered logo overhanging sticky bar */}
-        <Link
-          to="/"
-          aria-label="Mia Paprika home"
-          className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1.5 lg:top-2 z-20 items-center justify-center cursor-pointer"
-        >
-          <img
-            alt="Mia Paprika"
-            width={700}
-            height={411}
-            className="h-20 lg:h-24 xl:h-27.5 w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
-            src={consts.media("figma/main-logo.webp")}
-          />
-        </Link>
-
-        {/* Tablet & Desktop right actions */}
-        <div className="hidden md:flex gap-5 xl:gap-8 items-center">
-          <NavLink
-            to="/terms"
-            className={(state) =>
-              `hidden lg:flex font-raleway text-[16px] xl:text-[18px] whitespace-nowrap ${desktopLinkClass(state)}`
-            }
+          {/* Tablet & Desktop centered logo overhanging sticky bar */}
+          <Link
+            to="/"
+            aria-label="Mia Paprika home"
+            className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1.5 lg:top-2 z-20 items-center justify-center cursor-pointer rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
           >
-            Terms &amp; conditions
-          </NavLink>
-          <ButtonPrimary label="Contact" sizeClass="h-10.5 lg:h-11 px-5 w-39 lg:w-43 xl:w-50 text-[16px] xl:text-[18px]" />
+            <img
+              alt="Mia Paprika"
+              width={700}
+              height={411}
+              className="h-20 lg:h-24 xl:h-27.5 w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
+              src={consts.media("figma/main-logo.webp")}
+            />
+          </Link>
+
+          {/* Tablet & Desktop right actions */}
+          <div className="hidden md:flex gap-5 xl:gap-8 items-center">
+            <NavLink
+              to="/terms"
+              className={(state) =>
+                `hidden lg:flex font-raleway text-[16px] xl:text-[18px] whitespace-nowrap ${desktopLinkClass(state)}`
+              }
+            >
+              Terms &amp; conditions
+            </NavLink>
+            <ButtonPrimary label="Contact" sizeClass="h-11 px-5 w-39 lg:w-43 xl:w-50 text-[16px] xl:text-[18px]" />
+          </div>
+
+          {/* Mobile right controls: quick Contact + menu toggle */}
+          <div className="flex md:hidden items-center gap-2">
+            <ButtonPrimary label="Contact" sizeClass="h-11 px-3.5 w-auto text-[14px]" />
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((o) => !o)}
+              className="flex items-center justify-center size-11 rounded-[5px] border border-[rgba(239,232,233,0.4)] bg-transparent text-[#efe8e9] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
+            >
+              {menuOpen ? <X size={22} /> : <List size={22} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile right controls: quick Contact + menu toggle */}
-        <div className="flex md:hidden items-center gap-2.5">
-          <ButtonPrimary label="Contact" sizeClass="h-8.5 px-3.5 w-auto text-[14px]" />
-          <button
-            type="button"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((o) => !o)}
-            className="flex items-center justify-center size-10 rounded-[5px] border border-[rgba(239,232,233,0.4)] bg-transparent text-[#efe8e9] cursor-pointer"
-          >
-            {menuOpen ? <X size={22} /> : <List size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown menu */}
-      {menuOpen && (
-        <div className="md:hidden absolute top-full inset-x-0 z-10 bg-[#5c1a23] border-b border-[rgba(255,255,255,0.4)] shadow-lg px-6 pt-6 pb-4.5 flex flex-col gap-3.5 font-raleway text-[17px]">
-          <NavLink to="/" end onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
-            Home
-          </NavLink>
-          <NavLink to="/commissions" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
-            Commissions
-          </NavLink>
-          <NavLink to="/portfolio" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
-            Portfolio
-          </NavLink>
-          <NavLink to="/terms" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
-            Terms &amp; conditions
-          </NavLink>
-        </div>
-      )}
-    </nav>
+        {/* Mobile dropdown menu */}
+        {menuOpen && (
+          <div className="md:hidden absolute top-full inset-x-0 z-10 bg-[#5c1a23] border-b border-[rgba(255,255,255,0.4)] shadow-lg px-6 pt-6 pb-4.5 flex flex-col gap-1.5 font-raleway text-[17px]">
+            <NavLink to="/" end onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
+              Home
+            </NavLink>
+            <NavLink to="/commissions" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
+              Commissions
+            </NavLink>
+            <NavLink to="/portfolio" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
+              Portfolio
+            </NavLink>
+            <NavLink to="/terms" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
+              Terms &amp; conditions
+            </NavLink>
+          </div>
+        )}
+      </nav>
+    </>
   );
 }
 
@@ -336,7 +346,7 @@ export function SectionDots({ sections, snap = true }) {
             aria-label={`Jump to ${label}`}
             aria-current={isActive ? "true" : undefined}
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
-            className="group relative flex items-center justify-center size-4 bg-transparent border-0 p-0 cursor-pointer"
+            className="group relative flex items-center justify-center size-4 bg-transparent border-0 p-0 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
           >
             <span
               aria-hidden="true"
@@ -364,6 +374,7 @@ export function CommunityReviews({ id = "reviews" }) {
   const PER_PAGE = 3;
   const reviews = consts.reviews();
   const [page, setPage] = useState(0);
+  if (reviews.length === 0) return null;
   const pages = Math.ceil(reviews.length / PER_PAGE);
   const visible = reviews.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
   const navBtn =
@@ -372,7 +383,7 @@ export function CommunityReviews({ id = "reviews" }) {
   return (
     <section
       id={id}
-      className="relative w-full overflow-x-hidden snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex flex-col justify-center py-6 md:py-10"
+      className="relative w-full overflow-x-hidden max-md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex flex-col justify-center py-6 md:py-10"
       style={{
         backgroundImage: `url("${consts.media("figma/terms-body-bg.webp")}")`,
         backgroundSize: "max(100%, 1024px) auto",
@@ -404,7 +415,7 @@ export function CommunityReviews({ id = "reviews" }) {
             </button>
           </>
         )}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-6 scrollbar-none [&::-webkit-scrollbar]:hidden md:overflow-visible md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 items-stretch md:gap-6">
+        <div className="flex max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory gap-4 px-6 scrollbar-none [&::-webkit-scrollbar]:hidden md:overflow-visible md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 items-stretch md:gap-6">
           {visible.map((r) => (
             <ReviewCard
               key={r.file}
@@ -501,7 +512,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
           type="button"
           onClick={() => step(-1)}
           aria-label="Previous image"
-          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] cursor-pointer"
         >
           <CaretLeft size={22} weight="bold" />
         </button>
@@ -544,7 +555,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
           type="button"
           onClick={() => step(1)}
           aria-label="Next image"
-          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] cursor-pointer"
         >
           <CaretRight size={22} weight="bold" />
         </button>
@@ -671,7 +682,7 @@ export function MyWork({ id = "work" }) {
     { id: "landscape-bottom", file: at(WORK_LANDSCAPES, 1), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-center" },
   ];
   const navBtn =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-10 sm:size-12 rounded-full border border-[#efe8e9]/25 bg-[rgba(32,9,12,0.8)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] disabled:opacity-40 disabled:cursor-default transition-colors shadow-md";
+    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-11 sm:size-12 rounded-full border border-[#efe8e9]/25 bg-[rgba(32,9,12,0.8)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] disabled:opacity-40 disabled:cursor-default transition-colors shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]";
 
   const scrollMobileTo = (index) => {
     const wrapped = ((index % MOBILE_WORK_SLIDES.length) + MOBILE_WORK_SLIDES.length) % MOBILE_WORK_SLIDES.length;
@@ -683,10 +694,10 @@ export function MyWork({ id = "work" }) {
   };
 
   return (
-    <section id={id} className="relative w-full overflow-hidden snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
+    <section id={id} className="relative w-full overflow-hidden max-md:snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute bg-[#262626] inset-0" />
-        <img alt="" loading="lazy" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
+        <img alt="" width={1024} height={1024} loading="lazy" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
       </div>
       <div className="relative w-full max-w-305 xl:max-w-345 2xl:max-w-390 mx-auto px-2 sm:px-4 md:px-14 lg:px-18 xl:px-22 py-4 md:py-6 lg:py-7 max-md:flex-1 max-md:flex max-md:flex-col max-md:min-h-0">
         <header className="flex flex-col items-center text-center gap-1 mb-3 md:mb-5 shrink-0">
@@ -727,7 +738,7 @@ export function MyWork({ id = "work" }) {
                       type="button"
                       onClick={() => setLightboxIdx(WORK_ALL.indexOf(file))}
                       aria-label={`Open ${workAlt(file)} in full view`}
-                      className={`flex items-center justify-center border-0 bg-transparent p-0 cursor-zoom-in ${
+                      className={`flex items-center justify-center border-0 bg-transparent p-0 cursor-zoom-in rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] ${
                         group.length > 1 ? "max-h-[calc(50%-8px)]" : "max-h-full"
                       }`}
                     >
@@ -751,7 +762,7 @@ export function MyWork({ id = "work" }) {
               <CaretRight size={24} />
             </button>
           </div>
-          <div className="flex items-center justify-center gap-0.5 shrink-0">
+          <div className="flex flex-wrap items-center justify-center gap-0 shrink-0">
             {MOBILE_WORK_SLIDES.map((group, idx) => (
               <button
                 key={group.join("-")}
@@ -759,7 +770,7 @@ export function MyWork({ id = "work" }) {
                 aria-label={`View artworks slide ${idx + 1}`}
                 aria-current={mobileSlide === idx ? "true" : undefined}
                 onClick={() => scrollMobileTo(idx)}
-                className="flex items-center justify-center min-w-6 h-7 px-0.5 border-0 bg-transparent p-0 cursor-pointer"
+                className="flex items-center justify-center min-w-11 h-11 px-1 border-0 bg-transparent cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#7dd3fc]"
               >
                 <span
                   aria-hidden="true"
@@ -784,7 +795,7 @@ export function MyWork({ id = "work" }) {
                   type="button"
                   onClick={() => setLightboxIdx(WORK_ALL.indexOf(file))}
                   aria-label={`Open ${workAlt(file)} in full view`}
-                  className="group absolute inset-0 size-full border border-[#efe8e9]/15 bg-[#15080a] p-0 overflow-hidden rounded-xl shadow-[0_14px_34px_rgba(0,0,0,0.45)] cursor-zoom-in"
+                  className="group absolute inset-0 size-full border border-[#efe8e9]/15 bg-[#15080a] p-0 overflow-hidden rounded-xl shadow-[0_14px_34px_rgba(0,0,0,0.45)] cursor-zoom-in focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-3 focus-visible:outline-[#7dd3fc]"
                 >
                   <img
                     alt={workAlt(file)}
@@ -819,7 +830,7 @@ export function MyWork({ id = "work" }) {
 }
 
 const FIELD_BOX =
-  "bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md font-raleway leading-normal text-[#0d0d0d] text-[14px] focus:border-[#5c1a23] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5c1a23]/45 w-full";
+  "bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md font-raleway leading-normal text-[#0d0d0d] text-[14px] focus:border-[#5c1a23] focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23] w-full";
 
 function FieldLabel({ label, required }) {
   return (
@@ -841,7 +852,7 @@ function FormField({ label, required, placeholder, name, type = "text", autoComp
         autoComplete={autoComplete}
         spellCheck={spellCheck}
         placeholder={placeholder}
-        className={`${FIELD_BOX} h-10 p-2 placeholder:text-[#595959]`}
+        className={`${FIELD_BOX} h-11 p-2.5 placeholder:text-[#595959]`}
       />
     </label>
   );
@@ -856,18 +867,18 @@ function CommissionTypeField() {
           name="commissionType"
           required
           defaultValue=""
-          className={`${FIELD_BOX} h-10 px-2 pr-8 appearance-none cursor-pointer invalid:text-[#595959]`}
+          className={`${FIELD_BOX} h-11 px-2.5 pr-8 appearance-none cursor-pointer invalid:text-[#595959]`}
         >
-          <option value="" disabled>
+          <option value="" disabled className="bg-[#efe8e9] text-[#595959]">
             Select a type
           </option>
           {consts.commissionTypes().map((t) => (
-            <option key={t} value={t}>
+            <option key={t} value={t} className="bg-[#efe8e9] text-[#0d0d0d]">
               {t}
             </option>
           ))}
         </select>
-        <CaretDown size={16} color="#5c1a23" className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+        <CaretDown size={16} color="#5c1a23" className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
     </label>
   );
@@ -882,13 +893,16 @@ function FileUpload({ files, setFiles }) {
 
   return (
     <div className="flex flex-col gap-2 w-full items-center">
+      <label htmlFor="contact-references" className="sr-only">
+        Upload reference files
+      </label>
       <input
+        id="contact-references"
         ref={inputRef}
         type="file"
         multiple
         accept={ACCEPTED_FILES}
-        aria-label="Upload reference files"
-        className="sr-only"
+        className="hidden"
         onChange={(e) => {
           if (e.target.files?.length) addFiles(e.target.files);
           e.target.value = "";
@@ -897,7 +911,7 @@ function FileUpload({ files, setFiles }) {
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="relative w-131 max-w-full min-h-50.5 px-4 py-5 bg-[#f4f4f4] border border-[#ccb8bb] border-dashed rounded-sm flex flex-col items-center justify-center gap-2.5 cursor-pointer transition-colors hover:bg-[#efe8e9]"
+        className="relative w-131 max-w-full min-h-50.5 px-4 py-5 bg-[#f4f4f4] border border-[#ccb8bb] border-dashed rounded-sm flex flex-col items-center justify-center gap-2.5 cursor-pointer transition-colors hover:bg-[#efe8e9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23]"
         onDragOver={(e) => {
           e.preventDefault();
           e.currentTarget.classList.add("bg-[#efe8e9]");
@@ -923,7 +937,7 @@ function FileUpload({ files, setFiles }) {
           {files.map((file) => (
             <li
               key={`${file.name}-${file.size}-${file.lastModified}`}
-              className="flex items-center justify-between gap-2 bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md px-2 py-1.5"
+              className="flex items-center justify-between gap-2 bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md px-2 py-1"
             >
               <span className="font-raleway text-[#0d0d0d] text-[13px] truncate">
                 {file.name}{" "}
@@ -933,7 +947,7 @@ function FileUpload({ files, setFiles }) {
                 type="button"
                 onClick={() => removeFile(file)}
                 aria-label={`Remove ${file.name}`}
-                className="shrink-0 cursor-pointer border-0 bg-transparent p-0 font-raleway text-[#5c1a23] text-[13px] underline"
+                className="shrink-0 inline-flex items-center min-h-11 px-2 cursor-pointer border-0 bg-transparent font-raleway text-[#5c1a23] text-[13px] underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#5c1a23] rounded-xs"
               >
                 Remove
               </button>
@@ -982,7 +996,7 @@ export function ContactCTA() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative w-full bg-[#0d0d0d] bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-20 pb-12 md:pt-26 md:pb-18 snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
+      className="relative w-full bg-[#0d0d0d] bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-20 pb-12 md:pt-26 md:pb-18 max-md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
       style={bgReady ? { backgroundImage: `url("${consts.media("figma/cta-center.webp")}")` } : undefined}
     >
       <div
@@ -1001,16 +1015,19 @@ export function ContactCTA() {
             </h2>
             <div className="h-0 relative shrink-0 w-full">
               <div className="absolute inset-[-1px_0_0_0]">
-                <img alt="" className="block max-w-none size-full" src={consts.media("figma/form-line.svg")} />
+                <img alt="" width={300} height={150} className="block max-w-none size-full" src={consts.media("figma/form-line.svg")} />
               </div>
             </div>
+            <p role="status" aria-live="polite" className="sr-only m-0">
+              {submitted ? "Your commission request has been received. I will get back to you within 1 to 2 days." : ""}
+            </p>
             {submitted ? (
-              <output aria-live="polite" className="block w-full py-12 text-center">
+              <div className="block w-full py-12 text-center">
                 <p className="font-cormorant text-[#0d0d0d] text-[30px] leading-[1.2] m-0">Thank you!</p>
                 <p className="font-raleway text-[#262626] text-[14px] leading-normal mt-3 mb-0">
                   Your commission request has been received. I&apos;ll get back to you within 1–2 days.
                 </p>
-              </output>
+              </div>
             ) : (
               <form className="flex flex-col gap-4 items-center w-full" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row gap-4 md:gap-2 items-start w-full">
@@ -1045,7 +1062,7 @@ export function ContactCTA() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#5c1a23] flex items-center justify-center p-2 rounded-md w-full cursor-pointer border-0 hover:bg-[#45141a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23] font-outfit leading-6 text-[#efe8e9] text-[16px] whitespace-nowrap transition-colors"
+                  className="bg-[#5c1a23] flex items-center justify-center min-h-11 py-2.5 px-4 rounded-md w-full cursor-pointer border-0 hover:bg-[#45141a] focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23] font-raleway font-semibold leading-6 text-[#efe8e9] text-[16px] whitespace-nowrap transition-colors"
                 >
                   Submit
                 </button>
@@ -1063,14 +1080,14 @@ export function ContactCTA() {
 
 export function Footer() {
   return (
-    <footer className="relative w-full bg-[#45141a] snap-end">
+    <footer className="relative w-full bg-[#45141a] max-md:snap-end">
       <div className="relative w-full max-w-360 2xl:max-w-420 mx-auto px-5 md:px-10 py-5 md:py-6 flex flex-col items-center gap-3 md:gap-3.5">
         <div className="flex items-center justify-center">
           <SocialLinks size={22} className="justify-center" />
         </div>
         <div className="flex flex-wrap justify-center font-raleway gap-x-4 gap-y-1 items-center leading-[1.4] text-[#efe8e9]/90 text-[12px] text-center">
-          <p className="shrink-0 m-0">© 2025 Mia Paprika</p>
-          <Link to="/terms" className="shrink-0 inline-flex items-center min-h-6 py-1 no-underline text-[#efe8e9]/90 hover:text-[#efe8e9] transition-colors">Terms and conditions</Link>
+          <p className="shrink-0 m-0">© 2026 Mia Paprika</p>
+          <Link to="/terms" className="shrink-0 inline-flex items-center min-h-11 py-2.5 px-2 no-underline text-[#efe8e9]/90 hover:text-[#efe8e9] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] transition-colors">Terms and conditions</Link>
         </div>
       </div>
     </footer>

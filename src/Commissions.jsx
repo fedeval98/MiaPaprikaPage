@@ -20,10 +20,10 @@ function VtuberModels() {
   return (
     <section
       id="vtuber-models"
-      className="relative w-full overflow-hidden snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-start md:items-center"
+      className="relative w-full overflow-hidden max-md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-start md:items-center"
     >
-      <img alt="" fetchPriority="high" className="absolute inset-0 size-full object-cover" src={consts.media("figma/comm-hero-bg.webp")} />
-      <img alt="" className="absolute inset-0 size-full object-cover opacity-10 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
+      <img alt="" width={1920} height={848} fetchPriority="high" className="absolute inset-0 size-full object-cover" src={consts.media("figma/comm-hero-bg.webp")} />
+      <img alt="" width={1024} height={1024} className="absolute inset-0 size-full object-cover opacity-10 pointer-events-none" src={consts.media("figma/noise-texture.webp")} />
 
       <div className="relative z-10 w-full max-w-360 2xl:max-w-400 mx-auto px-4 sm:px-6 md:px-10 lg:px-14 2xl:px-18 pt-4 pb-6 md:py-4 lg:py-5 flex flex-col md:flex-row items-center justify-center gap-5 md:gap-8 lg:gap-12 2xl:gap-18">
         <div className="flex flex-col gap-2.5 md:gap-3 items-center text-center md:items-start md:text-left w-full md:w-[56%] lg:max-w-162 2xl:max-w-178">
@@ -110,7 +110,7 @@ function VtuberModels() {
               <ButtonPrimary
                 label="Contact"
                 dark
-                sizeClass="h-10 px-7 w-full sm:w-44 text-[15.5px]"
+                sizeClass="h-11 px-7 w-full sm:w-44 text-[15.5px]"
               />
               <div className="grid">
                 {modelTabs.content.map((entry, idx) => (
@@ -139,6 +139,8 @@ function VtuberModels() {
           >
             <img
               alt="Mia Paprika Live2D model artwork"
+              width={1400}
+              height={1428}
               className="absolute inset-0 size-full object-contain object-center p-2.5 sm:p-4 transition-transform duration-300 group-hover:scale-[1.02]"
               src={showcaseArt}
             />
@@ -176,9 +178,9 @@ function Illustrations() {
   return (
     <section
       id="illustrations"
-      className="relative w-full overflow-hidden snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),880px)] flex items-start md:items-center bg-linear-to-b from-[#2e090f] via-[#21060a] to-[#160306]"
+      className="relative w-full overflow-hidden max-md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),880px)] flex items-start md:items-center bg-linear-to-b from-[#2e090f] via-[#21060a] to-[#160306]"
     >
-      <img alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-55" src={consts.media("figma/comm-illus-bg.webp")} />
+      <img alt="" width={1920} height={933} loading="lazy" className="absolute inset-0 size-full object-cover opacity-55" src={consts.media("figma/comm-illus-bg.webp")} />
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(138,34,48,0.22),transparent_70%)] pointer-events-none"
@@ -204,6 +206,8 @@ function Illustrations() {
           <div className="relative shrink-0 w-52 h-68 sm:w-60 sm:h-80 md:w-[min(276px,39dvh)] md:h-[min(368px,52dvh)] lg:w-[min(324px,43.5dvh)] lg:h-[min(432px,58dvh)] border-[5px] border-[#efe8e9]/85 border-solid rounded-[265.5px] overflow-hidden shadow-[0_24px_56px_rgba(0,0,0,0.55)] ring-1 ring-[#efe8e9]/20">
             <img
               alt={`${active.title} illustration sample`}
+              width={4096}
+              height={2304}
               loading="lazy"
               className="absolute w-[230%] h-[230%] left-[-71.89%] top-[-15.6%] max-w-none object-cover transition-transform duration-500 motion-reduce:transition-none"
               style={active.artStyle}
@@ -240,7 +244,7 @@ function Illustrations() {
 
             <ButtonPrimary
               label="Contact"
-              sizeClass="h-10 px-7 w-full sm:w-44 text-[15.5px]"
+              sizeClass="h-11 px-7 w-full sm:w-44 text-[15.5px]"
               className="mt-0.5"
             />
           </div>
@@ -255,7 +259,7 @@ export default function Commissions() {
     <div className="relative">
       <Navigation />
       <SectionDots sections={consts.sections("commissions")} />
-      <main>
+      <main id="main-content">
         <VtuberModels />
         <Illustrations />
         <MyWork />

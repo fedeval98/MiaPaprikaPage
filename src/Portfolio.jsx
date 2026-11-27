@@ -40,7 +40,7 @@ function Gallery() {
   };
 
   const navBtn =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-10 sm:size-11 rounded-full border border-[#efe8e9]/25 bg-[#20090c]/85 backdrop-blur-sm text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] transition-colors shadow-lg";
+    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-11 rounded-full border border-[#efe8e9]/25 bg-[#20090c]/85 backdrop-blur-sm text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] transition-colors shadow-lg";
 
   const activeItem = GALLERY_ITEMS[slide];
 
@@ -51,6 +51,8 @@ function Gallery() {
     >
       <img
         alt=""
+        width={1024}
+        height={1024}
         fetchPriority="low"
         decoding="async"
         className="absolute inset-0 size-full object-cover opacity-20 pointer-events-none"
@@ -125,10 +127,12 @@ function Gallery() {
                       type="button"
                       onClick={() => setLightboxIdx(GALLERY_IMAGES.indexOf(item))}
                       aria-label={`Open ${item.label} in full view`}
-                      className="group relative block w-full border-0 bg-transparent p-0 cursor-zoom-in"
+                      className="group relative block w-full border-0 bg-transparent p-0 cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
                     >
                       <img
                         alt={item.label}
+                        width={item.width}
+                        height={item.height}
                         loading={i === 0 ? "eager" : "lazy"}
                         className="w-full aspect-video object-contain"
                         src={item.src}
@@ -167,13 +171,13 @@ function Gallery() {
                 aria-label={`View ${item.label}`}
                 aria-current={isActive ? "true" : undefined}
                 onClick={() => scrollToSlide(idx)}
-                className={`relative shrink-0 w-full sm:w-22 aspect-video rounded-lg overflow-hidden border-2 border-solid p-0 bg-[#0d0d0d] cursor-pointer transition-[opacity,border-color,box-shadow] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] ${
+                className={`relative shrink-0 w-full min-h-11 sm:w-22 aspect-video rounded-lg overflow-hidden border-2 border-solid p-0 bg-[#0d0d0d] cursor-pointer transition-[opacity,border-color,box-shadow] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] ${
                   isActive
                     ? "border-[#9be0ff] opacity-100 shadow-[0_0_12px_rgba(125,211,252,0.45)]"
                     : "border-[#efe8e9]/20 opacity-55 hover:opacity-90"
                 }`}
               >
-                <img alt="" loading="lazy" className="size-full object-cover" src={thumbSrc} />
+                <img alt="" width={item.width} height={item.height} loading="lazy" className="size-full object-cover" src={thumbSrc} />
                 {item.type === "video" && (
                   <span
                     aria-hidden="true"
@@ -202,18 +206,19 @@ function Gallery() {
 
 function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
   const hasCustomX = /\bleft-/u.test(zoom);
+  const dims = consts.clientDimensions(file);
   const maskStyle = { maskImage: `url("${consts.media("figma/client-card-mask.svg")}")` };
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={name ? `View ${name}'s full model` : "View full model"}
-      className="group client-card-btn relative w-39 h-33.5 sm:w-60 sm:h-51.75 shrink-0 border-0 bg-transparent p-0 cursor-pointer drop-shadow-[0_10px_22px_rgba(32,9,12,0.22)] md:hover:drop-shadow-[0_18px_32px_rgba(92,26,35,0.34)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5c1a23]"
+      className="group client-card-btn relative w-39 h-33.5 sm:w-60 sm:h-51.75 shrink-0 border-0 bg-transparent p-0 cursor-pointer drop-shadow-[0_10px_22px_rgba(32,9,12,0.22)] focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5c1a23]"
     >
-      {/* Desktop-only offset shadow frame that peeks out behind the card on hover */}
+      {/* Desktop-only offset celeste fluor shadow frame that peeks out behind the card on hover */}
       <div
         aria-hidden="true"
-        className="client-card-shadow hidden md:block pointer-events-none absolute inset-0 bg-linear-to-br from-[#5c1a23] to-[#2e090f] mask-alpha mask-no-repeat mask-size-[100%_100%]"
+        className="client-card-shadow hidden md:block pointer-events-none absolute inset-0 bg-linear-to-br from-[#e0f4ff] via-[#7dd3fc] to-[#38bdf8] mask-alpha mask-no-repeat mask-size-[100%_100%]"
         style={maskStyle}
       />
 
@@ -234,6 +239,8 @@ function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
           <div className="client-card-pop relative size-full">
             <img
               alt={name ? `${name} character art` : "Client character art"}
+              width={dims?.[0]}
+              height={dims?.[1]}
               loading="lazy"
               className={`absolute top-0 w-auto max-w-none ${
                 hasCustomX ? "" : "left-1/2 -translate-x-1/2"
@@ -305,7 +312,7 @@ function Clients() {
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-full border border-[#5c1a23]/35 bg-white/85 hover:bg-[#5c1a23] text-[#45141a] hover:text-[#efe8e9] px-6 py-2.5 font-raleway font-medium text-[14px] sm:text-[15px] cursor-pointer shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23]"
+            className="inline-flex items-center justify-center gap-2 min-h-11 rounded-full border border-[#5c1a23]/35 bg-white/85 hover:bg-[#5c1a23] text-[#45141a] hover:text-[#efe8e9] px-6 py-2.5 font-raleway font-medium text-[14px] sm:text-[15px] cursor-pointer shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23]"
           >
             <span>
               {expanded
@@ -339,7 +346,7 @@ export default function Portfolio() {
     <div className="relative">
       <Navigation />
       <SectionDots sections={consts.sections("portfolio")} snap={false} />
-      <main>
+      <main id="main-content">
         <Gallery />
         <Clients />
         <MyWork />

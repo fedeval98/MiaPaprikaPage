@@ -116,7 +116,7 @@ const PRICING = {
 
 const SOCIALS = [
   { name: "Twitch", href: "https://www.twitch.tv/miapaprika", iconKey: "twitch" },
-  { name: "Discord", href: "https://discord.gg/WMNPPwN5u2", iconKey: "discord" },
+  { name: "Discord", href: "https://discord.com/users/764920341494759425", iconKey: "discord" },
   { name: "Twitter", href: "https://twitter.com/MiaPaprika", iconKey: "twitter" },
   { name: "YouTube", href: "https://www.youtube.com/channel/UCOL0LMgV0xYA6-QCTErpuGQ", iconKey: "youtube" },
   { name: "Ko-fi", href: "https://ko-fi.com/miapaprika", iconKey: "kofi" },
@@ -133,31 +133,9 @@ const COMMISSION_TYPES = [
   "Other",
 ];
 
-// Placeholder entries — swap name/source/text for the real reviews.
-// `file` picks the avatar art from the clients set.
-const REVIEWS = [
-  {
-    file: "besarexia-s",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-  {
-    file: "vexoria",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-  {
-    file: "luca-lullaby",
-    name: "Client name",
-    source: "VGEN Review",
-    stars: 5,
-    text: "The real review text goes here.",
-  },
-];
+// Real VGen client reviews go here — when empty, the Community Reviews section stays hidden.
+// Entry shape: { file: "<client-file>", name: "Client", source: "VGEN Review", stars: 5, text: "..." }
+const REVIEWS = [];
 
 const COMMISSION_STATUS = [
   { label: "Illustrations", open: false },
@@ -250,6 +228,58 @@ const CLIENTS = [
   { file: "y2021-4", name: "Maaka" },
   { file: "y2021-5", name: "Prelettis" },
 ];
+
+const CLIENT_DIMENSIONS = {
+  "besarexia-s": [900, 999],
+  vexoria: [900, 988],
+  "luca-lullaby": [900, 2362],
+  "reo-techiya": [900, 3035],
+  moomi: [900, 1606],
+  coventryy: [900, 1010],
+  megan: [900, 2044],
+  glitchy: [900, 3310],
+  ludo: [900, 2361],
+  sordidj: [900, 726],
+  "mochi-braids": [900, 2727],
+  "lunar-elsa-v2": [900, 2120],
+  "may-kitsune": [900, 2158],
+  "vivi-fellow": [900, 3297],
+  kabuki: [900, 2849],
+  octo: [900, 2396],
+  koara: [900, 2112],
+  "psycho-veee": [900, 3418],
+  "taiga-pipe": [900, 1697],
+  demythical: [900, 2414],
+  "azu-ryuna": [900, 1806],
+  muimina: [900, 2181],
+  zavalr: [900, 1743],
+  "lunar-elsa": [900, 916],
+  demize: [900, 2639],
+  "eremes-ng": [900, 2990],
+  "cuchu-nemurin": [900, 1190],
+  galaxy: [900, 1645],
+  "alyss-sourscream": [900, 997],
+  cindyrockssch: [900, 2064],
+  coventryywt: [900, 1635],
+  cryoladyx: [900, 2369],
+  "demythical-2022": [900, 2580],
+  fabitoh: [900, 2179],
+  girlofnox: [900, 1523],
+  grin: [900, 2558],
+  halo: [900, 1362],
+  itsfirekeeperqa: [900, 1001],
+  maevey: [900, 1843],
+  remmychu: [900, 1415],
+  skatinmonkgu: [900, 3456],
+  soreyya: [900, 2382],
+  trace: [900, 1974],
+  zayaorejas: [900, 2935],
+  "y2021-1": [900, 2658],
+  "y2021-2": [900, 2198],
+  "y2021-3": [900, 1454],
+  "y2021-4": [900, 1408],
+  "y2021-5": [900, 2372],
+};
 
 // Bullets support **bold** and [label](url) inline markers, straight from the Figma copy.
 const TERMS_SECTIONS = [
@@ -410,12 +440,12 @@ const TERMS_SECTIONS = [
 ];
 
 const PORTFOLIO_GALLERY = [
-  { type: "video", src: mediaUrl("videos/showcase-1.mp4"), poster: mediaUrl("videos/showcase-1-poster.webp"), label: "Showcase video 1" },
-  { type: "video", src: mediaUrl("videos/showcase-2.mp4"), poster: mediaUrl("videos/showcase-2-poster.webp"), label: "Showcase video 2" },
-  { type: "image", src: mediaUrl("figma/portfolio-1.webp"), label: "Portfolio artwork 1" },
-  { type: "image", src: mediaUrl("figma/portfolio-2.webp"), label: "Portfolio artwork 2" },
-  { type: "image", src: mediaUrl("figma/portfolio-3.webp"), label: "Portfolio artwork 3" },
-  { type: "image", src: mediaUrl("figma/portfolio-4.webp"), label: "Portfolio artwork 4" },
+  { type: "video", src: mediaUrl("videos/showcase-1.mp4"), poster: mediaUrl("videos/showcase-1-poster.webp"), width: 1280, height: 720, label: "Showcase video 1" },
+  { type: "video", src: mediaUrl("videos/showcase-2.mp4"), poster: mediaUrl("videos/showcase-2-poster.webp"), width: 1280, height: 720, label: "Showcase video 2" },
+  { type: "image", src: mediaUrl("figma/portfolio-1.webp"), width: 1200, height: 675, label: "Portfolio artwork 1" },
+  { type: "image", src: mediaUrl("figma/portfolio-2.webp"), width: 1600, height: 900, label: "Portfolio artwork 2" },
+  { type: "image", src: mediaUrl("figma/portfolio-3.webp"), width: 1600, height: 900, label: "Portfolio artwork 3" },
+  { type: "image", src: mediaUrl("figma/portfolio-4.webp"), width: 1200, height: 675, label: "Portfolio artwork 4" },
 ];
 
 /**
@@ -432,9 +462,11 @@ export const consts = {
     return PORTFOLIO_GALLERY;
   },
 
-  /** Returns section navigation dots for `"home"` or `"commissions"`, or all pages. */
+  /** Returns section navigation dots for `"home"`, `"commissions"`, or `"portfolio"`, or all pages. */
   sections(page) {
-    return page ? (PAGE_SECTIONS[page] ?? []) : PAGE_SECTIONS;
+    if (!page) return PAGE_SECTIONS;
+    const list = PAGE_SECTIONS[page] ?? [];
+    return page === "home" && REVIEWS.length === 0 ? list.filter((s) => s.id !== "reviews") : list;
   },
 
   /** Returns commission pricing tabs (`"models"` | `"illustrations"`), or both. */
@@ -470,6 +502,11 @@ export const consts = {
   /** Returns portfolio client entries. */
   clients() {
     return CLIENTS;
+  },
+
+  /** Returns intrinsic `[width, height]` pixels for a client portrait key. */
+  clientDimensions(file) {
+    return CLIENT_DIMENSIONS[file] ?? null;
   },
 
   /** Returns Terms & Conditions sections. */

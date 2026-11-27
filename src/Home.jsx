@@ -66,7 +66,7 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),920px)] flex items-center bg-[#2a080d]"
+      className="relative w-full overflow-hidden max-md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),960px)] flex items-center bg-[#2a080d]"
     >
       <img
         alt=""
@@ -104,6 +104,8 @@ function Hero() {
       />
       <img
         alt=""
+        width={1024}
+        height={1024}
         fetchPriority="low"
         decoding="async"
         className="absolute inset-0 size-full object-cover opacity-30 pointer-events-none"
@@ -132,13 +134,13 @@ function Hero() {
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-1">
             <Link
               to="/commissions"
-              className="inline-flex items-center justify-center h-10.5 px-6 rounded-[5px] bg-[#efe8e9] hover:bg-white text-[#5c1a23] font-roboto font-medium text-[15.5px] no-underline transition-colors shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-[5px] bg-[#efe8e9] hover:bg-white text-[#5c1a23] font-raleway font-semibold text-[15.5px] no-underline transition-colors shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
             >
               View Commissions
             </Link>
             <Link
               to="/portfolio"
-              className="inline-flex items-center justify-center h-10.5 px-6 rounded-[5px] border border-[#efe8e9]/40 bg-[#1a0508]/55 hover:bg-[#efe8e9]/15 backdrop-blur-xs text-[#efe8e9] font-roboto text-[15.5px] no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-[5px] border border-[#efe8e9]/40 bg-[#1a0508]/55 hover:bg-[#efe8e9]/15 backdrop-blur-xs text-[#efe8e9] font-raleway font-medium text-[15.5px] no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc]"
             >
               Explore Portfolio
             </Link>
@@ -146,8 +148,8 @@ function Hero() {
 
           <div className="flex flex-col items-center md:items-start gap-2 pt-1.5">
             <SocialLinks
-              size={26}
-              className="justify-center md:justify-start rounded-full bg-[#1a0508]/55 backdrop-blur-xs border border-[#efe8e9]/15 px-4 py-2"
+              size={24}
+              className="justify-center md:justify-start rounded-full bg-[#1a0508]/55 backdrop-blur-xs border border-[#efe8e9]/15 px-2.5 py-0.5"
             />
             <p className="font-raleway leading-[1.2] text-[#efe8e9]/70 text-[12px] m-0">
               Page updated 25-11-2026
@@ -182,10 +184,12 @@ function FeatureQuote() {
   return (
     <section
       id="status"
-      className="relative w-full overflow-hidden bg-[#f2eced] snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex items-center"
+      className="relative w-full overflow-hidden bg-[#f2eced] max-md:snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex items-center"
     >
       <img
         alt=""
+        width={1920}
+        height={735}
         loading="lazy"
         className="absolute inset-x-0 bottom-0 w-full h-[118%] object-cover object-bottom"
         src={consts.media("figma/feature-quote-left.webp")}
@@ -193,10 +197,10 @@ function FeatureQuote() {
 
       <div className="relative z-10 w-full max-w-340 2xl:max-w-380 mx-auto px-4 sm:px-6 md:px-10 py-4 md:py-6 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 lg:gap-10">
         <div className="flex flex-col gap-2.5 lg:gap-3.5 items-center text-center md:items-start md:text-left w-full md:flex-1 md:max-w-108 lg:max-w-124">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/80 backdrop-blur-xs border border-[#5c1a23]/15 px-3.5 py-1 shadow-xs">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/85 backdrop-blur-xs border border-[#5c1a23]/20 px-3.5 py-1 shadow-xs">
             <span
               aria-hidden="true"
-              className={`size-2 rounded-full ${anyOpen ? "bg-[#11552b]" : "bg-[#7a151e]"}`}
+              className={`size-2 rounded-full ${anyOpen ? "bg-[#11552b]" : "bg-[#520d14]"}`}
             />
             <span className="font-raleway uppercase tracking-[0.16em] text-[#45141a] text-[10.5px] font-semibold">
               {anyOpen ? "Commissions Open" : "Waitlist & Form Status"}
@@ -204,12 +208,12 @@ function FeatureQuote() {
           </div>
 
           <h2 className="font-cormorant font-normal text-balance leading-[1.06] text-[#3a1016] text-[28px] sm:text-[34px] lg:text-[40px] xl:text-[46px] w-full m-0">
-            Commission Applications — Opening October 2025
+            {anyOpen ? "Commission Applications — Currently Open" : "Commission Applications — Currently Closed"}
           </h2>
 
           <StatusOrnament />
 
-          <div className="w-full rounded-2xl bg-white/80 backdrop-blur-sm border border-[#5c1a23]/12 p-4 sm:p-5 shadow-[0_10px_30px_rgba(32,9,12,0.06)] flex flex-col gap-3 items-center md:items-start">
+          <div className="w-full rounded-2xl bg-white/85 backdrop-blur-sm border border-[#5c1a23]/15 p-4 sm:p-5 shadow-[0_10px_30px_rgba(32,9,12,0.06)] flex flex-col gap-3 items-center md:items-start">
             <div className="font-raleway leading-[1.45] text-[#2b1719] text-[13.5px] sm:text-[14.5px] lg:text-[15.5px] w-full">
               <p className="m-0">
                 Commission requests will be accepted strictly through the following form. If the form is closed, you&apos;re still welcome to reach out via DM to ask about pricing or future availability—don&apos;t hesitate to ask!
@@ -221,7 +225,7 @@ function FeatureQuote() {
             <ButtonPrimary
               label="Contact"
               dark
-              sizeClass="h-10.5 px-7 w-full sm:w-56 text-[16px]"
+              sizeClass="h-11 px-7 w-full sm:w-56 text-[16px]"
             />
           </div>
         </div>
@@ -251,7 +255,7 @@ function FeatureQuote() {
                 {label}:{" "}
                 <span
                   className={`font-bold text-[11.5px] sm:text-[14px] lg:text-[15.5px] xl:text-[17px] ${
-                    open ? "text-[#11552b]" : "text-[#7a151e]"
+                    open ? "text-[#11552b]" : "text-[#3b070c]"
                   }`}
                 >
                   {open ? "Open" : "Closed"}
@@ -270,7 +274,7 @@ export default function Home() {
     <div className="relative">
       <Navigation />
       <SectionDots sections={consts.sections("home")} />
-      <main>
+      <main id="main-content">
         <Hero />
         <FeatureQuote />
         <CommunityReviews />
