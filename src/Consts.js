@@ -153,6 +153,12 @@ const REVIEWS = [
   },
 ];
 
+const COMMISSION_STATUS = [
+  { label: "Illustrations", open: false },
+  { label: "Live2D Art", open: false },
+  { label: "Live2D Rigging", open: false },
+];
+
 const MY_WORK = {
   portraits: ["ayano", "gomurya", "easter"],
   landscapes: ["asher", "coloso", "galaxy", "grand-mother-silk", "koto-pond", "nailpolish", "seikawallpaper"],
@@ -208,9 +214,9 @@ const CLIENTS = [
   { file: "taiga-pipe", name: "Taiga" },
   { file: "demythical", name: "Demythical" },
   { file: "azu-ryuna", name: "AzuRyuna" },
-  { file: "muimina", name: "Muimina", zoom: "h-[420%] mt-[-190px]" },
+  { file: "muimina", name: "Muimina", zoom: "h-[360%] mt-[-145px]" },
   { file: "zavalr", name: "Zavalr" },
-  { file: "lunar-elsa", name: "LunarElsa", zoom: "h-[300%]" },
+  { file: "lunar-elsa", name: "LunarElsa", zoom: "h-[250%]" },
   { file: "demize", name: "Demize" },
   { file: "eremes-ng", name: "Eremes" },
   { file: "cuchu-nemurin", name: "CuchuNemurin" },
@@ -218,18 +224,18 @@ const CLIENTS = [
   { file: "alyss-sourscream", name: "Alyss Sourscream" },
   { file: "cindyrockssch", name: "Cindyrocks" },
   { file: "coventryywt", name: "Coventryy" },
-  { file: "cryoladyx", name: "CryoLadyx", zoom: "h-[420%] mt-[-180px]" },
+  { file: "cryoladyx", name: "CryoLadyx", zoom: "h-[340%] mt-[-95px]" },
   { file: "demythical-2022", name: "Demythical" },
-  { file: "fabitoh", name: "Fabitoh", zoom: "h-[400%] mt-[-90px]" },
+  { file: "fabitoh", name: "Fabitoh", zoom: "h-[250%] mt-[-15px]" },
   { file: "girlofnox", name: "GirlOfNox" },
   { file: "grin", name: "Grin" },
-  { file: "halo", name: "Halo", zoom: "h-[400%] mt-[-195px]" },
-  { file: "itsfirekeeperqa", name: "Itsfirekeeperqa", zoom: "h-[300%] mt-[-95px]" },
+  { file: "halo", name: "Halo", zoom: "h-[230%] mt-[-85px]" },
+  { file: "itsfirekeeperqa", name: "Itsfirekeeperqa", zoom: "h-[220%] mt-[-45px]" },
   { file: "maevey", name: "Maevey" },
-  { file: "remmychu", name: "Remmychu" },
+  { file: "remmychu", name: "Remmychu", zoom: "left-[62%] -translate-x-1/2 h-[330%] mt-[-15px]" },
   { file: "skatinmonkgu", name: "SkatinmonkGU" },
   { file: "soreyya", name: "Soreyya" },
-  { file: "trace", name: "Träce" },
+  { file: "trace", name: "Träce", zoom: "h-[340%] mt-[-45px]" },
   { file: "zayaorejas", name: "Zayaorejas" },
   // 2021
   { file: "y2021-1", name: "Yasashi" },
@@ -443,6 +449,11 @@ export const consts = {
   /** Returns community review entries. */
   reviews() {
     return REVIEWS;
+  },
+
+  /** Returns commission status entries (`open: true | false`). */
+  status() {
+    return COMMISSION_STATUS;
   },
 
   /** Returns My Work gallery filenames, mobile groups, and transition timings. */

@@ -4,7 +4,9 @@
 
 ### General y Navegación (`src/shared.jsx`, `src/index.css`, `src/App.jsx`, `vite.config.js`)
 - **Barra de navegación fija (`Navigation`)**: ahora es sticky (`60px` en mobile, `76px` en `md+`) con menú hamburguesa en mobile, logo sobresaliendo en escritorio, ruta activa resaltada en cian (`#9be0ff` / `#7dd3fc`) y botones unificados como `Contact`.
-- **Navegación lateral por secciones (`SectionDots`)**: agregada en escritorio (`md+`) para `Home` y `Commissions`, junto con `html.deck-snap` (`scroll-snap-type: y proximity` solo desde `768px`).
+- **Navegación lateral por secciones (`SectionDots`) y scroll snap**: agregada en escritorio (`md+`) para `Home` y `Commissions`, junto con `html.deck-snap` (`scroll-snap-type: y mandatory`) y `snap-start`/`snap-end` activos tanto en desktop como en mobile; textos, tabs y botones centrados en mobile (`< 768px`) en `Hero`, `#status`, `VtuberModels`, `Illustrations`, `ReviewCard` y banner de `Terms`.
+- **Página `Commissions` (`src/Commissions.jsx`)**: reducido el aire superior e intermedio en `#vtuber-models` (`items-start md:items-center`, `pt-3.5`, `gap-2` y altura natural por pestaña activa en mobile para evitar el hueco extra sobre el botón `Contact`) y en `#illustrations` (`pt-5 md:pt-7`, `mb-4 md:mb-6` y `gap-5` en mobile) para que título, precios/imagen y botón entren cómodos en la vista mobile y escritorio.
+- **Auditoría UI y Tailwind CSS v4 (`web-design-guidelines`, `design-taste-frontend`, `tailwindcss-intellisense`)**: corregido typo `"Comissions"` → `"Commissions"` en `Navigation`; resuelto conflicto CSS (`block` + `flex`) en `ImageLightbox`; normalizadas **342** clases utilitarias a su forma canónica de Tailwind v4 (`max-w-360`, `px-*`, `gap-*`, `scrollbar-none`, `bg-linear-to-t`, `wrap-break-word`, etc.); agregado `<meta name="theme-color">`, `color-scheme: dark`, `touch-action: manipulation` y reglas de `prefers-reduced-motion` (incluido el video de `Hero`); foco visible (`focus-visible:ring`) en campos del formulario, `autoComplete`/`spellCheck` y `aria-live="polite"`; retorno de foco y `overscroll-contain` en `ImageLightbox`; `loading="lazy"` en tarjetas de `Portfolio` e ilustraciones de `Commissions`; áreas táctiles `>= 24px` en paginación de `Gallery`; y reemplazo de `transition-all` por propiedades explícitas.
 - **Scroll, SEO, Accesibilidad y Rendimiento (`index.html`, `vite.config.js`, `App.jsx`, `Home.jsx`, `Commissions.jsx`, `Portfolio.jsx`, `Terms.jsx`, `shared.jsx`, `Consts.js`)**:
   - Agregada `<meta name="description">`, carga diferida de Google Fonts, `preconnect` sin CORS y `<link rel="preload" as="image" fetchpriority="high">` de `hero-background.webp` inyectados dinámicamente en build desde `VITE_MEDIA_URL`.
   - Lazy-loading por ruta (`Commissions`, `Portfolio`, `Terms`) en `App.jsx`, carga diferida del video de fondo en `Hero` (`load` + idle en escritorio; primera interacción en móvil), fondos de `ContactCTA` diferidos vía `IntersectionObserver`, `fetchPriority="high"` en Hero, `loading="lazy"` y dimensiones explícitas (`width`/`height`) en `MyWork`, `ReviewCard` e imágenes clave.
@@ -16,35 +18,35 @@
 - **Red local (`vite.config.js`)**: habilitado `host: true` para `server` y `preview`.
 - **Favicon personalizado (`public/favicon.svg`)**: reemplazado el ícono por defecto de Vite por un isotipo SVG de marca con monograma serif `M`, destellos celeste/dorado y fondo bordo.
 
-### Inicio (`src/Home.jsx`)
+### Inicio (`src/Home.jsx`, `src/shared.jsx`)
 - **Fecha de actualización**: actualizada de `09-08-2025` a `25-11-2026` (`Page updated 25-11-2026`).
-- **Hero con video de fondo en loop**: reemplazada la ilustración principal (`mia-design-nb1`) y los pentágonos decorativos por `showcase-1.mp4` en reproducción continua de fondo sin controles, fundido hacia la derecha sobre el fondo bordo y con filtro punteado halftone encima.
-- **Status responsive**: convertida la nueva ilustración `status-tombstone.png` a `figma/status-tombstone.webp` (`1220×960`, ~116 KiB) en R2 eliminando el `.png` original, reajustado el texto de estado dentro de la lápida en `Home.jsx`, visible también en mobile y puntos de sección (`SectionDots`).
+- **Hero editorial con video de fondo en loop**: reemplazada la ilustración estática anterior por `showcase-1.mp4` con máscara radial y halftone encima, degradado de legibilidad en el tercio izquierdo, eyebrow (*Live2D Artist & Character Illustrator*), divisor ornamental, botones de acción (`View Commissions` / `Explore Portfolio`) y dock translúcido para `SocialLinks`.
+- **Status (`#status`)**: convertida la nueva ilustración `status-tombstone.png` a `figma/status-tombstone.webp` (`1220×960`, ~116 KiB) en R2 eliminando el `.png` original; composición editorial con badge dinámico de estado (`Waitlist & Form Status` / `Commissions Open`), `StatusOrnament`, tarjeta translúcida con CTA `Contact` y lápida adaptativa (`dvh`) que entra en una sola vista desde `390×844` y `1280×620` hasta escritorio amplio, centrando etiquetas y `Open`/`Closed` desde `consts.status()`.
+- **Comunidad (`CommunityReviews`) y `MyWork` (`src/shared.jsx`)**: unificada la sección de reseñas sobre textura marmolada clara con tarjetas translúcidas y halo en avatares, ocupando una vista limpia sin cortes en escritorio; agregada cabecera editorial con divisor en `MyWork` y tarjetas bento con bordes sutiles y zoom suave al hover.
 
 ### Galería, Portfolio y Visor (`src/shared.jsx`, `src/Portfolio.jsx`)
 - **Sección `MyWork`**:
   - Mobile: carrusel horizontal deslizable (1 retrato o 2 paisajes apilados por slide).
   - Escritorio (`md+` / `lg+`): grilla bento de 3 columnas (`2` retratos altos + `2` paisajes apilados) con transición escalonada por columnas (`animateWorkColumns` con Web Animations API), flechas reubicadas hacia el interior para no chocar con `SectionDots` y altura ajustada para evitar recortes excesivos.
   - Integrada también dentro de la página `Portfolio`.
-- **Página `Portfolio` y reseñas**:
-  - `Gallery` rediseñada como carrusel horizontal a ancho completo (`2` videos con pausa automática al cambiar de slide + `4` ilustraciones) con barra de puntos y sin `TitleBand` arriba.
-  - Corregido el truncado de nombres largos en `ClientCard`.
+- **Página `Portfolio` y reseñas (`src/Portfolio.jsx`)**:
+  - `Gallery` rediseñada como escenario oscuro editorial en bordo (`#gallery`) con cabecera centrada, visor `16:9` ajustado a `100dvh - 285px` para entrar completo con la barra inferior de `6` miniaturas incluso en notebooks bajas (`1280×620`), contador en vivo, controles `Prev`/`Next` y pista *Expand* sobre ilustraciones.
+  - Sección `Clients` renovada sobre textura marmolada clara con cabecera editorial (*Commission Archive · 49 Models*), tarjetas inclinadas proporcionales a `2` columnas en mobile (`scale-65` sobre geometría `240×207`), encuadre recalibrado en miniaturas específicas (`CryoLadyx`, `Fabitoh`, `Halo`, `Itsfirekeeperqa`, `Remmychu`, `Träce`, `Muimina`, `LunarElsa`), muestra inicial curada de `15` modelos expandible a los `49` completos y visor `ImageLightbox` integrado.
   - Removida la sección `CommunityReviews` de `Portfolio` y `Commissions` para dejarla exclusivamente en `Home`.
 - **Visor modal reutilizable (`ImageLightbox`)**:
   - Extraído en `src/shared.jsx` y conectado a las imágenes de `MyWork`, `Portfolio` `Gallery` y `Clients`.
   - Al hacer clic izquierdo sobre cualquier ilustración, se abre completa (`object-contain`), con zoom al clic y paneo con el cursor, flechas / teclado (`ArrowLeft`, `ArrowRight`) y cierre con `Escape`, botón `X` o clic fuera de la imagen.
 
 ### Comisiones (`src/Commissions.jsx`)
-- **Vtuber Models**:
-  - Lista de precios en 2 columnas para las 3 pestañas (`Art only`, `Rig only`, `Art + Rig`) y marco completo sin recorte para `commMiaFull`.
-  - Estabilizado el tamaño entre las 3 pestañas superponiendo sus bloques en CSS Grid (`col-start-1 row-start-1`) para evitar saltos de párrafos o listas al cambiar de pestaña.
-  - Eliminados los encabezados repetidos dentro de cada pestaña y agregado el botón `Contact` fijo debajo en las tres vistas.
-  - Agregada fecha independiente `Last price update 25/11/2026` debajo en `Art only` y `Rig only` (`priceUpdated` en `src/Consts.js`, omitida en `Art + Rig`).
-  - Crédito actualizado debajo del modelo según pestaña: `Provided by Mia Paprika` (`Art only`), `Provided by SrCalabazaVT` (`Rig only`) y `Provided by Mia Paprika and SrCalabazaVT` (`Art + Rig`).
-- **Illustrations**:
-  - Unificado en un único marco ovalado limpio y alineado (`objectPosition: "50% 18%"`, `transformOrigin: "55.3% 12%"`) para `Full-Body`, `Half-Body` y `Portrait`.
-  - Corregido el pixelado al hacer zoom en `Half-Body` y `Portrait`: reexportada `comm-reward4.webp` desde el PNG original a resolución `4096×2304` (antes `1200×675`) y renderizada al tamaño del zoom máximo (`230%`) para escalar hacia abajo sin pérdida por reescalado de GPU.
+- **Vtuber Models (rediseño editorial)**:
+  - Cabecera con eyebrow (*Live2D Artwork & Rigging*) y divisor ornamental sobre la textura marmolada.
+  - Pestañas y detalle encapsulados en tarjeta translúcida (`bg-white/80`) con chips destacados para los tiers principales (`Fullbody`/`Halfbody` o paquete `Art + Rig`), extras en 2 columnas con viñetas romboidales y pie unificado con botón `Contact` + fecha `Last price update 25/11/2026`.
+  - Visor derecho (`comm-mia-full.webp`) mejorado con iluminación radial bordo, pista *Expand* conectada a `ImageLightbox` y placa tipo pill para el crédito (`Provided by...`).
+- **Illustrations (rediseño editorial)**:
+  - Fondo bordo radial alineado con el visor de `Portfolio`, cabecera centrada con divisor ornamental, marco ovalado con halo sutil y tarjeta translúcida oscura con pestañas (`Full-Body`, `Half-Body`, `Portrait`), precios en filas destacadas (`label` / monto en `#9be0ff`) y botón `Contact`.
+  - Mantiene el encuadre en una sola vista tanto en escritorio como en mobile (`artStyle` al 230% sin pixelado).
 - **Navegación**: agregados `SectionDots` por sección.
 
 ### Términos y Condiciones (`src/Terms.jsx`)
-- Agregada tabla de contenidos colapsable (`<details>`) para mobile, ajuste responsive del layout en escritorio y `scroll-mt-[84px]` para compensar el header fijo.
+- **Hero de pantalla completa en escritorio**: ampliada la primera vista de `#terms-hero` a `md:min-h-[calc(100dvh-76px)]` (en mobile ya ocupa `calc(100dvh-60px)`), centrada con divisor ornamental, tarjeta translúcida para el *Important Disclaimer* y botón ancla `#terms-content` hacia las secciones.
+- **Rediseño editorial de cláusulas y Tabla de Contenidos**: tarjetas translúcidas numeradas (`01`–`12`) sobre el fondo marmolado con énfasis visual en *Final Agreement*, viñetas romboidales uniformes y sub-listas indentadas con borde izquierdo (reemplazando el glifo `❥`), enlaces en `#5c1a23` con foco visible, tarjeta sticky de contenidos numerada en escritorio con accesos rápidos (*Back to top* / *Contact form*) y acordeón `<details>` refinado en mobile con `scroll-mt-4 md:scroll-mt-6` alineado a `scroll-padding-top`.

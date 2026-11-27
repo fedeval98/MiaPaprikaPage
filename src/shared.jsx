@@ -63,7 +63,7 @@ const SOCIAL_ICONS = {
 
 export function SocialLinks({ size = 24, className = "" }) {
   return (
-    <div className={`flex flex-wrap items-center gap-[8px] sm:gap-[12px] text-[#efe8e9] ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2 sm:gap-3 text-[#efe8e9] ${className}`}>
       {consts.socials().map(({ name, href, iconKey }) => {
         const Icon = SOCIAL_ICONS[iconKey];
         if (!Icon) return null;
@@ -75,7 +75,7 @@ export function SocialLinks({ size = 24, className = "" }) {
             target={isMail ? undefined : "_blank"}
             rel={isMail ? undefined : "noopener noreferrer"}
             aria-label={name}
-            className="inline-flex items-center justify-center min-w-[28px] min-h-[28px] opacity-90 hover:opacity-100 transition-opacity"
+            className="inline-flex items-center justify-center min-w-7 min-h-7 opacity-90 hover:opacity-100 transition-opacity"
           >
             <Icon size={size} weight="fill" />
           </a>
@@ -85,7 +85,7 @@ export function SocialLinks({ size = 24, className = "" }) {
   );
 }
 
-export function ButtonPrimary({ label, dark, href = "#contact", sizeClass = "h-[44px] px-[24px] w-[200px] text-[18px]", className = "" }) {
+export function ButtonPrimary({ label, dark, href = "#contact", sizeClass = "h-11 px-6 w-50 text-[18px]", className = "" }) {
   return (
     <a
       href={href}
@@ -100,7 +100,7 @@ export function ButtonPrimary({ label, dark, href = "#contact", sizeClass = "h-[
 
 export function GroupedTabs({ items, active, onChange, className = "" }) {
   return (
-    <div className={`flex items-stretch w-full max-w-[432px] ${className}`}>
+    <div className={`flex items-stretch w-full max-w-108 ${className}`}>
       {items.map((item, i) => {
         const isActive = i === active;
         const rounded =
@@ -114,11 +114,11 @@ export function GroupedTabs({ items, active, onChange, className = "" }) {
             key={item}
             type="button"
             onClick={() => onChange(i)}
-            className={`flex-1 min-w-0 min-h-[44px] px-[8px] sm:px-[10px] py-[6px] flex items-center justify-center cursor-pointer font-raleway text-[13px] sm:text-[14px] leading-[1.3] text-center transition-colors ${
+            className={`flex-1 min-w-0 min-h-11 px-2 sm:px-2.5 py-1.5 flex items-center justify-center cursor-pointer font-raleway text-[13px] sm:text-[14px] leading-[1.3] text-center transition-colors ${
               i > 0 ? "-ml-px" : ""
             } ${rounded} ${
               isActive
-                ? "bg-[#5c1a23] border border-[#5c1a23] border-solid text-white z-[1]"
+                ? "bg-[#5c1a23] border border-[#5c1a23] border-solid text-white z-1"
                 : "bg-[#efe8e9] border border-[#5c1a23] border-solid text-[#5c1a23]"
             }`}
           >
@@ -139,40 +139,40 @@ export function Navigation() {
   }, [pathname]);
 
   const desktopLinkClass = ({ isActive }) =>
-    `relative no-underline py-[4px] transition-colors ${
+    `relative no-underline py-1 transition-colors ${
       isActive
-        ? "text-[#9be0ff] font-semibold drop-shadow-[0_0_8px_rgba(125,211,252,0.45)] after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-[2px] after:h-[2px] after:rounded-full after:bg-[#7dd3fc] after:shadow-[0_0_8px_rgba(125,211,252,0.85)]"
+        ? "text-[#9be0ff] font-semibold drop-shadow-[0_0_8px_rgba(125,211,252,0.45)] after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-[#7dd3fc] after:shadow-[0_0_8px_rgba(125,211,252,0.85)]"
         : "text-[#efe8e9] hover:text-[#bfeaff]"
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
     `no-underline transition-colors ${
       isActive
-        ? "text-[#9be0ff] font-semibold pl-[10px] border-l-2 border-[#7dd3fc] drop-shadow-[0_0_8px_rgba(125,211,252,0.4)]"
-        : "text-[#efe8e9] pl-[12px] hover:text-[#bfeaff]"
+        ? "text-[#9be0ff] font-semibold pl-2.5 border-l-2 border-[#7dd3fc] drop-shadow-[0_0_8px_rgba(125,211,252,0.4)]"
+        : "text-[#efe8e9] pl-3 hover:text-[#bfeaff]"
     }`;
 
   return (
-    <nav className="sticky top-0 w-full h-[60px] md:h-[76px] bg-[#5c1a23]/95 backdrop-blur-sm border-b border-solid border-[rgba(255,255,255,0.8)] z-30">
-      <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto h-full px-[16px] md:px-[24px] xl:px-[40px] flex items-center justify-end md:justify-between">
+    <nav className="sticky top-0 w-full h-15 md:h-19 bg-[#5c1a23]/95 backdrop-blur-sm border-b border-solid border-[rgba(255,255,255,0.8)] z-30">
+      <div className="relative w-full max-w-360 2xl:max-w-420 mx-auto h-full px-4 md:px-6 xl:px-10 flex items-center justify-end md:justify-between">
         {/* Mobile: logo left, overhanging bar without shifting row center */}
-        <Link to="/" aria-label="Mia Paprika home" className="md:hidden absolute left-[16px] top-[6px] z-20 flex items-center">
+        <Link to="/" aria-label="Mia Paprika home" className="md:hidden absolute left-4 top-1.5 z-20 flex items-center">
           <img
             alt="Mia Paprika"
             width={700}
             height={411}
-            className="h-[64px] sm:h-[70px] w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
+            className="h-16 sm:h-17.5 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)]"
             src={consts.media("figma/main-logo.webp")}
           />
         </Link>
 
         {/* Desktop & Tablet left links */}
-        <div className="hidden md:flex font-raleway gap-[16px] lg:gap-[22px] xl:gap-[30px] items-center text-[#efe8e9] text-[14px] lg:text-[16px] xl:text-[18px] whitespace-nowrap">
+        <div className="hidden md:flex font-raleway gap-4 lg:gap-5.5 xl:gap-7.5 items-center text-[#efe8e9] text-[14px] lg:text-[16px] xl:text-[18px] whitespace-nowrap">
           <NavLink to="/" end className={desktopLinkClass}>
             Home
           </NavLink>
           <NavLink to="/commissions" className={desktopLinkClass}>
-            Comissions
+            Commissions
           </NavLink>
           <NavLink to="/portfolio" className={desktopLinkClass}>
             Portfolio
@@ -186,19 +186,19 @@ export function Navigation() {
         <Link
           to="/"
           aria-label="Mia Paprika home"
-          className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-[6px] lg:top-[8px] z-20 items-center justify-center cursor-pointer"
+          className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1.5 lg:top-2 z-20 items-center justify-center cursor-pointer"
         >
           <img
             alt="Mia Paprika"
             width={700}
             height={411}
-            className="h-[80px] lg:h-[96px] xl:h-[110px] w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
+            className="h-20 lg:h-24 xl:h-27.5 w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
             src={consts.media("figma/main-logo.webp")}
           />
         </Link>
 
         {/* Tablet & Desktop right actions */}
-        <div className="hidden md:flex gap-[20px] xl:gap-[32px] items-center">
+        <div className="hidden md:flex gap-5 xl:gap-8 items-center">
           <NavLink
             to="/terms"
             className={(state) =>
@@ -207,18 +207,18 @@ export function Navigation() {
           >
             Terms &amp; conditions
           </NavLink>
-          <ButtonPrimary label="Contact" sizeClass="h-[42px] lg:h-[44px] px-[20px] w-[156px] lg:w-[172px] xl:w-[200px] text-[16px] xl:text-[18px]" />
+          <ButtonPrimary label="Contact" sizeClass="h-10.5 lg:h-11 px-5 w-39 lg:w-43 xl:w-50 text-[16px] xl:text-[18px]" />
         </div>
 
         {/* Mobile right controls: quick Contact + menu toggle */}
-        <div className="flex md:hidden items-center gap-[10px]">
-          <ButtonPrimary label="Contact" sizeClass="h-[34px] px-[14px] w-auto text-[14px]" />
+        <div className="flex md:hidden items-center gap-2.5">
+          <ButtonPrimary label="Contact" sizeClass="h-8.5 px-3.5 w-auto text-[14px]" />
           <button
             type="button"
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
-            className="flex items-center justify-center size-[40px] rounded-[5px] border border-[rgba(239,232,233,0.4)] bg-transparent text-[#efe8e9] cursor-pointer"
+            className="flex items-center justify-center size-10 rounded-[5px] border border-[rgba(239,232,233,0.4)] bg-transparent text-[#efe8e9] cursor-pointer"
           >
             {menuOpen ? <X size={22} /> : <List size={22} />}
           </button>
@@ -227,12 +227,12 @@ export function Navigation() {
 
       {/* Mobile dropdown menu */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full inset-x-0 z-10 bg-[#5c1a23] border-b border-[rgba(255,255,255,0.4)] shadow-lg px-[24px] pt-[24px] pb-[18px] flex flex-col gap-[14px] font-raleway text-[17px]">
+        <div className="md:hidden absolute top-full inset-x-0 z-10 bg-[#5c1a23] border-b border-[rgba(255,255,255,0.4)] shadow-lg px-6 pt-6 pb-4.5 flex flex-col gap-3.5 font-raleway text-[17px]">
           <NavLink to="/" end onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
             Home
           </NavLink>
           <NavLink to="/commissions" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
-            Comissions
+            Commissions
           </NavLink>
           <NavLink to="/portfolio" onClick={() => setMenuOpen(false)} className={mobileLinkClass}>
             Portfolio
@@ -248,7 +248,7 @@ export function Navigation() {
 
 export function TitleBand({ as: Tag = "h2", children }) {
   return (
-    <div className="bg-[#f2f2f2] py-[32px] w-full">
+    <div className="bg-[#f2f2f2] py-8 w-full">
       <Tag className="font-cormorant font-normal leading-[1.2] text-[#20090c] text-[32px] md:text-[42px] text-center m-0">
         {children}
       </Tag>
@@ -258,24 +258,30 @@ export function TitleBand({ as: Tag = "h2", children }) {
 
 function ReviewCard({ file, name, source, stars, text, className = "" }) {
   return (
-    <article className={`flex flex-col items-start gap-[10px] bg-white rounded-[8px] p-[24px] sm:p-[32px] xl:p-[40px] w-full lg:min-h-[520px] xl:min-h-[580px] ${className}`}>
-      <img
-        alt={`${name} character art`}
-        width={260}
-        height={280}
-        loading="lazy"
-        className="h-[220px] sm:h-[260px] xl:h-[280px] w-auto max-w-full object-contain self-center mb-[16px] sm:mb-[24px]"
-        src={consts.media(`clients/${file}.webp`)}
-      />
-      <h3 className="font-cormorant font-bold leading-[1.2] text-[#20090c] text-[26px] sm:text-[30px] m-0">{name}</h3>
-      <div className="flex gap-[3px]" aria-hidden="true">
-        {Array.from({ length: stars }, (_, i) => (
-          <Star key={`star-${i + 1}`} size={20} weight="fill" color="#5c1a23" />
-        ))}
+    <article className={`flex flex-col items-center text-center md:items-start md:text-left gap-2.5 bg-white/90 backdrop-blur-xs border border-[#5c1a23]/12 rounded-2xl p-5 sm:p-6 xl:p-7 w-full lg:min-h-108 xl:min-h-118 shadow-[0_10px_30px_rgba(32,9,12,0.06)] hover:shadow-[0_14px_36px_rgba(92,26,35,0.12)] transition-shadow ${className}`}>
+      <div className="w-full flex items-center justify-center rounded-xl bg-radial from-[#f3eaec] to-transparent py-2 mb-1 sm:mb-2">
+        <img
+          alt={`${name} character art`}
+          width={260}
+          height={280}
+          loading="lazy"
+          className="h-44 sm:h-52 xl:h-58 w-auto max-w-full object-contain"
+          src={consts.media(`clients/${file}.webp`)}
+        />
+      </div>
+      <h3 className="font-cormorant font-bold leading-[1.15] text-[#20090c] text-[25px] sm:text-[28px] m-0">{name}</h3>
+      <div className="flex items-center justify-center md:justify-start gap-2.5 flex-wrap">
+        <div className="flex gap-0.75" aria-hidden="true">
+          {Array.from({ length: stars }, (_, i) => (
+            <Star key={`star-${i + 1}`} size={18} weight="fill" color="#5c1a23" />
+          ))}
+        </div>
+        <span className="inline-flex items-center rounded-full bg-[#5c1a23]/8 border border-[#5c1a23]/15 px-2.5 py-0.5 font-raleway font-bold text-[#5c1a23] text-[12px]">
+          {source}
+        </span>
       </div>
       <span className="sr-only">{`${stars} out of 5 stars`}</span>
-      <p className="font-raleway font-bold leading-[1.2] text-[#5c1a23] text-[16px] m-0">{source}</p>
-      <p className="font-raleway leading-[1.5] text-[#262626] text-[16px] m-0 whitespace-pre-line">{text}</p>
+      <p className="font-raleway leading-[1.5] text-[#262626] text-[14.5px] sm:text-[15.5px] w-full m-0 whitespace-pre-line">{text}</p>
     </article>
   );
 }
@@ -318,7 +324,7 @@ export function SectionDots({ sections }) {
   return (
     <nav
       aria-label="Section navigation"
-      className="fixed right-[10px] lg:right-[20px] top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-[12px] rounded-full bg-[#20090c]/60 backdrop-blur-sm border border-[#efe8e9]/20 px-[8px] py-[14px] shadow-[0_4px_16px_rgba(0,0,0,0.28)]"
+      className="fixed right-2.5 lg:right-5 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-3 rounded-full bg-[#20090c]/60 backdrop-blur-sm border border-[#efe8e9]/20 px-2 py-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.28)]"
     >
       {sections.map(({ id, label }) => {
         const isActive = activeId === id;
@@ -329,11 +335,11 @@ export function SectionDots({ sections }) {
             aria-label={`Jump to ${label}`}
             aria-current={isActive ? "true" : undefined}
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
-            className="group relative flex items-center justify-center size-[16px] bg-transparent border-0 p-0 cursor-pointer"
+            className="group relative flex items-center justify-center size-4 bg-transparent border-0 p-0 cursor-pointer"
           >
             <span
               aria-hidden="true"
-              className={`pointer-events-none absolute right-[28px] whitespace-nowrap rounded-[4px] bg-[#20090c]/90 border border-[#efe8e9]/15 px-[10px] py-[4px] font-raleway text-[12px] leading-none shadow-sm opacity-0 translate-x-[4px] group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-all ${
+              className={`pointer-events-none absolute right-7 whitespace-nowrap rounded-sm bg-[#20090c]/90 border border-[#efe8e9]/15 px-2.5 py-1 font-raleway text-[12px] leading-none shadow-sm opacity-0 translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0 transition-[opacity,transform] ${
                 isActive ? "text-[#9be0ff] font-semibold" : "text-[#efe8e9]"
               }`}
             >
@@ -342,8 +348,8 @@ export function SectionDots({ sections }) {
             <span
               className={
                 isActive
-                  ? "block size-[10px] rotate-45 rounded-[2px] bg-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.95)] ring-2 ring-[#9be0ff]/45 transition-all duration-300"
-                  : "block size-[7px] rounded-full bg-[#efe8e9]/55 group-hover:bg-[#bfeaff] group-hover:scale-125 transition-all duration-200"
+                  ? "block size-2.5 rotate-45 rounded-xs bg-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.95)] ring-2 ring-[#9be0ff]/45 transition-[background-color,transform,box-shadow] duration-300"
+                  : "block size-1.75 rounded-full bg-[#efe8e9]/55 group-hover:bg-[#bfeaff] group-hover:scale-125 transition-[background-color,transform] duration-200"
               }
             />
           </button>
@@ -360,23 +366,44 @@ export function CommunityReviews({ id = "reviews" }) {
   const pages = Math.ceil(reviews.length / PER_PAGE);
   const visible = reviews.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
   const navBtn =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[40px] sm:size-[48px] rounded-full border border-solid border-[#5c1a23] bg-white text-[#5c1a23] cursor-pointer hover:bg-[#5c1a23] hover:text-white transition-colors";
+    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-10 sm:size-12 rounded-full border border-solid border-[#5c1a23] bg-white text-[#5c1a23] cursor-pointer hover:bg-[#5c1a23] hover:text-white transition-colors";
 
   return (
-    <section id={id} className="bg-[#f2f2f2] w-full md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:flex-col max-md:justify-center py-[16px] md:py-0 pb-[32px] md:pb-[64px]">
-      <TitleBand>Words from Mia&apos;s Community</TitleBand>
-      <div className={`relative w-full max-w-[1440px] mx-auto ${pages > 1 ? "px-0 md:px-[64px] lg:px-[80px]" : "px-0 md:px-[32px] lg:px-[80px]"}`}>
+    <section
+      id={id}
+      className="relative w-full overflow-x-hidden snap-start min-h-[calc(100dvh-60px)] md:min-h-[min(calc(100dvh-76px),900px)] flex flex-col justify-center py-6 md:py-10"
+      style={{
+        backgroundImage: `url("${consts.media("figma/terms-body-bg.webp")}")`,
+        backgroundSize: "max(100%, 1024px) auto",
+        backgroundRepeat: "repeat-y",
+        backgroundPosition: "top center",
+      }}
+    >
+      <header className="flex flex-col items-center text-center gap-1.5 px-4 mb-5 md:mb-8">
+        <p className="font-raleway uppercase tracking-[0.2em] text-[#5c1a23]/80 text-[10.5px] sm:text-[11px] m-0">
+          Community Testimonials
+        </p>
+        <h2 className="font-cormorant font-normal leading-[1.1] text-[#20090c] text-[32px] md:text-[42px] m-0">
+          Words from Mia&apos;s Community
+        </h2>
+        <div aria-hidden="true" className="flex items-center gap-3 w-36 mt-0.5">
+          <span className="h-px flex-1 bg-[#5c1a23]/40" />
+          <span className="size-1.5 rotate-45 bg-[#5c1a23]/75 shrink-0" />
+          <span className="h-px flex-1 bg-[#5c1a23]/40" />
+        </div>
+      </header>
+      <div className={`relative w-full max-w-360 mx-auto ${pages > 1 ? "px-0 md:px-16 lg:px-20" : "px-0 md:px-8 lg:px-18"}`}>
         {pages > 1 && (
           <>
-            <button type="button" aria-label="Previous reviews" onClick={() => setPage((p) => (p - 1 + pages) % pages)} className={`${navBtn} hidden md:flex left-[8px] lg:left-[16px]`}>
+            <button type="button" aria-label="Previous reviews" onClick={() => setPage((p) => (p - 1 + pages) % pages)} className={`${navBtn} hidden md:flex left-2 lg:left-4`}>
               <CaretLeft size={24} />
             </button>
-            <button type="button" aria-label="Next reviews" onClick={() => setPage((p) => (p + 1) % pages)} className={`${navBtn} hidden md:flex right-[8px] lg:right-[16px]`}>
+            <button type="button" aria-label="Next reviews" onClick={() => setPage((p) => (p + 1) % pages)} className={`${navBtn} hidden md:flex right-2 lg:right-4`}>
               <CaretRight size={24} />
             </button>
           </>
         )}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-[16px] px-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-visible md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 items-stretch md:gap-[24px]">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-6 scrollbar-none [&::-webkit-scrollbar]:hidden md:overflow-visible md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 items-stretch md:gap-6">
           {visible.map((r) => (
             <ReviewCard
               key={r.file}
@@ -396,8 +423,20 @@ const workArt = (f) => consts.media(`mywork/${f}.webp`);
 export function ImageLightbox({ items, index, onClose, onNav }) {
   const [zoomed, setZoomed] = useState(false);
   const [origin, setOrigin] = useState("50% 50%");
+  const closeBtnRef = useRef(null);
+  const previousFocusRef = useRef(null);
   const item = items[index];
   const canNav = items.length > 1;
+
+  useEffect(() => {
+    previousFocusRef.current = document.activeElement;
+    closeBtnRef.current?.focus();
+    return () => {
+      if (previousFocusRef.current instanceof HTMLElement) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const step = (delta) => {
@@ -437,19 +476,21 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
     <dialog
       open
       aria-label={item.alt || "Image preview"}
-      className="fixed inset-0 z-50 m-0 size-full max-w-none max-h-none border-0 bg-[rgba(13,13,13,0.92)] flex items-center justify-center p-4 sm:p-8"
+      className="fixed inset-0 z-50 m-0 size-full max-w-none max-h-none border-0 bg-[rgba(13,13,13,0.92)] overscroll-contain flex items-center justify-center p-4 sm:p-8"
     >
       <button
         type="button"
+        tabIndex={-1}
         onClick={onClose}
         aria-label="Close lightbox backdrop"
         className="fixed inset-0 border-0 bg-transparent p-0 cursor-default"
       />
       <button
+        ref={closeBtnRef}
         type="button"
         onClick={onClose}
         aria-label="Close lightbox"
-        className="fixed top-4 right-4 z-20 w-[44px] h-[44px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+        className="fixed top-4 right-4 z-20 w-11 h-11 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3fc] cursor-pointer"
       >
         <X size={22} weight="bold" />
       </button>
@@ -459,7 +500,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
           type="button"
           onClick={() => step(-1)}
           aria-label="Previous image"
-          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
         >
           <CaretLeft size={22} weight="bold" />
         </button>
@@ -477,7 +518,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
             setOrigin(`${x}% ${y}%`);
             setZoomed((z) => !z);
           }}
-          className={`block border-0 bg-transparent p-0 overflow-hidden rounded-[8px] flex items-center justify-center ${
+          className={`flex items-center justify-center border-0 bg-transparent p-0 overflow-hidden rounded-lg ${
             zoomed ? "cursor-zoom-out" : "cursor-zoom-in"
           }`}
         >
@@ -502,7 +543,7 @@ export function ImageLightbox({ items, index, onClose, onNav }) {
           type="button"
           onClick={() => step(1)}
           aria-label="Next image"
-          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] sm:w-[48px] sm:h-[48px] rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
+          className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[rgba(62,28,31,0.85)] border border-[#65353a] text-[#fffdfd] flex items-center justify-center hover:bg-[#5c262b] cursor-pointer"
         >
           <CaretRight size={22} weight="bold" />
         </button>
@@ -629,7 +670,7 @@ export function MyWork({ id = "work" }) {
     { id: "landscape-bottom", file: at(WORK_LANDSCAPES, 1), desktopClass: "md:aspect-[16/10] lg:aspect-auto lg:col-span-1 lg:row-span-1", imgPos: "object-center" },
   ];
   const navBtn =
-    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-[40px] sm:size-[48px] rounded-full border border-[#efe8e9]/25 bg-[rgba(32,9,12,0.8)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] disabled:opacity-40 disabled:cursor-default transition-colors shadow-md";
+    "absolute top-1/2 -translate-y-1/2 z-10 flex items-center justify-center size-10 sm:size-12 rounded-full border border-[#efe8e9]/25 bg-[rgba(32,9,12,0.8)] text-[#efe8e9] cursor-pointer hover:bg-[#5c1a23] disabled:opacity-40 disabled:cursor-default transition-colors shadow-md";
 
   const scrollMobileTo = (index) => {
     const wrapped = ((index % MOBILE_WORK_SLIDES.length) + MOBILE_WORK_SLIDES.length) % MOBILE_WORK_SLIDES.length;
@@ -641,18 +682,28 @@ export function MyWork({ id = "work" }) {
   };
 
   return (
-    <section id={id} className="relative w-full overflow-hidden md:snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
+    <section id={id} className="relative w-full overflow-hidden snap-start max-md:h-[calc(100dvh-60px)] max-md:flex max-md:flex-col md:min-h-[calc(100dvh-76px)] md:flex md:flex-col md:justify-center">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute bg-[#262626] inset-0" />
         <img alt="" loading="lazy" className="absolute max-w-none object-cover opacity-10 size-full" src={consts.media("figma/posts-blog-left.webp")} />
       </div>
-      <div className="relative w-full max-w-[1220px] xl:max-w-[1380px] 2xl:max-w-[1560px] mx-auto px-[4px] sm:px-[12px] md:px-[56px] lg:px-[72px] xl:px-[88px] py-[16px] md:py-[28px] lg:py-[32px] max-md:flex-1 max-md:flex max-md:flex-col max-md:min-h-0">
-        <h2 className="font-cormorant font-normal leading-[1.2] text-[#efe8e9] text-[32px] md:text-[36px] lg:text-[44px] m-0 mb-[12px] md:mb-[20px] lg:mb-[24px] text-center shrink-0">
-          My Work
-        </h2>
+      <div className="relative w-full max-w-305 xl:max-w-345 2xl:max-w-390 mx-auto px-2 sm:px-4 md:px-14 lg:px-18 xl:px-22 py-4 md:py-6 lg:py-7 max-md:flex-1 max-md:flex max-md:flex-col max-md:min-h-0">
+        <header className="flex flex-col items-center text-center gap-1 mb-3 md:mb-5 shrink-0">
+          <p className="font-raleway uppercase tracking-[0.2em] text-[#efe8e9]/70 text-[10.5px] sm:text-[11px] m-0">
+            Selected Illustrations
+          </p>
+          <h2 className="font-cormorant font-normal leading-[1.1] text-[#efe8e9] text-[32px] md:text-[38px] lg:text-[44px] m-0">
+            My Work
+          </h2>
+          <div aria-hidden="true" className="flex items-center gap-3 w-32 mt-0.5">
+            <span className="h-px flex-1 bg-[#efe8e9]/35" />
+            <span className="size-1.5 rotate-45 bg-[#efe8e9]/75 shrink-0" />
+            <span className="h-px flex-1 bg-[#efe8e9]/35" />
+          </div>
+        </header>
 
         {/* Mobile: 1 portrait or 2 landscapes per swipeable view */}
-        <div className="relative flex-1 min-h-0 flex flex-col gap-[12px] md:hidden">
+        <div className="relative flex-1 min-h-0 flex flex-col gap-3 md:hidden">
           <div className="relative flex-1 min-h-0">
             <div
               ref={trackRef}
@@ -662,12 +713,12 @@ export function MyWork({ id = "work" }) {
                   setMobileSlide(Math.round(el.scrollLeft / el.clientWidth));
                 }
               }}
-              className="flex h-full w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scrollbar-none [&::-webkit-scrollbar]:hidden"
             >
               {MOBILE_WORK_SLIDES.map((group) => (
                 <div
                   key={group.join("-")}
-                  className="w-full h-full shrink-0 snap-center flex flex-col items-center justify-center gap-[16px] px-[4px]"
+                  className="w-full h-full shrink-0 snap-center flex flex-col items-center justify-center gap-4 px-1"
                 >
                   {group.map((file) => (
                     <button
@@ -684,7 +735,7 @@ export function MyWork({ id = "work" }) {
                         width={WORK_DIMENSIONS[file]?.[0]}
                         height={WORK_DIMENSIONS[file]?.[1]}
                         loading="lazy"
-                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-[6px]"
+                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-md"
                         src={workArt(file)}
                       />
                     </button>
@@ -692,14 +743,14 @@ export function MyWork({ id = "work" }) {
                 </div>
               ))}
             </div>
-            <button type="button" aria-label="Previous artworks" onClick={() => scrollMobileTo(mobileSlide - 1)} className={`${navBtn} left-[8px]`}>
+            <button type="button" aria-label="Previous artworks" onClick={() => scrollMobileTo(mobileSlide - 1)} className={`${navBtn} left-2`}>
               <CaretLeft size={24} />
             </button>
-            <button type="button" aria-label="Next artworks" onClick={() => scrollMobileTo(mobileSlide + 1)} className={`${navBtn} right-[8px]`}>
+            <button type="button" aria-label="Next artworks" onClick={() => scrollMobileTo(mobileSlide + 1)} className={`${navBtn} right-2`}>
               <CaretRight size={24} />
             </button>
           </div>
-          <div className="flex items-center justify-center gap-[2px] shrink-0">
+          <div className="flex items-center justify-center gap-0.5 shrink-0">
             {MOBILE_WORK_SLIDES.map((group, idx) => (
               <button
                 key={group.join("-")}
@@ -707,12 +758,12 @@ export function MyWork({ id = "work" }) {
                 aria-label={`View artworks slide ${idx + 1}`}
                 aria-current={mobileSlide === idx ? "true" : undefined}
                 onClick={() => scrollMobileTo(idx)}
-                className="flex items-center justify-center min-w-[24px] h-[28px] px-[2px] border-0 bg-transparent p-0 cursor-pointer"
+                className="flex items-center justify-center min-w-6 h-7 px-0.5 border-0 bg-transparent p-0 cursor-pointer"
               >
                 <span
                   aria-hidden="true"
-                  className={`block h-[8px] rounded-full transition-all ${
-                    mobileSlide === idx ? "w-[20px] bg-[#efe8e9]" : "w-[8px] bg-[#efe8e9]/40"
+                  className={`block h-2 rounded-full transition-[width,background-color] ${
+                    mobileSlide === idx ? "w-5 bg-[#efe8e9]" : "w-2 bg-[#efe8e9]/40"
                   }`}
                 />
               </button>
@@ -724,7 +775,7 @@ export function MyWork({ id = "work" }) {
         <div ref={desktopWrapRef} className="relative hidden md:block">
           <div
             ref={desktopGridRef}
-            className="relative grid overflow-hidden md:grid-cols-2 md:gap-[16px] lg:grid-cols-[1fr_1fr_1.2fr] lg:grid-rows-2 lg:gap-[16px] xl:gap-[20px] lg:h-[min(calc(100dvh-210px),480px)] xl:h-[min(calc(100dvh-220px),580px)]"
+            className="relative grid overflow-hidden md:grid-cols-2 md:gap-4 lg:grid-cols-[1fr_1fr_1.2fr] lg:grid-rows-2 lg:gap-4 xl:gap-5 lg:h-[min(calc(100dvh-215px),560px)]"
           >
             {slots.map(({ id: slotId, file, desktopClass, imgPos }) => (
               <div key={slotId} className={`relative ${desktopClass}`}>
@@ -732,24 +783,24 @@ export function MyWork({ id = "work" }) {
                   type="button"
                   onClick={() => setLightboxIdx(WORK_ALL.indexOf(file))}
                   aria-label={`Open ${workAlt(file)} in full view`}
-                  className="absolute inset-0 size-full border-0 bg-transparent p-0 overflow-hidden rounded-[6px] cursor-zoom-in"
+                  className="group absolute inset-0 size-full border border-[#efe8e9]/15 bg-[#15080a] p-0 overflow-hidden rounded-xl shadow-[0_14px_34px_rgba(0,0,0,0.45)] cursor-zoom-in"
                 >
                   <img
                     alt={workAlt(file)}
                     width={WORK_DIMENSIONS[file]?.[0]}
                     height={WORK_DIMENSIONS[file]?.[1]}
                     loading="lazy"
-                    className={`size-full object-cover ${imgPos}`}
+                    className={`size-full object-cover transition-transform duration-300 group-hover:scale-[1.03] ${imgPos}`}
                     src={workArt(file)}
                   />
                 </button>
               </div>
             ))}
           </div>
-          <button type="button" aria-label="Previous artworks" disabled={busy} onClick={() => goDesktop(-1)} className={`${navBtn} left-[14px] lg:left-[20px]`}>
+          <button type="button" aria-label="Previous artworks" disabled={busy} onClick={() => goDesktop(-1)} className={`${navBtn} left-3.5 lg:left-5`}>
             <CaretLeft size={24} />
           </button>
-          <button type="button" aria-label="Next artworks" disabled={busy} onClick={() => goDesktop(1)} className={`${navBtn} right-[14px] lg:right-[20px]`}>
+          <button type="button" aria-label="Next artworks" disabled={busy} onClick={() => goDesktop(1)} className={`${navBtn} right-3.5 lg:right-5`}>
             <CaretRight size={24} />
           </button>
         </div>
@@ -767,7 +818,7 @@ export function MyWork({ id = "work" }) {
 }
 
 const FIELD_BOX =
-  "bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-[6px] font-raleway leading-[1.5] text-[#0d0d0d] text-[14px] outline-none focus:border-[#5c1a23] w-full";
+  "bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md font-raleway leading-normal text-[#0d0d0d] text-[14px] focus:border-[#5c1a23] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5c1a23]/45 w-full";
 
 function FieldLabel({ label, required }) {
   return (
@@ -778,16 +829,18 @@ function FieldLabel({ label, required }) {
   );
 }
 
-function FormField({ label, required, placeholder, name, type = "text" }) {
+function FormField({ label, required, placeholder, name, type = "text", autoComplete, spellCheck }) {
   return (
-    <label className="flex w-full md:flex-1 md:min-w-0 flex-col gap-[4px] items-start">
+    <label className="flex w-full md:flex-1 md:min-w-0 flex-col gap-1 items-start">
       <FieldLabel label={label} required={required} />
       <input
         type={type}
         name={name}
         required={required}
+        autoComplete={autoComplete}
+        spellCheck={spellCheck}
         placeholder={placeholder}
-        className={`${FIELD_BOX} h-[40px] p-[8px] placeholder:text-[#595959]`}
+        className={`${FIELD_BOX} h-10 p-2 placeholder:text-[#595959]`}
       />
     </label>
   );
@@ -795,14 +848,14 @@ function FormField({ label, required, placeholder, name, type = "text" }) {
 
 function CommissionTypeField() {
   return (
-    <label className="flex w-full md:flex-1 md:min-w-0 flex-col gap-[4px] items-start">
+    <label className="flex w-full md:flex-1 md:min-w-0 flex-col gap-1 items-start">
       <FieldLabel label="Commission type" required />
       <div className="relative w-full">
         <select
           name="commissionType"
           required
           defaultValue=""
-          className={`${FIELD_BOX} h-[40px] px-[8px] pr-[32px] appearance-none cursor-pointer invalid:text-[#595959]`}
+          className={`${FIELD_BOX} h-10 px-2 pr-8 appearance-none cursor-pointer invalid:text-[#595959]`}
         >
           <option value="" disabled>
             Select a type
@@ -813,7 +866,7 @@ function CommissionTypeField() {
             </option>
           ))}
         </select>
-        <CaretDown size={16} color="#5c1a23" className="absolute right-[8px] top-1/2 -translate-y-1/2 pointer-events-none" />
+        <CaretDown size={16} color="#5c1a23" className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
     </label>
   );
@@ -827,7 +880,7 @@ function FileUpload({ files, setFiles }) {
   const removeFile = (targetFile) => setFiles((prev) => prev.filter((f) => f !== targetFile));
 
   return (
-    <div className="flex flex-col gap-[8px] w-full items-center">
+    <div className="flex flex-col gap-2 w-full items-center">
       <input
         ref={inputRef}
         type="file"
@@ -843,7 +896,7 @@ function FileUpload({ files, setFiles }) {
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="relative w-[524px] max-w-full min-h-[202px] px-[16px] py-[20px] bg-[#f4f4f4] border border-[#ccb8bb] border-dashed rounded-[4px] flex flex-col items-center justify-center gap-[10px] cursor-pointer transition-colors hover:bg-[#efe8e9]"
+        className="relative w-131 max-w-full min-h-50.5 px-4 py-5 bg-[#f4f4f4] border border-[#ccb8bb] border-dashed rounded-sm flex flex-col items-center justify-center gap-2.5 cursor-pointer transition-colors hover:bg-[#efe8e9]"
         onDragOver={(e) => {
           e.preventDefault();
           e.currentTarget.classList.add("bg-[#efe8e9]");
@@ -865,11 +918,11 @@ function FileUpload({ files, setFiles }) {
         </p>
       </button>
       {files.length > 0 && (
-        <ul className="w-[524px] max-w-full list-none m-0 p-0 flex flex-col gap-[4px]">
+        <ul className="w-131 max-w-full list-none m-0 p-0 flex flex-col gap-1">
           {files.map((file) => (
             <li
               key={`${file.name}-${file.size}-${file.lastModified}`}
-              className="flex items-center justify-between gap-[8px] bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-[6px] px-[8px] py-[6px]"
+              className="flex items-center justify-between gap-2 bg-[#efe8e9] border border-[#9d9d9d] border-solid rounded-md px-2 py-1.5"
             >
               <span className="font-raleway text-[#0d0d0d] text-[13px] truncate">
                 {file.name}{" "}
@@ -928,7 +981,7 @@ export function ContactCTA() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative w-full bg-[#0d0d0d] bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-[80px] pb-[48px] md:pt-[104px] md:pb-[72px] md:snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
+      className="relative w-full bg-[#0d0d0d] bg-size-[1024px_1024px] bg-top-left overflow-x-clip pt-20 pb-12 md:pt-26 md:pb-18 snap-start max-md:min-h-[calc(100dvh-60px)] max-md:flex max-md:items-center"
       style={bgReady ? { backgroundImage: `url("${consts.media("figma/cta-center.webp")}")` } : undefined}
     >
       <div
@@ -939,9 +992,9 @@ export function ContactCTA() {
             : "linear-gradient(90deg, rgb(13, 13, 13) 0%, rgb(13, 13, 13) 100%)",
         }}
       />
-      <div className="relative w-full max-w-[1440px] mx-auto px-[16px] md:px-[24px]">
-        <div className="relative flex flex-col gap-[16px] items-center justify-center mx-auto w-full max-w-[604px]">
-          <div className="bg-[#efe8e9] border border-[#9d9d9d] border-solid drop-shadow-[0px_20px_10px_rgba(0,0,0,0.04),0px_4px_1.625px_rgba(0,0,0,0.02)] flex flex-col gap-[16px] items-start px-[20px] pt-[64px] pb-[40px] md:px-[40px] md:pt-[84px] md:pb-[64px] relative rounded-[16px] shrink-0 w-full">
+      <div className="relative w-full max-w-360 mx-auto px-4 md:px-6">
+        <div className="relative flex flex-col gap-4 items-center justify-center mx-auto w-full max-w-151">
+          <div className="bg-[#efe8e9] border border-[#9d9d9d] border-solid drop-shadow-[0px_20px_10px_rgba(0,0,0,0.04),0px_4px_1.625px_rgba(0,0,0,0.02)] flex flex-col gap-4 items-start px-5 pt-16 pb-10 md:px-10 md:pt-21 md:pb-16 relative rounded-2xl shrink-0 w-full">
             <h2 className="font-cormorant font-normal leading-[1.2] relative shrink-0 text-[#0d0d0d] text-[30px] text-center w-full m-0">
               Contact Me!
             </h2>
@@ -951,23 +1004,23 @@ export function ContactCTA() {
               </div>
             </div>
             {submitted ? (
-              <output className="block w-full py-[48px] text-center">
+              <output aria-live="polite" className="block w-full py-12 text-center">
                 <p className="font-cormorant text-[#0d0d0d] text-[30px] leading-[1.2] m-0">Thank you!</p>
-                <p className="font-raleway text-[#262626] text-[14px] leading-[1.5] mt-[12px] mb-0">
+                <p className="font-raleway text-[#262626] text-[14px] leading-normal mt-3 mb-0">
                   Your commission request has been received. I&apos;ll get back to you within 1–2 days.
                 </p>
               </output>
             ) : (
-              <form className="flex flex-col gap-[16px] items-center w-full" onSubmit={handleSubmit}>
-                <div className="flex flex-col md:flex-row gap-[16px] md:gap-[8px] items-start w-full">
-                  <FormField label="Name" name="name" required placeholder="Your name" />
-                  <FormField label="Email" name="email" type="email" required placeholder="name@email.com" />
+              <form className="flex flex-col gap-4 items-center w-full" onSubmit={handleSubmit}>
+                <div className="flex flex-col md:flex-row gap-4 md:gap-2 items-start w-full">
+                  <FormField label="Name" name="name" autoComplete="name" required placeholder="Your name" />
+                  <FormField label="Email" name="email" type="email" autoComplete="email" spellCheck={false} required placeholder="name@email.com" />
                 </div>
-                <div className="flex flex-col md:flex-row gap-[16px] md:gap-[8px] items-start w-full">
+                <div className="flex flex-col md:flex-row gap-4 md:gap-2 items-start w-full">
                   <CommissionTypeField />
-                  <FormField label="Budget (Optional)" name="budget" placeholder="$250" />
+                  <FormField label="Budget (Optional)" name="budget" autoComplete="off" placeholder="$250" />
                 </div>
-                <div className="flex flex-col gap-[8px] items-start w-full">
+                <div className="flex flex-col gap-2 items-start w-full">
                   <label htmlFor="contact-description" className="font-cormorant leading-[1.2] text-[#262626] text-[24px] m-0">
                     Description<span className="font-raleway text-[#5c1a23]">*</span>
                   </label>
@@ -978,24 +1031,27 @@ export function ContactCTA() {
                     id="contact-description"
                     name="description"
                     required
-                    placeholder="Tell me about your project..."
-                    className={`${FIELD_BOX} h-[148px] p-[8px] resize-none placeholder:text-[#595959]`}
+                    placeholder="Tell me about your project…"
+                    className={`${FIELD_BOX} h-37 p-2 resize-none placeholder:text-[#595959]`}
                   />
                 </div>
-                <div className="flex flex-col gap-[8px] items-center w-full">
+                <div className="flex flex-col gap-2 items-center w-full">
                   <p className="font-cormorant leading-[1.2] w-full text-[#262626] text-[24px] m-0">References</p>
                   <p className="font-raleway leading-[1.2] w-full text-[#262626] text-[12px] m-0">
                     If you&apos;re requesting rigging or animation, please include your PSD file. For art, If you don&apos;t have any references yet, that&apos;s totally fine! Just try to describe your idea in as much detail as you can.
                   </p>
                   <FileUpload files={files} setFiles={setFiles} />
                 </div>
-                <button type="submit" className="bg-[#5c1a23] flex items-center justify-center p-[8px] rounded-[6px] w-full cursor-pointer border-0 hover:bg-[#45141a] transition-colors">
-                  <p className="font-outfit leading-[24px] text-[#efe8e9] text-[16px] whitespace-nowrap m-0">Submit</p>
+                <button
+                  type="submit"
+                  className="bg-[#5c1a23] flex items-center justify-center p-2 rounded-md w-full cursor-pointer border-0 hover:bg-[#45141a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23] font-outfit leading-6 text-[#efe8e9] text-[16px] whitespace-nowrap transition-colors"
+                >
+                  Submit
                 </button>
               </form>
             )}
           </div>
-          <div className="absolute h-[104px] w-[184px] -top-[52px] md:h-[144px] md:w-[254px] md:-top-[72px] left-1/2 -translate-x-1/2 pointer-events-none">
+          <div className="absolute h-26 w-46 -top-13 md:h-36 md:w-63.5 md:-top-18 left-1/2 -translate-x-1/2 pointer-events-none">
             <img alt="" width={600} height={339} loading="lazy" className="absolute inset-0 max-w-none object-cover size-full" src={consts.media("figma/chibi-mia.webp")} />
           </div>
         </div>
@@ -1006,14 +1062,14 @@ export function ContactCTA() {
 
 export function Footer() {
   return (
-    <footer className="relative w-full bg-[#45141a] md:snap-end">
-      <div className="relative w-full max-w-[1440px] 2xl:max-w-[1680px] mx-auto px-[20px] md:px-[40px] py-[20px] md:py-[24px] flex flex-col items-center gap-[12px] md:gap-[14px]">
+    <footer className="relative w-full bg-[#45141a] snap-end">
+      <div className="relative w-full max-w-360 2xl:max-w-420 mx-auto px-5 md:px-10 py-5 md:py-6 flex flex-col items-center gap-3 md:gap-3.5">
         <div className="flex items-center justify-center">
           <SocialLinks size={22} className="justify-center" />
         </div>
-        <div className="flex flex-wrap justify-center font-raleway gap-x-[16px] gap-y-[4px] items-center leading-[1.4] text-[#efe8e9]/90 text-[12px] text-center">
+        <div className="flex flex-wrap justify-center font-raleway gap-x-4 gap-y-1 items-center leading-[1.4] text-[#efe8e9]/90 text-[12px] text-center">
           <p className="shrink-0 m-0">© 2025 Mia Paprika</p>
-          <Link to="/terms" className="shrink-0 inline-flex items-center min-h-[24px] py-[4px] no-underline text-[#efe8e9]/90 hover:text-[#efe8e9] transition-colors">Terms and conditions</Link>
+          <Link to="/terms" className="shrink-0 inline-flex items-center min-h-6 py-1 no-underline text-[#efe8e9]/90 hover:text-[#efe8e9] transition-colors">Terms and conditions</Link>
         </div>
       </div>
     </footer>
