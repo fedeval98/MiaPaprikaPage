@@ -286,13 +286,14 @@ function ReviewCard({ file, name, source, stars, text, className = "" }) {
   );
 }
 
-export function SectionDots({ sections }) {
+export function SectionDots({ sections, snap = true }) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
 
   useEffect(() => {
+    if (!snap) return;
     document.documentElement.classList.add("deck-snap");
     return () => document.documentElement.classList.remove("deck-snap");
-  }, []);
+  }, [snap]);
 
   useEffect(() => {
     let rafId = 0;

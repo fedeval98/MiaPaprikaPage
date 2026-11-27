@@ -18,6 +18,12 @@ const PAGE_SECTIONS = {
     { id: "work", label: "My Work" },
     { id: "contact", label: "Contact" },
   ],
+  portfolio: [
+    { id: "gallery", label: "Showcase" },
+    { id: "clients", label: "Clients" },
+    { id: "work", label: "My Work" },
+    { id: "contact", label: "Contact" },
+  ],
 };
 
 const PRICING = {

@@ -32,6 +32,7 @@
 - **Página `Portfolio` y reseñas (`src/Portfolio.jsx`)**:
   - `Gallery` rediseñada como escenario oscuro editorial en bordo (`#gallery`) con cabecera centrada, visor `16:9` ajustado a `100dvh - 285px` para entrar completo con la barra inferior de `6` miniaturas incluso en notebooks bajas (`1280×620`), contador en vivo, controles `Prev`/`Next` y pista *Expand* sobre ilustraciones.
   - Sección `Clients` renovada sobre textura marmolada clara con cabecera editorial (*Commission Archive · 49 Models*), tarjetas inclinadas proporcionales a `2` columnas en mobile (`scale-65` sobre geometría `240×207`), encuadre recalibrado en miniaturas específicas (`CryoLadyx`, `Fabitoh`, `Halo`, `Itsfirekeeperqa`, `Remmychu`, `Träce`, `Muimina`, `LunarElsa`), muestra inicial curada de `15` modelos expandible a los `49` completos y visor `ImageLightbox` integrado.
+  - Agregado `SectionDots` en escritorio (`Showcase`, `Clients`, `My Work`, `Contact`) con `snap={false}` para navegar rápido entre secciones sin trabar el scroll libre sobre el archivo largo de clientes.
   - Removida la sección `CommunityReviews` de `Portfolio` y `Commissions` para dejarla exclusivamente en `Home`.
 - **Visor modal reutilizable (`ImageLightbox`)**:
   - Extraído en `src/shared.jsx` y conectado a las imágenes de `MyWork`, `Portfolio` `Gallery` y `Clients`.

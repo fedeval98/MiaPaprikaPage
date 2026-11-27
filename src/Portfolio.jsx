@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { CaretDown, CaretLeft, CaretRight, MagnifyingGlassPlus, Play } from "@phosphor-icons/react";
-import { Navigation, ContactCTA, Footer, MyWork, ImageLightbox } from "./shared.jsx";
+import { Navigation, ContactCTA, Footer, MyWork, ImageLightbox, SectionDots } from "./shared.jsx";
 import { consts } from "./Consts.js";
 
 const GALLERY_ITEMS = consts.gallery();
@@ -312,6 +312,7 @@ export default function Portfolio() {
   return (
     <div className="relative">
       <Navigation />
+      <SectionDots sections={consts.sections("portfolio")} snap={false} />
       <main>
         <Gallery />
         <Clients />
