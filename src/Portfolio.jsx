@@ -202,32 +202,58 @@ function Gallery() {
 
 function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
   const hasCustomX = /\bleft-/u.test(zoom);
+  const maskStyle = { maskImage: `url("${consts.media("figma/client-card-mask.svg")}")` };
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={name ? `View ${name}'s full model` : "View full model"}
-      className="group relative w-39 h-33.5 sm:w-60 sm:h-51.75 shrink-0 border-0 bg-transparent p-0 cursor-pointer drop-shadow-[0_10px_22px_rgba(32,9,12,0.22)] hover:drop-shadow-[0_14px_28px_rgba(92,26,35,0.34)] hover:-translate-y-1 transition-[transform,filter] duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5c1a23]"
+      className="group client-card-btn relative w-39 h-33.5 sm:w-60 sm:h-51.75 shrink-0 border-0 bg-transparent p-0 cursor-pointer drop-shadow-[0_10px_22px_rgba(32,9,12,0.22)] md:hover:drop-shadow-[0_18px_32px_rgba(92,26,35,0.34)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5c1a23]"
     >
-      {/* Keep exact 240x207 internal geometry scaled cleanly on mobile so per-client zoom crops stay centered */}
+      {/* Desktop-only offset shadow frame that peeks out behind the card on hover */}
       <div
-        className="relative w-60 h-51.75 origin-top-left scale-65 sm:scale-100 overflow-hidden mask-alpha mask-no-repeat mask-size-[100%_100%]"
-        style={{ maskImage: `url("${consts.media("figma/client-card-mask.svg")}")` }}
-      >
-        <div className="absolute inset-0 bg-[#20090c]" />
-        <img
-          alt={name ? `${name} character art` : "Client character art"}
-          loading="lazy"
-          className={`absolute top-0 w-auto max-w-none transition-[scale,filter] duration-300 group-hover:scale-105 group-hover:brightness-110 ${
-            hasCustomX ? "" : "left-1/2 -translate-x-1/2"
-          } ${zoom}`}
-          src={consts.media(`clients/${file}.webp`)}
+        aria-hidden="true"
+        className="client-card-shadow hidden md:block pointer-events-none absolute inset-0 bg-linear-to-br from-[#5c1a23] to-[#2e090f] mask-alpha mask-no-repeat mask-size-[100%_100%]"
+        style={maskStyle}
+      />
+
+      {/* Keep exact 240x207 internal geometry scaled cleanly on mobile so per-client zoom crops stay centered */}
+      <div className="relative w-60 h-51.75 origin-top-left scale-65 sm:scale-100">
+        {/* Base dark card backplate masked cleanly to SVG corners */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[#20090c] mask-alpha mask-no-repeat mask-size-[100%_100%] pointer-events-none"
+          style={maskStyle}
         />
+
+        {/* Character stage: SVG-masked on mobile/touch, expanding upward on desktop hover */}
+        <div
+          className="client-card-stage pointer-events-none absolute inset-0 overflow-hidden md:overflow-visible"
+          style={{ "--card-mask": `url("${consts.media("figma/client-card-mask.svg")}")` }}
+        >
+          <div className="client-card-pop relative size-full">
+            <img
+              alt={name ? `${name} character art` : "Client character art"}
+              loading="lazy"
+              className={`absolute top-0 w-auto max-w-none ${
+                hasCustomX ? "" : "left-1/2 -translate-x-1/2"
+              } ${zoom}`}
+              src={consts.media(`clients/${file}.webp`)}
+            />
+          </div>
+        </div>
+
+        {/* Name bar stays clipped strictly to the front SVG card silhouette */}
         {name && (
-          <div className="absolute bottom-0 left-11 right-0 min-h-11.75 flex items-center justify-center bg-linear-to-t from-[#20090c] via-[#20090c]/75 to-transparent py-1.5 pl-4 pr-2.5">
-            <p className="font-cormorant italic font-bold leading-[1.15] text-[#efe8e9] text-[20px] text-center m-0 truncate max-w-full">
-              {name}
-            </p>
+          <div
+            className="pointer-events-none absolute inset-0 mask-alpha mask-no-repeat mask-size-[100%_100%]"
+            style={maskStyle}
+          >
+            <div className="absolute bottom-0 left-11 right-0 min-h-11.75 flex items-center justify-center bg-linear-to-t from-[#20090c] via-[#20090c]/80 to-transparent py-1.5 pl-4 pr-2.5">
+              <p className="font-cormorant italic font-bold leading-[1.15] text-[#efe8e9] text-[20px] text-center m-0 truncate max-w-full">
+                {name}
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -243,7 +269,7 @@ function Clients() {
   return (
     <section
       id="clients"
-      className="relative w-full py-10 md:py-14"
+      className="relative w-full py-10 md:py-14 overflow-x-clip"
       style={{
         backgroundImage: `url("${consts.media("figma/terms-body-bg.webp")}")`,
         backgroundSize: "max(100%, 1024px) auto",
