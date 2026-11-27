@@ -108,21 +108,21 @@ video {
   }
 
   .client-card-stage {
-    clip-path: polygon(0% 0%, 71.8% 0%, 77.3% 4.9%, 90% 58%, 100% 100%, 28% 100%, 22.5% 95.1%, 13.7% 58%, 6.6% 28%);
-    transition: clip-path 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    clip-path: polygon(0% 0%, 71.8% 0%, 77.3% 4.9%, 100% 100%, 28% 100%, 22.5% 95.1%);
+    transition: clip-path 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .client-card-btn:hover .client-card-stage {
-    clip-path: polygon(-22% -40%, 114% -40%, 110% 34%, 90% 58%, 100% 100%, 28% 100%, 22.5% 95.1%, 13.7% 58%, -16% 34%);
+    clip-path: polygon(-10% -24%, 83% -24%, 77.3% 4.9%, 100% 100%, 28% 100%, 22.5% 95.1%);
   }
 
   .client-card-pop {
     transform-origin: bottom center;
-    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), filter 280ms ease;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease;
   }
 
   .client-card-btn:hover .client-card-pop {
-    transform: translateY(-14px) scale(1.08);
-    filter: brightness(1.08) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.45));
+    transform: translateY(-10px) scale(1.04);
+    filter: brightness(1.06) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.4));
   }
 }
