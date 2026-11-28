@@ -177,6 +177,8 @@ const MY_WORK = {
 // Newest commissions first (Drive folders 2026 -> 2022). `zoom` overrides the
 // default head crop for arts whose framing needs it.
 const CLIENTS = [
+  { file: "caldaira", name: "Caldaira", zoom: "h-[350%] mt-[-22px]" },
+  { file: "kibbie", name: "Kibbie", zoom: "h-[380%] mt-[-24px]" },
   { file: "besarexia-s", name: "Besaxeria" },
   { file: "vexoria", name: "Vexoria" },
   { file: "luca-lullaby", name: "LucaLullaby" },
@@ -230,6 +232,8 @@ const CLIENTS = [
 ];
 
 const CLIENT_DIMENSIONS = {
+  caldaira: [900, 1172],
+  kibbie: [900, 1728],
   "besarexia-s": [900, 999],
   vexoria: [900, 988],
   "luca-lullaby": [900, 2362],
