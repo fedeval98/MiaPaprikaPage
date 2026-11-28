@@ -8,11 +8,21 @@ const GALLERY_IMAGES = GALLERY_ITEMS.filter((item) => item.type === "image");
 const GALLERY_LIGHTBOX_ITEMS = GALLERY_IMAGES.map((item) => ({ src: item.src, alt: item.label }));
 
 const CLIENTS = consts.clients();
-const INITIAL_CLIENT_COUNT = 15;
+const DEFAULT_OPEN_YEARS = new Set([2026, 2025]);
+const CLIENT_GROUPS = CLIENTS.reduce((groups, client, idx) => {
+  const entry = { ...client, index: idx };
+  const last = groups[groups.length - 1];
+  if (last && last.year === client.year) {
+    last.items.push(entry);
+  } else {
+    groups.push({ year: client.year, items: [entry] });
+  }
+  return groups;
+}, []);
 const CLIENT_LIGHTBOX_ITEMS = CLIENTS.map((c) => ({
   src: consts.media(`clients-hd/${c.file}.webp`),
   alt: c.name ? `${c.name} full model` : "Client full model",
-  caption: c.name,
+  caption: `${c.name} — ${c.year}`,
 }));
 
 function Gallery() {
@@ -270,8 +280,16 @@ function ClientCard({ file, name, zoom = "h-[400%]", onClick }) {
 
 function Clients() {
   const [openIdx, setOpenIdx] = useState(null);
-  const [expanded, setExpanded] = useState(false);
-  const visibleClients = expanded ? CLIENTS : CLIENTS.slice(0, INITIAL_CLIENT_COUNT);
+  const [openYears, setOpenYears] = useState(() => new Set(DEFAULT_OPEN_YEARS));
+
+  const toggleYear = (year) => {
+    setOpenYears((prev) => {
+      const next = new Set(prev);
+      if (next.has(year)) next.delete(year);
+      else next.add(year);
+      return next;
+    });
+  };
 
   return (
     <section
@@ -302,31 +320,55 @@ function Clients() {
           </p>
         </header>
 
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-start justify-center justify-items-center gap-x-2 gap-y-5 sm:gap-x-3 sm:gap-y-7 md:gap-x-4 md:gap-y-8 w-full">
-          {visibleClients.map((c, idx) => (
-            <ClientCard key={c.file} {...c} onClick={() => setOpenIdx(idx)} />
-          ))}
-        </div>
+        <div className="w-full flex flex-col gap-5 sm:gap-7">
+          {CLIENT_GROUPS.map(({ year, items }) => {
+            const isOpen = openYears.has(year);
+            const panelId = `clients-year-${year}`;
+            return (
+              <div key={year} className="w-full flex flex-col gap-5 sm:gap-6">
+                <h3 className="m-0 w-full">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => toggleYear(year)}
+                    className="group w-full min-h-12 flex items-center gap-3 sm:gap-4 rounded-xl border border-[#5c1a23]/15 bg-white/65 hover:bg-white/90 px-3.5 sm:px-5 py-2.5 cursor-pointer shadow-[0_4px_16px_rgba(32,9,12,0.04)] transition-colors focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23]"
+                  >
+                    <span aria-hidden="true" className="size-2 rotate-45 bg-[#5c1a23] shrink-0" />
+                    <span className="font-cormorant font-semibold leading-none text-[#20090c] text-[26px] sm:text-[32px]">
+                      {year}
+                    </span>
+                    <span className="font-raleway uppercase tracking-[0.14em] text-[#5c1a23]/80 text-[11px] sm:text-[12px] font-semibold">
+                      {items.length} {items.length === 1 ? "model" : "models"}
+                    </span>
+                    <span aria-hidden="true" className="h-px flex-1 bg-[#5c1a23]/20 group-hover:bg-[#5c1a23]/45 transition-colors" />
+                    <span
+                      aria-hidden="true"
+                      className="flex items-center justify-center size-8 rounded-full border border-[#5c1a23]/25 bg-white/85 text-[#5c1a23] group-hover:bg-[#5c1a23] group-hover:text-[#efe8e9] transition-colors shrink-0"
+                    >
+                      <CaretDown
+                        size={15}
+                        weight="bold"
+                        className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      />
+                    </span>
+                  </button>
+                </h3>
 
-        {CLIENTS.length > INITIAL_CLIENT_COUNT && (
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            className="inline-flex items-center justify-center gap-2 min-h-11 rounded-full border border-[#5c1a23]/35 bg-white/85 hover:bg-[#5c1a23] text-[#45141a] hover:text-[#efe8e9] px-6 py-2.5 font-raleway font-medium text-[14px] sm:text-[15px] cursor-pointer shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5c1a23]"
-          >
-            <span>
-              {expanded
-                ? "Show fewer clients"
-                : `Show all ${CLIENTS.length} clients (${CLIENTS.length - INITIAL_CLIENT_COUNT} more)`}
-            </span>
-            <CaretDown
-              size={16}
-              weight="bold"
-              aria-hidden="true"
-              className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-            />
-          </button>
-        )}
+                {isOpen && (
+                  <div
+                    id={panelId}
+                    className="grid grid-cols-2 sm:flex sm:flex-wrap items-start justify-center justify-items-center gap-x-2 gap-y-5 sm:gap-x-3 sm:gap-y-7 md:gap-x-4 md:gap-y-8 w-full pt-1 pb-2"
+                  >
+                    {items.map((c) => (
+                      <ClientCard key={c.file} {...c} onClick={() => setOpenIdx(c.index)} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {openIdx !== null && (
