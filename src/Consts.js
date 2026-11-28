@@ -222,7 +222,7 @@ const CLIENTS = [
   { file: "skatinmonkgu", name: "SkatinmonkGU" },
   { file: "soreyya", name: "Soreyya" },
   { file: "trace", name: "Träce", zoom: "h-[340%] mt-[-45px]" },
-  { file: "zayaorejas", name: "Zayaorejas" },
+  { file: "zayaorejas", name: "Zaya" },
   // 2021
   { file: "y2021-1", name: "Yasashi" },
   { file: "y2021-2", name: "Meizu" },
